@@ -9,10 +9,27 @@ class Variable extends Component {
         super(props);
         this.state = {
             label: "",
-            selected: "String",
+            paramObj: null,
+            parent: null,
+            index: null,
+            selectedType: 'String',
             txtName: "",
             txtValue: "",
         };
+    }
+    componentWillMount() {
+        let { paramObj, appType, parent, index } = this.props;
+        if (typeof (paramObj) !== 'undefined') {
+            this.setState({
+                paramObj: paramObj,
+                parent: parent,
+                index: index,
+                selectedType: paramObj.type,
+                txtName: paramObj.name,
+                txtValue: paramObj.value,
+            })
+        }
+
     }
     onChange = (e) => {
         var target = e.target;
@@ -21,15 +38,21 @@ class Variable extends Component {
             [name]: target.value
         });
     }
-    doneEdit = (value) => {
-        this.props.doneEdit(value);
+    doneEdit = () => {
+        let { paramObj, selectedType, txtName, txtValue } = this.state;
+
+        paramObj.type = selectedType;
+        paramObj.name = txtName;
+        paramObj.value = txtValue;
+        this.props.doneEdit(paramObj);
     }
-    closeForm = (value, parent, index) => {
-        this.props.closeForm(value, parent, index);
+    closeForm = () => {
+        let { paramObj, parent, index } = this.state;
+        this.props.closeForm(paramObj, parent, index);
     }
     render() {
-        let { label, paramObj, parent, index } = this.props;
-
+        let { txtName, txtValue } = this.state;
+        let { label } = this.props;
         return (
             <div className="variable-item">
                 <label>{label}</label>
@@ -39,16 +62,16 @@ class Variable extends Component {
                         {this.renderOptions()}
                         {label === AppConstant.LABEL_PARAM ?
                             <input name="txtName" className="form-control" placeholder="Name"
-                                value={paramObj ? paramObj.name : ''}
+                                value={txtName}
                                 onChange={this.onChange}
                             /> : ''}
-                        <input name="txtValue" className="form-control" placeholder="Value" value={paramObj ? paramObj.value : ''} onChange={this.onChange} />
+                        <input name="txtValue" className="form-control" placeholder="Value" value={txtValue} onChange={this.onChange} />
                         {/*  */}
-                  </div>
+                    </div>
                 </div>
                 <div className="action-tab">
-                    <button type="button" className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.doneEdit(paramObj) }} >Save</button>
-                    <button type="button" className="btn btn-danger" onClick={(e) => { e.stopPropagation(); this.closeForm(paramObj, parent, index) }}>Discard</button>
+                    <button type="button" className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.doneEdit() }} >Save</button>
+                    <button type="button" className="btn btn-danger" onClick={(e) => { e.stopPropagation(); this.closeForm() }}>Discard</button>
                 </div>
             </div>
         );
@@ -64,7 +87,7 @@ class Variable extends Component {
             </option>
         );
         return (
-            <select value={this.state.selected} className="custom-select" onChange={this.onChange}>
+            <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.onChange}>
                 <option value={0} >Data type</option>
                 {options}
                 {/* Extends more later */}

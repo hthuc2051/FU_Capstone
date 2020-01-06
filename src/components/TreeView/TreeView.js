@@ -53,9 +53,12 @@ export default class Treeview extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
+    console.log(paramObj);
     if (paramObj.name !== '' && paramObj.exportValue !== '') {
+      paramObj.type = this.state.editableNode.type;
       paramObj.name = this.state.editableNode.name;
-      paramObj.exportValue = this.state.editableNode.exportValue;
+      paramObj.value = this.state.editableNode.value;
+
       paramObj.editMode = false;
       this.setState({ paramObj });
     }
@@ -77,8 +80,9 @@ export default class Treeview extends Component {
 
   addMember = (parent) => {
     let newChild = {
+      type:'',
       name: '',
-      exportValue: '',
+      value: '',
       showChildren: false,
       editMode: true,
       children: []
@@ -90,8 +94,9 @@ export default class Treeview extends Component {
   addChild = (node) => {
     node.showChildren = true;
     node.children.push({
+      type:'',
       name: '',
-      exportValue: '',
+      value: '',
       showChildren: false,
       editMode: true,
       children: []
@@ -191,9 +196,7 @@ export default class Treeview extends Component {
     let children = this.makeChildren(this.state.data.params);
     return children;
   }
-  onOpenFormExpectedResult = () => {
-
-  }
+ 
 
   render() {
     let { expectedResult } = this.state;
@@ -209,7 +212,7 @@ export default class Treeview extends Component {
                   <li onClick={(e) => e.stopPropagation()}>
                     {(expectedResult.editMode) ? this.nodeEditForm(Constant.LABEL_EXPECTED_RESULT, expectedResult) : <div className="node">
                       <i className="fa fa-square-o"></i>
-                      String-admin
+                      {expectedResult.type}-{expectedResult.value}
                       <span className="actions">
                         <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(expectedResult) }}></i>
                       </span>
