@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoginPage, TeacherPage, AdminPage } from './pages/index';
+import AdminActionPage from './components/AdminAction/Action';
 
 const routes = [
     {
@@ -14,8 +15,14 @@ const routes = [
     },
     {
         path: '/admin',
-        exact: false,
+        exact: true,
         main: () => <AdminPage />
+    }
+    ,
+    {
+        path: '/admin/action',
+        exact: false,
+        main: () => <AdminActionPage />
     }
 
 ];
