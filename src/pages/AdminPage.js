@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Home.css'
-class HomeAdmin extends Component {
+class AdminPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -195,4 +195,4 @@ class HomeAdmin extends Component {
     }
 }
 
-export default HomeAdmin;
+export default AdminPage;

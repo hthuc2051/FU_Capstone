@@ -126,8 +126,8 @@ class TeacherPage extends Component {
                                 <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                     <Treeview />
                                 </div>
-
                             </div>
+                            
                         </div>
                     </div>
                 </div>

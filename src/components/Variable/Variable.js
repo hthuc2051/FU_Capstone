@@ -35,6 +35,7 @@ class Variable extends Component {
                 <label>{label}</label>
                 <div className="d-flex justify-content-start">
                     <div className="input-group mb-3">
+                        {/*  */}
                         {this.renderOptions()}
                         {label === AppConstant.LABEL_PARAM ?
                             <input name="txtName" className="form-control" placeholder="Name"
@@ -42,7 +43,8 @@ class Variable extends Component {
                                 onChange={this.onChange}
                             /> : ''}
                         <input name="txtValue" className="form-control" placeholder="Value" value={paramObj ? paramObj.value : ''} onChange={this.onChange} />
-                    </div>
+                        {/*  */}
+                  </div>
                 </div>
                 <div className="action-tab">
                     <button type="button" className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.doneEdit(paramObj) }} >Save</button>

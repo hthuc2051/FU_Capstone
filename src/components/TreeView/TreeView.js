@@ -11,9 +11,15 @@ export default class Treeview extends Component {
       data: scriptObj,
       editableNode: '',
       expectedResult: scriptObj.expectedResult,
+      appType: 'WEB'
     }
   }
-
+  componentWillMount() {
+    let { appType } = this.props;
+    this.setState({
+      appType: appType,
+    })
+  }
   addRoot = () => {
     let root = {
       name: '',
@@ -100,6 +106,7 @@ export default class Treeview extends Component {
           <Variable
             label={label}
             paramObj={paramObj}
+            appType='Web'
             parent={parent}
             index={index}
             doneEdit={this.doneEdit}

@@ -1,10 +1,10 @@
 import LoginPage from './LoginPage';
 import TeacherPage from './TeacherPage';
-import HomeAdmin from '../components/Admin/Home';
+import AdminPage from './AdminPage';
 
 export {
     LoginPage,
     TeacherPage,
-    HomeAdmin
+    AdminPage,
 
 }
