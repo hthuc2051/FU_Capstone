@@ -190,5 +190,41 @@
   }
 
   /* PHAT_DEV_CSS */
-
+  .dashboard {
+    padding-top: 51px;
+   
+}
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.dashboard .group {
+  margin: 0 auto;
+  max-width: 1230px;
+}
+.dashboard .sub-header {
+  overflow: hidden;
+  padding-left: 40px;
+  padding-top: 10px;
+  position: relative;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
+.dashboard .sub-header-toggle-btn {
+  left: 0;
+  padding: 6px 9px;
+  position: absolute;
+  width: 36px;
+}
+.ml-50
+{
+  margin-left:50px;
+}
+.ml-80
+{
+  margin-left:80px;
+}
   /* END PHAT_DEV */
