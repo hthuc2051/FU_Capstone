@@ -1,0 +1,46 @@
+html, body, #root {
+    height: 100%;
+    min-width: 500px;
+}
+body{
+    font-family: ProximaNovaSoft,AmiriWeb,sans-serif;
+}
+select {
+    cursor: pointer;
+}
+
+i, a{
+    cursor: pointer;
+}
+.btn {
+    min-width: 80px;
+}
+
+
+
+#container {
+    margin: 10px;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    position: relative;
+    
+}
+
+#label {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    height: 20px;
+    padding: 0px 10px;
+    background-color: white;
+    text-align: center;
+}
+.plus-icon{
+    font-size: 18px;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    position: absolute;
+    text-align: center;
+}
