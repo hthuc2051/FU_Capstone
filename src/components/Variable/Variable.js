@@ -3,6 +3,7 @@ import './style.css';
 import * as AppConstant from '../../constants/AppConstants';
 
 const arrOptions = ['Boolean', 'Char', 'Integer', 'Float', 'Double', 'String'];
+const arrEvents = ['findElementById', 'findElementByName'];
 
 class Variable extends Component {
     constructor(props) {
@@ -29,14 +30,18 @@ class Variable extends Component {
     }
     render() {
         let { label, paramObj, parent, index } = this.props;
-
         return (
             <div className="variable-item">
                 <label>{label}</label>
                 <div className="d-flex justify-content-start">
                     <div className="input-group mb-3">
-                        {this.renderOptions()}
+                        {this.renderOptions(label)}
                         {label === AppConstant.LABEL_PARAM ?
+                            <input name="txtName" className="form-control" placeholder="Name"
+                                value={paramObj ? paramObj.name : ''}
+                                onChange={this.onChange}
+                            /> : ''}
+                            {label === AppConstant.LABEL_STEP ?
                             <input name="txtName" className="form-control" placeholder="Name"
                                 value={paramObj ? paramObj.name : ''}
                                 onChange={this.onChange}
@@ -52,15 +57,28 @@ class Variable extends Component {
         );
     }
 
-    renderOptions = () => {
-        let options = arrOptions.map((data, index) =>
-            <option
-                key={index}
-                value={data}
-            >
-                {data}
-            </option>
-        );
+    renderOptions = (label) => {
+        let options;
+        if (label == AppConstant.LABEL_STEP) {
+            options = arrEvents.map((data, index) =>
+                <option
+                    key={index}
+                    value={data}
+                >
+                    {data}
+                </option>
+            );
+        } else {
+            options = arrOptions.map((data, index) =>
+                <option
+                    key={index}
+                    value={data}
+                >
+                    {data}
+                </option>
+            );
+        }
+
         return (
             <select value={this.state.selected} className="custom-select" onChange={this.onChange}>
                 <option value={0} >Data type</option>

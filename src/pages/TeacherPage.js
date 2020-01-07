@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Treeview } from './../components/index';
+import { TreeViewWeb } from './../components/index';
 import './style.css';
 class TeacherPage extends Component {
     constructor(props) {
@@ -121,10 +122,10 @@ class TeacherPage extends Component {
                             </nav>
                             <div className="tab-content" id="nav-tabContent">
                                 <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <Treeview />
+                                    <TreeViewWeb />
                                 </div>
                                 <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    <Treeview />
+                                    {/* <Treeview /> */}
                                 </div>
 
                             </div>
