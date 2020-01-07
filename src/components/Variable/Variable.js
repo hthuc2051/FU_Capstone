@@ -57,7 +57,7 @@ class Variable extends Component {
         let { paramObj } = this.props;
         return (
             <div className="variable-item">
-                <label>{label}</label>
+                <label>{paramObj.label}</label>
                 <div className="d-flex justify-content-start">
                     <div className="input-group mb-3">
                         {/*  */}
@@ -103,7 +103,6 @@ class Variable extends Component {
 
         return (
             <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.onChange}>
-                <option value={0} >Data type</option>
                 {options}
                 {/* Extends more later */}
             </select>

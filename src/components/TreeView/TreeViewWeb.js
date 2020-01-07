@@ -212,6 +212,19 @@ export default class Treeview extends Component {
               {this.getNodes()}
             </ul>
           </div>
+          <div className="codePage">
+            <code className="codeLine">
+              public void testCase()&#123;<br />
+              Driver.findViewById("txtUsername").clear();<br />
+              Driver.findViewById("txtUsername").sendKey("NguyenVanA");<br />
+              Driver.findViewById("txtPassword").clear();<br />
+              Driver.findViewById("txtPassword").sendKey("p4ssw0rd");<br />
+              assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));<br />
+              &#125;
+          </code>
+
+
+          </div>
         </div>
 
       </div>
