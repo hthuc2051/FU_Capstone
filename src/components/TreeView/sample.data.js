@@ -1,5 +1,6 @@
 
 
+import * as Constant from './../../constants/AppConstants';
 var scriptObj = {
   methodName: 'checkQuestion1',
   expectedResult: {
@@ -11,7 +12,7 @@ var scriptObj = {
     {
 
       parentId: 39,
-      name: 'Submit template',
+      name: 'Input Parameters',
       showChildren: true,
       editMode: false,
       children: [
@@ -40,13 +41,14 @@ var scriptObj = {
     {
 
       parentId: 39,
-      name: 'Action',
+      name: 'Step',
+      label: Constant.LABEL_STEP,
       showChildren: true,
       editMode: false,
       children: [
         {
 
-          parentId: 50,
+          label: Constant.LABEL_STEP,
           type:'String',
           name: 'username',
           value:'NguyenVanA',
@@ -56,7 +58,7 @@ var scriptObj = {
         },
         {
 
-          parentId: 50,
+          label: Constant.LABEL_STEP,
           type:'String',
           name: 'password',
           value:'p4ssw0rd',
