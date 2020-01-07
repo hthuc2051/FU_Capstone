@@ -240,4 +240,8 @@
 .syntaxhighlighter .plain, .syntaxhighlighter .plain a {
     color: black!important;
 }
+.vl {
+  border-left: 6px solid green;
+  height: 500px;
+}
   /* END PHAT_DEV */
