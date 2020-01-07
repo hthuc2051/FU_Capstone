@@ -5,11 +5,87 @@ class AdminActionPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            param: []
 
         };
+        this.addMoreParam = this.addMoreParam.bind(this);
+        this.onChangeHandle = this.onChangeHandle.bind(this);
+
     }
     leftBracket = '{';
     rightBracket = '}';
+    addMoreParam(e) {
+        // var getDocument = document.getElementById('multiParam');
+        //var createInput = document.createElement();
+
+        e.preventDefault();
+        let { param } = this.state;
+        param.push({
+            name: 'a',
+            type: 'b'
+        })
+
+        this.setState({
+            param: param
+        });
+        console.log(this.state.param);
+        this.renderInputElement();
+
+    }
+    onChangeHandle() {
+        console.log(this.state.param);
+    }
+    renderInputElement() {
+        var getDOMroot = document.getElementById('paramRoot');
+        getDOMroot.innerHTML = "";
+        this.state.param.forEach((element, index) => {
+            var createDiv = document.createElement('div');
+            createDiv.className = "row";
+            createDiv.id = "multipleParam"
+            createDiv.style = 'margin-left:0px;'
+            var inputTextName = document.createElement("input");
+            inputTextName.className = 'form-control';
+            inputTextName.style = 'width:200px';
+            inputTextName.value = element.name;
+            inputTextName.onchange = () => {
+                console.log(this.state);
+                let { param } = this.state;
+                param[index] = {
+                    name: 'ab4324c',
+                    type: 'bc432'
+                }
+                console.log(param[index]);
+                console.log(element);
+                this.setState({
+                    param: param
+                })
+            }
+            var spaceDiv = document.createElement("div");
+            spaceDiv.style = 'width:10px'
+            var inputTextParam = document.createElement("input");
+            inputTextParam.className = 'form-control';
+            inputTextParam.style = 'width:200px;';
+            inputTextParam.value = element.name;
+            
+            inputTextParam.onchange = () => {
+                // console.log(element);
+                console.log(this.state)
+            }
+
+
+            createDiv.appendChild(inputTextName)
+            createDiv.appendChild(spaceDiv);
+            createDiv.appendChild(inputTextParam)
+
+
+            var space = document.createElement('br');
+            getDOMroot.appendChild(createDiv);
+            getDOMroot.appendChild(space);
+
+        });
+    }
+
+
 
     render() {
         return (
@@ -87,82 +163,110 @@ class AdminActionPage extends Component {
 
                         <div id="content-wrapper" >
 
-
-
-
-
-                            <form className="ml-30">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Action</label>
-                                    <input type="email" value="findElementById" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
-
+                            <div class="card" style={{ width: '80%', marginLeft: '120px' }}>
+                                <div class="card-header">
+                                    Action Design
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Code generator</label>
-                                    <textarea class="form-control" style={{ width: '500px', backgroundColor: 'silver' }} value="driver.findElementById(param)" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect2">Type Parameter</label>
+                                <div class="card-body">
+                                    <form className="ml-30">
+                                        <div class="form-group">
+                                            <label >Action</label>
+                                            <input type="text" value="findElementById" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
 
-
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-5">
-                                        <input style={{ width: '50px' }} type="email" value="param" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
-
-                                    </div>
-                                    <select style={{ width: '100px' }} class="form-control" id="exampleFormControlSelect2">
-                                        <option>int</option>
-                                        <option>string</option>
-
-                                    </select>
-
-                                </div>
-                                <div className="code-block">
-                                    <div className="code-container">
-                                        <div id="highlighter_548907" className="syntaxhighlighter nogutter">
-                                            <table border="0" cellPadding="0" cellSpacing="0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td className="code">
-                                                            <div className="container">
-                                                                <div className="line number4 index3 alt1">
-                                                                    <code class="keyword">class</code>
-                                                                    <code class="plain"> example {this.leftBracket}  </code>
-
-
-                                                                </div>
-                                                                <div className="line number4 index3 alt1">
-
-                                                                    <code class="plain"> driver.findElementById(param) </code>
-
-
-                                                                </div>
-                                                                <div className="line number4 index3 alt1">
-
-                                                                    <code class="plain">  {this.rightBracket}  </code>
-
-
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
                                         </div>
-                                    </div>
-                                </div>
+                                        <div class="form-group">
+                                            <label >Code generator</label>
+                                            <textarea class="form-control" style={{ width: '500px', backgroundColor: 'silver' }} value="driver.findElementById(param)" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label >Type Parameter</label>
 
-                                <button type="submit" class="btn btn-success">Save</button>
-                                &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+
+                                            <button className="btn btn-success" onClick={this.addMoreParam}>
+                                                <i className="fa fa-plus">
+
+                                                </i>
+                                                &nbsp;Add Parameter</button>
+
+                                        </div>
+                                        <div class="form-group" id="paramRoot" style={{ marginLeft: '3px' }}>
+
+                                            {/* 
+                                            <div className="row">
+                                                <input type="text" value="param" className="form-control"
+                                                    id="exampleInputEmail1" aria-describedby="emailHelp"
+                                                    placeholder="Action name" style={{ width: '200px' }} />
+
+                                                <div style={{ width: '10px' }}>
+
+                                                </div>
+
+                                                <input type="text" value="param" className="form-control"
+                                                    id="exampleInputEmail1" aria-describedby="emailHelp"
+                                                    placeholder="Action name" style={{ width: '200px' }} />
+                                            </div> */}
+
+
+
+                                        </div>
+                                        <div className="code-block">
+                                            <div className="code-container">
+                                                <div id="highlighter_548907" className="syntaxhighlighter nogutter">
+                                                    <table border="0" cellPadding="0" cellSpacing="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td className="code">
+                                                                    <div className="container">
+                                                                        <div className="line number4 index3 alt1">
+                                                                            <code class="keyword">class</code>
+                                                                            <code class="plain"> example {this.leftBracket}  </code>
+
+
+                                                                        </div>
+                                                                        <div className="line number4 index3 alt1">
+
+                                                                            <code class="plain"> driver.findElementById(param) </code>
+
+
+                                                                        </div>
+                                                                        <div className="line number4 index3 alt1">
+
+                                                                            <code class="plain">  {this.rightBracket}  </code>
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-success">Save</button>
+                                        &nbsp;
                                 <button type="reset" class="btn btn-danger">Clear</button>
 
-                            </form>
+                                    </form>
 
 
 
-
-
+                                </div>
+                            </div>
                             <div>
                             </div>
                         </div>
