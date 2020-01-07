@@ -36,6 +36,35 @@ var scriptObj = {
           children: []
         }
       ]
+    },
+    {
+
+      parentId: 39,
+      name: 'Action',
+      showChildren: true,
+      editMode: false,
+      children: [
+        {
+
+          parentId: 50,
+          type:'String',
+          name: 'username',
+          value:'NguyenVanA',
+          showChildren: false,
+          editMode: false,
+          children: []
+        },
+        {
+
+          parentId: 50,
+          type:'String',
+          name: 'password',
+          value:'p4ssw0rd',
+          showChildren: false,
+          editMode: false,
+          children: []
+        }
+      ]
     }
   ]
 }

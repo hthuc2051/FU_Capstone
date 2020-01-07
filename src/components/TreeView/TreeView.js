@@ -80,7 +80,7 @@ export default class Treeview extends Component {
 
   addMember = (parent) => {
     let newChild = {
-      type:'',
+      type: '',
       name: '',
       value: '',
       showChildren: false,
@@ -94,7 +94,7 @@ export default class Treeview extends Component {
   addChild = (node) => {
     node.showChildren = true;
     node.children.push({
-      type:'',
+      type: '',
       name: '',
       value: '',
       showChildren: false,
@@ -196,7 +196,7 @@ export default class Treeview extends Component {
     let children = this.makeChildren(this.state.data.params);
     return children;
   }
- 
+
 
   render() {
     let { expectedResult } = this.state;
