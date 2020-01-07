@@ -3,6 +3,7 @@ import './style.css';
 import * as AppConstant from '../../constants/AppConstants';
 
 const arrOptions = ['Boolean', 'Char', 'Integer', 'Float', 'Double', 'String'];
+const arrEvents = ['findViewById', 'findViewByName'];
 
 class Variable extends Component {
     constructor(props) {
@@ -53,13 +54,14 @@ class Variable extends Component {
     render() {
         let { txtName, txtValue } = this.state;
         let { label } = this.props;
+        let { paramObj } = this.props;
         return (
             <div className="variable-item">
                 <label>{label}</label>
                 <div className="d-flex justify-content-start">
                     <div className="input-group mb-3">
                         {/*  */}
-                        {this.renderOptions()}
+                        {this.renderOptions(paramObj.label)}
                         {label === AppConstant.LABEL_PARAM ?
                             <input name="txtName" className="form-control" placeholder="Name"
                                 value={txtName}
@@ -77,15 +79,28 @@ class Variable extends Component {
         );
     }
 
-    renderOptions = () => {
-        let options = arrOptions.map((data, index) =>
-            <option
-                key={index}
-                value={data}
-            >
-                {data}
-            </option>
-        );
+    renderOptions = (label) => {
+        let options;
+        if (label == AppConstant.LABEL_STEP) {
+            options = arrEvents.map((data, index) =>
+                <option
+                    key={index}
+                    value={data}
+                >
+                    {data}
+                </option>
+            );
+        } else {
+            options = arrOptions.map((data, index) =>
+                <option
+                    key={index}
+                    value={data}
+                >
+                    {data}
+                </option>
+            );
+        }
+
         return (
             <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.onChange}>
                 <option value={0} >Data type</option>

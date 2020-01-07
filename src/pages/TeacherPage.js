@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Treeview, LeftSideBar, TopNavBar } from './../components/index';
+import { Treeview, LeftSideBar, TopNavBar, TreeviewWeb } from './../components/index';
 import './style.css';
 
 const TEACHER_PAGE_TITLE = 'Teacher page';
@@ -38,11 +38,9 @@ class TeacherPage extends Component {
                             </nav>
                             <div className="tab-content" id="nav-tabContent">
                                 <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <Treeview />
+                                    <TreeviewWeb />
                                 </div>
-                                <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    <Treeview />
-                                </div>
+                             
                             </div>
 
                         </div>
