@@ -240,3 +240,6 @@ form.node_edit_form .field.action_node .fa.fa-close {
 .codeLine {
     color: black;
 }
+.methodName{
+    color: green;
+}
