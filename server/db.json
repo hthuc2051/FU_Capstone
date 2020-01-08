@@ -1,12 +1,34 @@
 ﻿{
   "events": [
     {
-      "type": "findById",
-      "name": "username"
+      "name": "sendKeysToElementById",
+      "code": "driver.findElement(By.id(paramName)).clear(); <br/>driver.findElement(By.id(paramName)).sendKeys(paramValue); ",
+      "listParams": [
+        {
+          "paramName": "txtUsername",
+          "paramType": "thanhtd"
+        },
+        {
+          "paramName": "txtPassword",
+          "paramType": "123456"
+        }
+      ],
+      "subject": "Java"
     },
     {
-      "type": "findByName",
-      "name": "passwor"
+      "name": "sendKeysToElementByName",
+      "code": "driver.findElement(By.name(paramName)).clear(); <br/>driver.findElement(By.name(paramName)).sendKeys(paramValue); ",
+      "listParams": [
+        {
+          "paramName": "txtUsername",
+          "paramType": "thanhtd"
+        },
+        {
+          "paramName": "txtPassword",
+          "paramType": "123456"
+        }
+      ],
+      "subject": "C# .NET"
     }
   ]
 }

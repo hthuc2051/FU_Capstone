@@ -1,5 +1,5 @@
-import LecturerPageContainer from './LecturerPage/LecturerPageContainer';
+import LecturerLeaderPageContainer from './LecturerLeaderPage/LecturerLeaderPageContainer';
 
 export {
-    LecturerPageContainer,
+    LecturerLeaderPageContainer,
 }

@@ -1,9 +1,9 @@
 import LoginPage from './LoginPage';
-import LecturerPage from './LecturerPage';
+import LecturerLeaderPage from './LecturerLeaderPage';
 import AdminPage from './AdminPage';
 
 export {
     LoginPage,
-    LecturerPage,
+    LecturerLeaderPage,
     AdminPage,
 }
