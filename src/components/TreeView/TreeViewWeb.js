@@ -12,20 +12,22 @@ export default class TreeViewWeb extends Component {
       data: scriptObj,
       editableNode: '',
       expectedResult: scriptObj.expectedResult,
-      methodNameText:Constant.METHOD_NAME,      
+      methodNameText: Constant.METHOD_NAME,
       expectedResultText: scriptObj.expectedResult.value,
-      eventData: null,      
+      eventData: null,
+      listInputParam: scriptObj.params[0].children,
+      listStep: scriptObj.params[1].children
     }
   }
   static getDerivedStateFromProps(nextProps, prevState) {
     // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
     if (nextProps.eventData === prevState.eventData) {
-        return null;
+      return null;
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
     return { eventData: nextProps.eventData }
 
-}
+  }
 
   addRoot = () => {
     let root = {
@@ -60,6 +62,7 @@ export default class TreeViewWeb extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
+    if (paramObj === null) { return; }
     if (paramObj.name !== '' && paramObj.exportValue !== '') {
       paramObj.type = this.state.editableNode.type;
       paramObj.name = this.state.editableNode.name;
@@ -77,8 +80,8 @@ export default class TreeViewWeb extends Component {
   doneEdit = (paramObj) => {
     paramObj.editMode = false;
     this.setState({ paramObj });
-    if(paramObj.label == undefined){
-      this.setState({expectedResultText : paramObj.value});
+    if (paramObj.label == undefined) {
+      this.setState({ expectedResultText: paramObj.value });
     }
   }
 
@@ -103,7 +106,7 @@ export default class TreeViewWeb extends Component {
 
 
   nodeEditForm = (label, paramObj, parent, index) => {
-    let {eventData} = this.state;
+    let { eventData } = this.state;
     console.log(eventData);
     return (
       <div className="node node_edit" onClick={(e) => { e.stopPropagation() }}>
@@ -198,12 +201,34 @@ export default class TreeViewWeb extends Component {
   }
 
   editMethodName = () => {
-    let method = this.txtMethodName.current.value.replace(/\s/g,'').trim();
-    if(method != ''){
-      this.setState({ methodNameText: method});
-    }else{
-      this.setState({ methodNameText: Constant.METHOD_NAME});
+    let method = this.txtMethodName.current.value.replace(/\s/g, '').trim();
+    if (method != '') {
+      this.setState({ methodNameText: method });
+    } else {
+      this.setState({ methodNameText: Constant.METHOD_NAME });
     }
+  }
+
+  createParam = (param, index) => {
+    if (index !== this.state.listInputParam.length - 1) {
+      return (
+        <span><span className="codeParam">"{param}"</span>,</span>
+      );
+    } else {
+      return (
+        <span className="codeParam">"{param}"</span>
+      );
+    }
+  }
+
+  createStep(step, index) {
+    return (
+      <code className="codeLine">
+        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
+        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>)
+        .sendKey(<span className="codeParamBold">"{step.value}"</span>);<br />
+      </code>
+    );
   }
 
   render() {
@@ -212,7 +237,7 @@ export default class TreeViewWeb extends Component {
       <div className="col-md-12 mb-4">
         <div className="group_dropdown_content">
           <div className="tree">
-            <input type="text" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => {e.stopPropagation();this.editMethodName()}}/>
+            <input type="text" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
             <ul>
               <li>
                 <div className="node"><i className="fa fa-minus-square-o"></i>Expected Result</div>
@@ -234,11 +259,10 @@ export default class TreeViewWeb extends Component {
           <div className="codePage">
             <code className="codeLine">
               public void <span className="methodName">{this.state.methodNameText}</span>()&#123;<br />
-              Driver.findViewById("txtUsername").clear();<br />
-              Driver.findViewById("txtUsername").sendKey("NguyenVanA");<br />
-              Driver.findViewById("txtPassword").clear();<br />
-              Driver.findViewById("txtPassword").sendKey("p4ssw0rd");<br />
-              assertEquals("<span className="methodName">{this.state.expectedResultText}</span>",question1("NguyenVanA","p4ssw0rd"));<br />
+              {this.state.listStep.map((item, index) => this.createStep(item, index))}
+              assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",question1(
+              {this.state.listInputParam.map((item, index) => this.createParam(item.value, index))}
+              ));<br />
               &#125;
           </code>
 
@@ -249,4 +273,6 @@ export default class TreeViewWeb extends Component {
       </div>
     );
   }
+
+
 }

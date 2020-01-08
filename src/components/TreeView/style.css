@@ -234,12 +234,18 @@ form.node_edit_form .field.action_node .fa.fa-close {
     float: left;
     padding-left: 20px;
     margin-top: 50px;
-    color: black;
 }
 
 .codeLine {
     color: black;
 }
 .methodName{
+    color: blue;
+}
+.codeParam{
     color: green;
+}
+.codeParamBold{
+    color: green;
+    font-weight: bold;
 }
