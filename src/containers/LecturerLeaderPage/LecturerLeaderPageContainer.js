@@ -57,11 +57,11 @@ class LecturerPageContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        statusCode: state.lecturerPage.statusCode,
-        isLoading: state.lecturerPage.isLoading,
-        message: state.lecturerPage.message,
-        error: state.lecturerPage.error,
-        eventData: state.lecturerPage.eventData,
+        statusCode: state.lecturerLeaderPage.statusCode,
+        isLoading: state.lecturerLeaderPage.isLoading,
+        message: state.lecturerLeaderPage.message,
+        error: state.lecturerLeaderPage.error,
+        eventData: state.lecturerLeaderPage.eventData,
     }
 }
 

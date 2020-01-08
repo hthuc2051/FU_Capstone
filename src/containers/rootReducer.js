@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import lecturerPage from './LecturerPage/reducer';
+import lecturerLeaderPage from './LecturerLeaderPage/reducer';
 const rootReducer = combineReducers({
-    lecturerPage,
+    lecturerLeaderPage,
 });
 
 export default rootReducer;
