@@ -7,11 +7,14 @@ export default class Treeview extends Component {
 
   constructor(props) {
     super(props);
+    this.txtMethodName = React.createRef();
     this.state = {
       data: scriptObj,
       editableNode: '',
       expectedResult: scriptObj.expectedResult,
-      appType: 'WEB'
+      appType: 'WEB',
+      methodNameText:Constant.METHOD_NAME,      
+      expectedResultText: scriptObj.expectedResult.value,      
     }
   }
   componentWillMount() {
@@ -70,6 +73,9 @@ export default class Treeview extends Component {
   doneEdit = (paramObj) => {
     paramObj.editMode = false;
     this.setState({ paramObj });
+    if(paramObj.label == undefined){
+      this.setState({expectedResultText : paramObj.value});
+    }
   }
 
   toggleView = (ob) => {
@@ -186,6 +192,14 @@ export default class Treeview extends Component {
     return children;
   }
 
+  editMethodName = () => {
+    let method = this.txtMethodName.current.value.replace(/\s/g,'').trim();
+    if(method != ''){
+      this.setState({ methodNameText: method});
+    }else{
+      this.setState({ methodNameText: Constant.METHOD_NAME});
+    }
+  }
 
   render() {
     let { expectedResult } = this.state;
@@ -193,7 +207,7 @@ export default class Treeview extends Component {
       <div className="col-md-12 mb-4">
         <div className="group_dropdown_content">
           <div className="tree">
-            <input type="text" className="form-control root" id="methodName" placeholder="Method's name" />
+            <input type="text" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => {e.stopPropagation();this.editMethodName()}}/>
             <ul>
               <li>
                 <div className="node"><i className="fa fa-minus-square-o"></i>Expected Result</div>
@@ -214,12 +228,12 @@ export default class Treeview extends Component {
           </div>
           <div className="codePage">
             <code className="codeLine">
-              public void testCase()&#123;<br />
+              public void <span className="methodName">{this.state.methodNameText}</span>()&#123;<br />
               Driver.findViewById("txtUsername").clear();<br />
               Driver.findViewById("txtUsername").sendKey("NguyenVanA");<br />
               Driver.findViewById("txtPassword").clear();<br />
               Driver.findViewById("txtPassword").sendKey("p4ssw0rd");<br />
-              assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));<br />
+              assertEquals("<span className="methodName">{this.state.expectedResultText}</span>",question1("NguyenVanA","p4ssw0rd"));<br />
               &#125;
           </code>
 
