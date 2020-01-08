@@ -1,12 +1,12 @@
 import React from 'react';
-import { LoginPage, TeacherPage, AdminPage } from './pages/index';
+import { LoginPage, LecturerPage, AdminPage } from './pages/index';
 import AdminActionPage from './components/AdminAction/Action';
 
 const routes = [
     {
-        path: '/teacher',
+        path: '/lecturer',
         exact: false,
-        main: () => <TeacherPage />
+        main: () => <LecturerPage />
     },
     {
         path: '/login',

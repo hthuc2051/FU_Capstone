@@ -1,6 +1,7 @@
 
 
 import * as Constant from './../../constants/AppConstants';
+
 var scriptObj = {
   methodName: 'checkQuestion1',
   expectedResult: {
@@ -10,14 +11,12 @@ var scriptObj = {
   },
   params: [
     {
-
       parentId: 39,
       name: 'Input Parameters',
       showChildren: true,
       editMode: false,
       children: [
         {
-
           parentId: 50,
           type:'String',
           name: 'username',

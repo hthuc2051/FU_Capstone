@@ -170,7 +170,6 @@ export default class Treeview extends Component {
       <ul className="child-ul">
         {children}
         <li>
-          {window.alert}
           <div className="node add_node" onClick={(e) => { e.stopPropagation(); this.addMember(node) }}>
             <i className="fa fa-plus" ></i>
             <span>Add New</span>

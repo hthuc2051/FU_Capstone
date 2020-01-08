@@ -9,7 +9,6 @@ class App extends Component {
           <Router>
                   {this.showContentMenus(routes)}
           </Router>
-
       );
   }
 

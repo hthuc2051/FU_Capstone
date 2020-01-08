@@ -1,0 +1,12 @@
+﻿{
+  "events": [
+    {
+      "type": "findById",
+      "name": "username"
+    },
+    {
+      "type": "findByName",
+      "name": "passwor"
+    }
+  ]
+}
