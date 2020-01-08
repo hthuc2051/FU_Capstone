@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import lecturerPage from './LecturerPage/reducer';
+import lecturerPage from './LecturerLeaderPage/reducer';
 const rootReducer = combineReducers({
     lecturerPage,
 });
