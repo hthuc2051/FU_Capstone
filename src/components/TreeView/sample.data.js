@@ -11,12 +11,14 @@ var scriptObj = {
   },
   params: [
     {
+      label: Constant.LABEL_PARAM,
       parentId: 39,
       name: 'Input Parameters',
       showChildren: true,
       editMode: false,
       children: [
         {
+          label: Constant.LABEL_PARAM,
           parentId: 50,
           type:'String',
           name: 'username',
@@ -26,7 +28,7 @@ var scriptObj = {
           children: []
         },
         {
-
+          label: Constant.LABEL_PARAM,
           parentId: 50,
           type:'String',
           name: 'password',
@@ -48,8 +50,8 @@ var scriptObj = {
         {
 
           label: Constant.LABEL_STEP,
-          type:'String',
-          name: 'username',
+          type:'findViewById',
+          name: 'txtUsername',
           value:'NguyenVanA',
           showChildren: false,
           editMode: false,
@@ -58,8 +60,8 @@ var scriptObj = {
         {
 
           label: Constant.LABEL_STEP,
-          type:'String',
-          name: 'password',
+          type:'findViewById',
+          name: 'txtPassword',
           value:'p4ssw0rd',
           showChildren: false,
           editMode: false,

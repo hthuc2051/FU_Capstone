@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Treeview } from '../../components/index';
+import { Treeview,TreeViewWeb } from '../../components/index';
 import * as Constants from '../constants';
-import './style.css';
 import { onLoading } from './actions';
 import { fetchEventsData } from './axios';
 
@@ -48,7 +47,7 @@ class LecturerPageContainer extends Component {
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
                     <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <Treeview />
+                        <TreeViewWeb />
                     </div>
                 </div>
             </div>

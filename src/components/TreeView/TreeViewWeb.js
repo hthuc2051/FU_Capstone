@@ -3,7 +3,7 @@ import scriptObj from './sample.data.js';
 import './style.css';
 import { Variable } from '../index.js';
 import * as Constant from '../../constants/AppConstants';
-export default class Treeview extends Component {
+export default class TreeViewWeb extends Component {
 
   constructor(props) {
     super(props);
@@ -210,6 +210,19 @@ export default class Treeview extends Component {
               </li>
               {this.getNodes()}
             </ul>
+          </div>
+          <div className="codePage">
+            <code className="codeLine">
+              public void testCase()&#123;<br />
+              Driver.findViewById("txtUsername").clear();<br />
+              Driver.findViewById("txtUsername").sendKey("NguyenVanA");<br />
+              Driver.findViewById("txtPassword").clear();<br />
+              Driver.findViewById("txtPassword").sendKey("p4ssw0rd");<br />
+              assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));<br />
+              &#125;
+          </code>
+
+
           </div>
         </div>
 

@@ -3,10 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
-	background: #fff;
-	font-family: 'Roboto', sans-serif;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
 }
+
 h3 {
     font-size: 15px;
     font-family: 'Montserrat', sans-serif;
@@ -14,12 +16,20 @@ h3 {
     margin: 0 0 15px;
     font-weight: 500;
 }
+
+
 /*------------------------ !group-dropdown --------------------------------------*/
-.tree{
+
+.tree {
     margin-top: 10px;
     position: relative;
     padding-left: 5px;
+    width: 54%;
+    border-right: 10px solid green;
+    padding-right: 20px;
+    float: left;
 }
+
 span.root {
     border: 1px solid #ccc;
     position: relative;
@@ -39,20 +49,23 @@ span.root {
     transform: translateZ(0);
     width: 100%;
 }
+
 span.root .actions {
     float: right;
 }
 
-.tree ul{
+.tree ul {
     list-style: none;
 }
-.tree ul li{
+
+.tree ul li {
     padding: 7px 0 7px 20px;
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 .tree ul li:before {
     content: '';
     height: 1px;
@@ -63,6 +76,7 @@ span.root .actions {
     left: 0;
     margin: auto;
 }
+
 .tree ul li:after {
     content: '';
     width: 1px;
@@ -73,23 +87,28 @@ span.root .actions {
     bottom: 0;
     left: 0;
 }
+
 .tree ul li:last-child {
     margin-bottom: 12px;
 }
+
 .tree ul li:last-child,
-.tree ul li:last-child:after{
+.tree ul li:last-child:after {
     height: 16px;
 }
-.tree ul li .fa{
+
+.tree ul li .fa {
     color: #b4b4b4;
     cursor: pointer;
     display: inline-block;
     margin-right: 9px;
     margin-left: -5px;
 }
+
 .tree ul li .fa:hover {
     color: #777;
 }
+
 .tree ul li .node {
     display: block;
     cursor: pointer;
@@ -103,6 +122,7 @@ span.root .actions {
 .action_node {
     cursor: pointer;
 }
+
 .tree ul li .node:before {
     content: "";
     position: absolute;
@@ -115,13 +135,16 @@ span.root .actions {
     z-index: -1;
     display: none;
 }
+
 .tree ul li .node:hover:before {
     display: block;
 }
-.tree ul li .node:hover{
-    color:#333;
+
+.tree ul li .node:hover {
+    color: #333;
     text-decoration: none;
 }
+
 .node .actions {
     position: absolute;
     right: 0;
@@ -129,32 +152,39 @@ span.root .actions {
     display: none;
     top: 0;
 }
+
 .tree ul li .node:hover .actions {
     display: block;
 }
+
 .node .actions .fa {
     width: 16px;
     text-align: center;
     font-size: 15px;
 }
+
 .tree ul li .node.node_edit {
     z-index: 10;
     max-width: 500px;
 }
+
 .tree .node.node_edit:before {
     background-color: #fff;
     display: block;
     border: 1px solid #71d371;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
+
 form.node_edit_form {
     position: relative;
     margin: 5px 0px;
 }
+
 form.node_edit_form .field {
     width: 100%;
     position: relative;
 }
+
 form.node_edit_form .field input {
     line-height: 13px;
     height: 24px;
@@ -169,6 +199,7 @@ form.node_edit_form .field input {
 form.node_edit_form .field.code input {
     width: 60px;
 }
+
 form.node_edit_form .field.code:before {
     content: "";
     display: inline-block;
@@ -179,6 +210,7 @@ form.node_edit_form .field.code:before {
     bottom: -4px;
     background-color: #e1e5e8;
 }
+
 .action-tab {
     float: right;
 }
@@ -192,6 +224,19 @@ form.node_edit_form .field.action_node .fa {
     color: #fff;
     font-size: 9px;
 }
+
 form.node_edit_form .field.action_node .fa.fa-close {
     background-color: #333;
+}
+
+.codePage {
+    width: 46%;
+    float: left;
+    padding-left: 20px;
+    margin-top: 50px;
+    color: black;
+}
+
+.codeLine {
+    color: black;
 }
