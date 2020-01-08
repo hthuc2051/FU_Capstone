@@ -17,8 +17,7 @@ const routes = [
         path: '/admin',
         exact: true,
         main: () => <AdminPage />
-    }
-    ,
+    },
     {
         path: '/admin/action',
         exact: false,

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
 import * as AppConstant from '../../constants/AppConstants';
-import { connect } from 'react-redux';
 
 const arrOptions = ['Boolean', 'Char', 'Integer', 'Float', 'Double', 'String'];
 const arrEvents = ['findViewById', 'findViewByName'];
@@ -17,27 +16,22 @@ class Variable extends Component {
             selectedType: 'String',
             txtName: "",
             txtValue: "",
-            eventData: null,
         };
     }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        let { paramObj, appType, parent, index, eventData } = nextProps;
-        if (nextProps.eventData === prevState.eventData) {
-            return null;
+    componentWillMount() {
+        let { paramObj, appType, parent, index } = this.props;
+        if (typeof (paramObj) !== 'undefined') {
+            this.setState({
+                paramObj: paramObj,
+                parent: parent,
+                index: index,
+                selectedType: paramObj.type,
+                txtName: paramObj.name,
+                txtValue: paramObj.value,
+            })
         }
 
-        return {
-            eventData: eventData,
-            paramObj: paramObj,
-            parent: parent,
-            index: index,
-            selectedType: paramObj.type,
-            txtName: paramObj.name,
-            txtValue: paramObj.value,
-        }
     }
-
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
@@ -86,15 +80,14 @@ class Variable extends Component {
     }
 
     renderOptions = (label) => {
-        let { eventData } = this.state;
         let options;
         if (label == AppConstant.LABEL_STEP) {
-            options = eventData.map((item, index) =>
+            options = arrEvents.map((data, index) =>
                 <option
                     key={index}
-                    value={item.name}
+                    value={data}
                 >
-                    {item.name}
+                    {data}
                 </option>
             );
         } else {
@@ -117,14 +110,10 @@ class Variable extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        eventData: state.lecturerPage.eventData,
-    }
-}
 
 
-export default connect(mapStateToProps, null)(Variable);
+
+export default Variable;
 
 
 

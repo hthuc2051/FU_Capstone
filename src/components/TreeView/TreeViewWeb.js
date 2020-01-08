@@ -12,17 +12,21 @@ export default class TreeViewWeb extends Component {
       data: scriptObj,
       editableNode: '',
       expectedResult: scriptObj.expectedResult,
-      appType: 'WEB',
       methodNameText:Constant.METHOD_NAME,      
-      expectedResultText: scriptObj.expectedResult.value,      
+      expectedResultText: scriptObj.expectedResult.value,
+      eventData: null,      
     }
   }
-  componentWillMount() {
-    let { appType } = this.props;
-    this.setState({
-      appType: appType,
-    })
-  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
+    if (nextProps.eventData === prevState.eventData) {
+        return null;
+    }
+    // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
+    return { eventData: nextProps.eventData }
+
+}
+
   addRoot = () => {
     let root = {
       name: '',
@@ -99,6 +103,8 @@ export default class TreeViewWeb extends Component {
 
 
   nodeEditForm = (label, paramObj, parent, index) => {
+    let {eventData} = this.state;
+    console.log(eventData);
     return (
       <div className="node node_edit" onClick={(e) => { e.stopPropagation() }}>
         <form className="node_edit_form">

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Treeview,TreeViewWeb } from '../../components/index';
+import { Treeview, TreeViewWeb } from '../../components/index';
 import * as Constants from '../constants';
 import { onLoading } from './actions';
 import { fetchEventsData } from './axios';
@@ -32,7 +32,7 @@ class LecturerPageContainer extends Component {
 
     }
     render() {
-        let { isLoading } = this.state;
+        let { isLoading, eventData } = this.state;
         return (
             <div id="content-wrapper">
                 {isLoading ? '1' : 'OK'}
@@ -47,7 +47,7 @@ class LecturerPageContainer extends Component {
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
                     <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <TreeViewWeb />
+                        <TreeViewWeb eventData={eventData} />
                     </div>
                 </div>
             </div>
