@@ -2,11 +2,12 @@ import axios from "axios";
 import * as Constant from '../constants';
 export default async function callApi(endpoint, method = "GET", body, headerType) {
     //   const token = localStorage.getItem("USER");
-    //   let headers = {}
+       let headers = {}
     //   if (headerType === 'ADMIN') {
     //     headers = { 'Authorization': token }
     //   } else if (headerType === 'FILE') {
-    //     headers = { 'Authorization': token, 'Content-Type': 'multipart/form-data' }
+        // headers = { 'Authorization': token, 'Content-Type': 'multipart/form-data' }
+        headers = {'Content-Type': 'multipart/form-data' }
     //   } else if (headerType === 'LOGIN') {
     //     headers = { 'Content-Type': 'application/json' }
     //   }
@@ -16,7 +17,7 @@ export default async function callApi(endpoint, method = "GET", body, headerType
             method: method,
             url: `${Constant.API_URL_DUMMY}/${endpoint}`,
             data: body,
-            // headers: headers
+            headers: headers
         })
     } catch (err) {
         result = err.response;

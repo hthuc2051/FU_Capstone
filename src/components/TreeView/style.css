@@ -249,3 +249,21 @@ form.node_edit_form .field.action_node .fa.fa-close {
     color: green;
     font-weight: bold;
 }
+.saveButton{
+    position: relative;
+}
+.addQuestionButton{
+    width: 40px ;
+    border: 0px;
+    background-color: white;
+    border-radius: 50px;
+}
+.bottomDiv{
+    float: left;
+    width: 100%;
+    margin-top: 50px;
+    text-align: center;
+}
+.addQuestionButton:hover{
+    background-color: lightgray;
+}

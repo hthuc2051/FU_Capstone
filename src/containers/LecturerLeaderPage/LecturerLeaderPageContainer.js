@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Treeview, TreeViewWeb } from '../../components/index';
 import * as Constants from '../constants';
 import { onLoading } from './actions';
-import { fetchEventsData } from './axios';
+import { fetchEventsData,creatTestScript } from './axios';
 
 class LecturerPageContainer extends Component {
 
@@ -12,6 +12,7 @@ class LecturerPageContainer extends Component {
         this.state = {
             isLoading: false,
             eventData: null,
+            questionArr: [],
         };
     }
     componentDidMount() {
@@ -31,6 +32,9 @@ class LecturerPageContainer extends Component {
         return { eventData: nextProps.eventData }
 
     }
+    onSave = (question) => {
+       this.props.saveTestScript(question);
+    }
     render() {
         let { isLoading, eventData } = this.state;
         return (
@@ -42,12 +46,14 @@ class LecturerPageContainer extends Component {
                             data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Question 1</a>
                         <a className="nav-item nav-link" id="nav-profile-tab"
                             data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Question 2</a>
-
+                        <button className="addQuestionButton">
+                            <i className="fa fa-plus" />
+                        </button>
                     </div>
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
                     <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <TreeViewWeb eventData={eventData} />
+                        <TreeViewWeb eventData={eventData} onSave={this.onSave} />
                     </div>
                 </div>
             </div>
@@ -72,6 +78,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         fetchEvents: () => {
             fetchEventsData(dispatch);
+        },
+        saveTestScript:(testScript) =>{
+            creatTestScript(testScript,dispatch);
         }
     }
 }

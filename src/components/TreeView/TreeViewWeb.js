@@ -16,9 +16,18 @@ export default class TreeViewWeb extends Component {
       expectedResultText: scriptObj.expectedResult.value,
       eventData: null,
       listInputParam: scriptObj.params[0].children,
-      listStep: scriptObj.params[1].children
+      listStep: scriptObj.params[1].children,
+      questionArr: {
+        name: 'test1',
+        question:
+          [{
+            tescase: 'question1',
+            code: ''
+          }]
+      }
     }
   }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
     if (nextProps.eventData === prevState.eventData) {
@@ -62,7 +71,7 @@ export default class TreeViewWeb extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
-    if (paramObj === null) { return; }
+    if (paramObj === undefined) { return; }
     if (paramObj.name !== '' && paramObj.exportValue !== '') {
       paramObj.type = this.state.editableNode.type;
       paramObj.name = this.state.editableNode.name;
@@ -78,10 +87,17 @@ export default class TreeViewWeb extends Component {
   }
 
   doneEdit = (paramObj) => {
-    paramObj.editMode = false;
-    this.setState({ paramObj });
-    if (paramObj.label == undefined) {
-      this.setState({ expectedResultText: paramObj.value });
+    console.log("===========");
+    console.log(paramObj);
+    if (paramObj.value == '') {
+      //not add node into tree
+      window.alert("Please Insert All The Input Fields")
+    } else {
+      paramObj.editMode = false;
+      this.setState({ paramObj });
+      if (paramObj.label == undefined) {
+        this.setState({ expectedResultText: paramObj.value });
+      }
     }
   }
 
@@ -212,18 +228,30 @@ export default class TreeViewWeb extends Component {
   createParam = (param, index) => {
     if (index !== this.state.listInputParam.length - 1) {
       return (
-        <span><span className="codeParam">"{param}"</span>,</span>
+        <span key={index}><span className="codeParam">"{param}"</span>,</span>
       );
     } else {
       return (
-        <span className="codeParam">"{param}"</span>
+        <span key={index} className="codeParam">"{param}"</span>
       );
+    }
+  }
+
+  createTestScript = () => {
+
+    let getCode = document.getElementById('codevalue');
+    if (getCode != null) {
+      let code = getCode.textContent;
+      let { questionArr } = this.state;
+      questionArr.question.code = code;
+      this.setState({ questionArr });
+      this.props.onSave(this.state.questionArr);
     }
   }
 
   createStep(step, index) {
     return (
-      <code className="codeLine">
+      <code key={index} className="codeLine">
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>)
         .sendKey(<span className="codeParamBold">"{step.value}"</span>);<br />
@@ -256,17 +284,21 @@ export default class TreeViewWeb extends Component {
               {this.getNodes()}
             </ul>
           </div>
-          <div className="codePage">
-            <code className="codeLine">
+          <div className="codePage" id="code" name="code">
+            <code className="codeLine" id="codevalue" >
               public void <span className="methodName">{this.state.methodNameText}</span>()&#123;<br />
               {this.state.listStep.map((item, index) => this.createStep(item, index))}
               assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",question1(
               {this.state.listInputParam.map((item, index) => this.createParam(item.value, index))}
               ));<br />
               &#125;
-          </code>
-
-
+            </code>
+          </div>
+          <div className="bottomDiv">
+            <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
+              <i className="fa fa-plus" />
+              &nbsp;CREATE TEST SCRIPT
+            </button>
           </div>
         </div>
 
