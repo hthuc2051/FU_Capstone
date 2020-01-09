@@ -7,17 +7,18 @@ export default async function callApi(endpoint, method = "GET", body, headerType
     //     headers = { 'Authorization': token }
     //   } else if (headerType === 'FILE') {
         // headers = { 'Authorization': token, 'Content-Type': 'multipart/form-data' }
-        headers = {'Content-Type': 'multipart/form-data' }
+        // headers = {'Content-Type': 'multipart/form-data' }
     //   } else if (headerType === 'LOGIN') {
-    //     headers = { 'Content-Type': 'application/json' }
+        headers = { 'Content-Type': 'application/json' }
     //   }
     let result = null;
     try {
+        console.log(body);
         result = await axios({
             method: method,
-            url: `${Constant.API_URL_DUMMY}/${endpoint}`,
+            url: `${Constant.API_URL}/${endpoint}`,
             data: body,
-            headers: headers
+            headers : headers
         })
     } catch (err) {
         result = err.response;

@@ -19,7 +19,7 @@ export default class TreeViewWeb extends Component {
       listStep: scriptObj.params[1].children,
       questionArr: {
         name: 'test1',
-        question:
+        questions:
           [{
             tescase: 'question1',
             code: ''
@@ -243,7 +243,7 @@ export default class TreeViewWeb extends Component {
     if (getCode != null) {
       let code = getCode.textContent;
       let { questionArr } = this.state;
-      questionArr.question.code = code;
+      questionArr.questions[0].code = code;
       this.setState({ questionArr });
       this.props.onSave(this.state.questionArr);
     }
