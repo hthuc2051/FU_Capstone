@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Treeview, TreeViewWeb } from '../../components/index';
 import * as Constants from '../constants';
 import { onLoading } from './actions';
-import { fetchEventsData,creatTestScript } from './axios';
+import { fetchEventsData, creatTestScript } from './axios';
 
 class LecturerPageContainer extends Component {
 
@@ -12,7 +12,13 @@ class LecturerPageContainer extends Component {
         this.state = {
             isLoading: false,
             eventData: null,
-            questionArr: [],
+            questionArr: {
+                name: 'test1',
+                questions: [{
+                    tescase: 'question1',
+                    code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
+                }]
+            }
         };
     }
     componentDidMount() {
@@ -33,8 +39,25 @@ class LecturerPageContainer extends Component {
 
     }
     onSave = (question) => {
-       this.props.saveTestScript(question);
+        let { questionArr } = this.state;
+        let isExisted = false;
+        let testCaseName = question.tescase;
+        for (let i = 0; i < questionArr.questions.length; i++) {
+            if (questionArr.questions[i].tescase === testCaseName) {
+                isExisted = true;
+                questionArr.questions[i] = question;
+            }
+        }
+        if (!isExisted) {
+            questionArr.questions.push(question);
+        }
+        this.setState({ questionArr });
     }
+
+    createTestScript = () => {
+        this.props.saveTestScript(this.state.questionArr);
+    }
+
     render() {
         let { isLoading, eventData } = this.state;
         return (
@@ -54,6 +77,12 @@ class LecturerPageContainer extends Component {
                 <div className="tab-content" id="nav-tabContent">
                     <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <TreeViewWeb eventData={eventData} onSave={this.onSave} />
+                    </div>
+                    <div className="bottomDiv">
+                        <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
+                            <i className="fa fa-plus" />
+                            &nbsp;CREATE TEST SCRIPT
+                         </button>
                     </div>
                 </div>
             </div>
@@ -79,8 +108,8 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchEvents: () => {
             fetchEventsData(dispatch);
         },
-        saveTestScript:(testScript) =>{
-            creatTestScript(testScript,dispatch);
+        saveTestScript: (testScript) => {
+            creatTestScript(testScript, dispatch);
         }
     }
 }

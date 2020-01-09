@@ -17,13 +17,9 @@ export default class TreeViewWeb extends Component {
       eventData: null,
       listInputParam: scriptObj.params[0].children,
       listStep: scriptObj.params[1].children,
-      questionArr: {
-        name: 'test1',
-        questions:
-          [{
-            tescase: 'question1',
-            code: ''
-          }]
+      question: {
+        tescase: 'question1',
+        code: ''
       }
     }
   }
@@ -87,14 +83,12 @@ export default class TreeViewWeb extends Component {
   }
 
   doneEdit = (paramObj) => {
-    console.log("===========");
-    console.log(paramObj);
     if (paramObj.value == '') {
       //not add node into tree
       window.alert("Please Insert All The Input Fields")
     } else {
       paramObj.editMode = false;
-      this.setState({ paramObj });
+      this.setState({ paramObj }, () => {this.saveTestCase();});
       if (paramObj.label == undefined) {
         this.setState({ expectedResultText: paramObj.value });
       }
@@ -123,7 +117,6 @@ export default class TreeViewWeb extends Component {
 
   nodeEditForm = (label, paramObj, parent, index) => {
     let { eventData } = this.state;
-    console.log(eventData);
     return (
       <div className="node node_edit" onClick={(e) => { e.stopPropagation() }}>
         <form className="node_edit_form">
@@ -237,15 +230,14 @@ export default class TreeViewWeb extends Component {
     }
   }
 
-  createTestScript = () => {
-
+  saveTestCase = () => {
     let getCode = document.getElementById('codevalue');
     if (getCode != null) {
       let code = getCode.textContent;
-      let { questionArr } = this.state;
-      questionArr.questions[0].code = code;
-      this.setState({ questionArr });
-      this.props.onSave(this.state.questionArr);
+      let { question } = this.state;
+      question.code = code;
+      this.setState({ question });
+      this.props.onSave(this.state.question);
     }
   }
 
@@ -284,8 +276,8 @@ export default class TreeViewWeb extends Component {
               {this.getNodes()}
             </ul>
           </div>
-          <div className="codePage" id="code" name="code">
-            <code className="codeLine" id="codevalue" >
+          <div className="codePage" id="code" name="code" >
+            <code className="codeLine" id="codevalue">
               public void <span className="methodName">{this.state.methodNameText}</span>()&#123;<br />
               {this.state.listStep.map((item, index) => this.createStep(item, index))}
               assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",question1(
@@ -294,12 +286,7 @@ export default class TreeViewWeb extends Component {
               &#125;
             </code>
           </div>
-          <div className="bottomDiv">
-            <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
-              <i className="fa fa-plus" />
-              &nbsp;CREATE TEST SCRIPT
-            </button>
-          </div>
+
         </div>
 
       </div>

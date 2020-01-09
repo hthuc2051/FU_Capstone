@@ -16,7 +16,7 @@ export default async function callApi(endpoint, method = "GET", body, headerType
         console.log(body);
         result = await axios({
             method: method,
-            url: `${Constant.API_URL}/${endpoint}`,
+            url: `${Constant.API_URL_DUMMY}/${endpoint}`,
             data: body,
             headers : headers
         })
