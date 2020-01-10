@@ -12,7 +12,13 @@ class LecturerPageContainer extends Component {
         this.state = {
             isLoading: false,
             eventData: null,
-            questionArr: [],
+            questionArr: {
+                name: 'test1',
+                questions: [{
+                    tescase: 'question1',
+                    code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
+                }]
+            }
         };
     }
     componentDidMount() {
@@ -27,18 +33,34 @@ class LecturerPageContainer extends Component {
             return null;
         }
         // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
-        return { 
+        return {
             eventData: nextProps.eventData,
-            file:nextProps.file,
+            file: nextProps.file,
         }
 
     }
     onSave = (question) => {
-        this.props.saveTestScript(question);
+        let { questionArr } = this.state;
+        let isExisted = false;
+        let testCaseName = question.tescase;
+        for (let i = 0; i < questionArr.questions.length; i++) {
+            if (questionArr.questions[i].tescase === testCaseName) {
+                isExisted = true;
+                questionArr.questions[i] = question;
+            }
+        }
+        if (!isExisted) {
+            questionArr.questions.push(question);
+        }
+        this.setState({ questionArr });
     }
 
     onDownLoad = () => {
-      window.open("http://localhost:8080/api/download");
+        window.open("http://localhost:8080/api/download");
+    }
+
+    createTestScript = () => {
+        this.props.saveTestScript(this.state.questionArr);
     }
 
     render() {
@@ -64,6 +86,12 @@ class LecturerPageContainer extends Component {
                     <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <TreeViewWeb eventData={eventData} onSave={this.onSave} />
                     </div>
+                    <div className="bottomDiv">
+                        <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
+                            <i className="fa fa-plus" />
+                            &nbsp;CREATE TEST SCRIPT
+                         </button>
+                    </div>
                 </div>
             </div>
         );
@@ -77,7 +105,7 @@ const mapStateToProps = state => {
         message: state.lecturerLeaderPage.message,
         error: state.lecturerLeaderPage.error,
         eventData: state.lecturerLeaderPage.eventData,
-        file:state.lecturerLeaderPage.file,
+        file: state.lecturerLeaderPage.file,
     }
 }
 
