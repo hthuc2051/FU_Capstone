@@ -9,7 +9,7 @@ class TopNavBar extends Component {
             <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
                 <a className="navbar-brand mr-1" href="index.html">{pageTitle}</a>
                 <button className="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-                    <i className="fas fa-bars" />
+                    <i className="fa fa-bars" />
                 </button>
                 {/* Navbar Search */}
                 {/* <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -18,7 +18,7 @@ class TopNavBar extends Component {
                             aria-describedby="basic-addon2" />
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search"></i>
+                                <i class="fa fa-search"></i>
                             </button>
                         </div>
                     </div>
@@ -27,7 +27,7 @@ class TopNavBar extends Component {
                 <ul className="navbar-nav ml-auto ">
                     <li className="nav-item dropdown no-arrow mx-1">
                         <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i className="fas fa-bell fa-fw" />
+                            <i className="fa fa-bell fa-fw" />
                             <span className="badge badge-danger">9+</span>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
@@ -39,7 +39,7 @@ class TopNavBar extends Component {
                     </li>
                     <li className="nav-item dropdown no-arrow mx-1">
                         <a className="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i className="fas fa-envelope fa-fw" />
+                            <i className="fa fa-envelope fa-fw" />
                             <span className="badge badge-danger">7</span>
                         </a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
@@ -51,7 +51,7 @@ class TopNavBar extends Component {
                     </li>
                     <li className="nav-item dropdown no-arrow">
                         <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i className="fas fa-user-circle fa-fw" />
+                            <i className="fa fa-user-circle fa-fw" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <a className="dropdown-item" href="#">Settings</a>

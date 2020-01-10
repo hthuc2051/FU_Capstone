@@ -253,8 +253,7 @@ export default class TreeViewWeb extends Component {
     return (
       <code key={index} className="codeLine">
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
-        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>)
-        .sendKey(<span className="codeParamBold">"{step.value}"</span>);<br />
+        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br />
       </code>
     );
   }

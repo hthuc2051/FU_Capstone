@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Treeview, TreeViewWeb } from '../../components/index';
 import * as Constants from '../constants';
 import { onLoading } from './actions';
-import { fetchEventsData,creatTestScript } from './axios';
+import { fetchEventsData, creatTestScript } from './axios';
 
 class LecturerPageContainer extends Component {
 
@@ -21,20 +21,26 @@ class LecturerPageContainer extends Component {
 
     // old : componentWillReceiveProps
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(nextProps);
-        console.log(prevState);
         // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
-        if (nextProps.eventData === prevState.eventData) {
+        console.log(nextProps);
+        if (nextProps === prevState) {
             return null;
         }
-
         // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
-        return { eventData: nextProps.eventData }
+        return { 
+            eventData: nextProps.eventData,
+            file:nextProps.file,
+        }
 
     }
     onSave = (question) => {
-       this.props.saveTestScript(question);
+        this.props.saveTestScript(question);
     }
+
+    onDownLoad = () => {
+      window.open("http://localhost:8080/api/download");
+    }
+
     render() {
         let { isLoading, eventData } = this.state;
         return (
@@ -48,6 +54,9 @@ class LecturerPageContainer extends Component {
                             data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Question 2</a>
                         <button className="addQuestionButton">
                             <i className="fa fa-plus" />
+                        </button>
+                        <button className="btn btn-success" style={{ float: 'right' }} onClick={this.onDownLoad}>
+                            <i className="fa fa-download" style={{ fontSize: '22px' }}></i>
                         </button>
                     </div>
                 </nav>
@@ -68,6 +77,7 @@ const mapStateToProps = state => {
         message: state.lecturerLeaderPage.message,
         error: state.lecturerLeaderPage.error,
         eventData: state.lecturerLeaderPage.eventData,
+        file:state.lecturerLeaderPage.file,
     }
 }
 
@@ -79,8 +89,8 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchEvents: () => {
             fetchEventsData(dispatch);
         },
-        saveTestScript:(testScript) =>{
-            creatTestScript(testScript,dispatch);
+        saveTestScript: (testScript) => {
+            creatTestScript(testScript, dispatch);
         }
     }
 }
