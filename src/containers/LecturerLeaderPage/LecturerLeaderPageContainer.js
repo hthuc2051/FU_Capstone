@@ -63,6 +63,21 @@ class LecturerPageContainer extends Component {
         this.props.saveTestScript(this.state.questionArr);
     }
 
+    // click Add question button
+    addQuestionTab = () =>{
+        var tab = document.getElementById("question-tab");
+        if(tab === null) return;
+        var newTab = document.createElement("a");
+        newTab.setAttribute("class","nav-item nav-link");
+        newTab.setAttribute("data-toggle","tab");
+        newTab.setAttribute("href","#nav-home");
+        newTab.setAttribute("role","tab");
+        newTab.setAttribute("aria-controls","nav-home");
+        newTab.setAttribute("aria-selected","true");
+        newTab.innerHTML = "question2"
+        tab.appendChild(newTab);
+    }
+
     render() {
         let { isLoading, eventData } = this.state;
         return (
@@ -70,11 +85,13 @@ class LecturerPageContainer extends Component {
                 {isLoading ? '1' : 'OK'}
                 <nav>
                     <div className="nav nav-tabs" id="nav-tab" role="tablist">
+                        <div id="question-tab" className="nav">
                         <a className="nav-item nav-link active" id="nav-home-tab"
                             data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Question 1</a>
                         <a className="nav-item nav-link" id="nav-profile-tab"
                             data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Question 2</a>
-                        <button className="addQuestionButton">
+                        </div>
+                        <button className="addQuestionButton" onClick={(e) => {e.stopPropagation();this.addQuestionTab()}}>
                             <i className="fa fa-plus" />
                         </button>
                         <button className="btn btn-success" style={{ float: 'right' }} onClick={this.onDownLoad}>
