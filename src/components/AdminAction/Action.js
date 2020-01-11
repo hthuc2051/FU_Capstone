@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Action.css'
 
-class AdminActionPage extends Component {
+class ActionPageContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,12 +24,11 @@ class AdminActionPage extends Component {
     addMoreParam(e) {
         // var getDocument = document.getElementById('multiParam');
         //var createInput = document.createElement();
-
         e.preventDefault();
         let { param } = this.state;
         param.push({
-            name: 'a',
-            type: 'b'
+            name: 'param',
+            type: 'String'
         })
 
         this.setState({
@@ -84,8 +83,7 @@ class AdminActionPage extends Component {
             var inputTextParam = document.createElement("input");
             inputTextParam.className = 'form-control';
             inputTextParam.style = 'width:200px;';
-            inputTextParam.value = element.name;
-
+            inputTextParam.value = element.type;
             inputTextParam.onchange = (e) => {
                 let { param } = this.state;
                 param[index].type = e.target.value
@@ -187,28 +185,28 @@ class AdminActionPage extends Component {
 
                         <div id="content-wrapper" >
 
-                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 
                             </div>
 
-                            <div class="card" style={{ width: '80%', marginLeft: '120px' }}>
-                                <div class="card-header">
+                            <div className="card" style={{ width: '80%', marginLeft: '120px' }}>
+                                <div className="card-header">
                                     Action Design
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-xs-6">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-xs-6">
                                             <form className="ml-30">
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                     <label >Action</label>
-                                                    <input type="text" ref="txtInput" onChange={this.onChangeHandle} value="findElementById" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
+                                                    <input type="text" ref="txtInput" onChange={this.onChangeHandle} value="findElementById" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
 
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                     <label >Code Generator</label>
-                                                    <textarea class="form-control"  ref="txtCode" style={{ width: '500px', backgroundColor: 'silver' }} onChange={this.onChangeHandle} />
+                                                    <textarea className="form-control"  ref="txtCode" style={{ width: '500px', backgroundColor: 'silver' }} onChange={this.onChangeHandle} />
                                                 </div>
-                                                <div class="form-group">
+                                                <div className="form-group">
                                                     <label >Type Parameter</label>
 
                                                     &nbsp;
@@ -232,32 +230,32 @@ class AdminActionPage extends Component {
                                                         &nbsp;Add Parameter</button>
 
                                                 </div>
-                                                <div class="form-group" id="paramRoot" style={{ marginLeft: '3px' }}>
+                                                <div className="form-group" id="paramRoot" style={{ marginLeft: '3px' }}>
 
                                                 </div>
 
                                                 <label>Programming</label>
-                                                <select ref="slProgram" onChange={this.onChangeHandle} style={{width:'100px'}} name="slProgram" id="inputslProgram" class="form-control" required="required">
+                                                <select ref="slProgram" onChange={this.onChangeHandle} style={{width:'100px'}} name="slProgram" id="inputslProgram" className="form-control" required="required">
                                                     <option value="C#">C#</option>
                                                     <option value="Java">Java</option>
                                                     <option value="Web">Web</option>
 
                                                 </select>
                                                 <br/>
-                                                <button type="button" onClick={this.saveAction} class="btn btn-success">Save</button>
+                                                <button type="button" onClick={this.saveAction} className="btn btn-success">Save</button>
                                                 &nbsp;
-                                                <button type="reset" class="btn btn-danger">Clear</button>
+                                                <button type="reset" className="btn btn-danger">Clear</button>
 
                                             </form>
                                         </div>
                                         &nbsp;
                                         &nbsp;
                                         &nbsp;
-                                        <div class="vl"></div>
+                                        <div className="vl"></div>
                                         &nbsp;
                                         &nbsp;
                                         &nbsp;
-                                        <div class="col-xs-6">
+                                        <div className="col-xs-6">
 
                                             <div className="code-block">
                                                 <div className="code-container">
@@ -268,20 +266,20 @@ class AdminActionPage extends Component {
                                                                     <td className="code">
                                                                         <div className="container">
                                                                             <div className="line number4 index3 alt1">
-                                                                                <code class="keyword">class</code>
-                                                                                <code class="plain"> example {this.leftBracket}  </code>
+                                                                                <code className="keyword">class</code>
+                                                                                <code className="plain"> example {this.leftBracket}  </code>
 
 
                                                                             </div>
                                                                             <div className="line number4 index3 alt1">
 
-                                                                                <code class="plain"> {this.state.action.code} </code>
+                                                                                <code className="plain"> {this.state.action.code} </code>
 
 
                                                                             </div>
                                                                             <div className="line number4 index3 alt1">
 
-                                                                                <code class="plain">  {this.rightBracket}  </code>
+                                                                                <code className="plain">  {this.rightBracket}  </code>
 
 
                                                                             </div>
@@ -315,4 +313,4 @@ class AdminActionPage extends Component {
     }
 }
 
-export default AdminActionPage;
+export default ActionPageContainer;
