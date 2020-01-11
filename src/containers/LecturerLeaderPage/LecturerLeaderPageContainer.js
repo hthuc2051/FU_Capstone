@@ -4,7 +4,8 @@ import { Treeview, TreeViewWeb } from '../../components/index';
 import * as Constants from '../constants';
 import { onLoading } from './actions';
 import { fetchEventsData, creatTestScript } from './axios';
-
+const QUESTION = "question";
+const QUESTION_UPPER = "Question";
 class LecturerPageContainer extends Component {
 
     constructor(props) {
@@ -18,7 +19,8 @@ class LecturerPageContainer extends Component {
                     tescase: 'question1',
                     code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
                 }]
-            }
+            },
+             count: 2
         };
     }
     componentDidMount() {
@@ -64,18 +66,33 @@ class LecturerPageContainer extends Component {
     }
 
     // click Add question button
-    addQuestionTab = () =>{
-        var tab = document.getElementById("question-tab");
-        if(tab === null) return;
-        var newTab = document.createElement("a");
-        newTab.setAttribute("class","nav-item nav-link");
-        newTab.setAttribute("data-toggle","tab");
-        newTab.setAttribute("href","#nav-home");
-        newTab.setAttribute("role","tab");
-        newTab.setAttribute("aria-controls","nav-home");
-        newTab.setAttribute("aria-selected","true");
-        newTab.innerHTML = "question2"
+    addQuestionTab = () => {
+       let {count} = this.state;
+        let tab = document.getElementById("question-tab");
+        if (tab === null) return;
+        let newTab = document.createElement("a");
+        newTab.setAttribute("class", "nav-item nav-link");
+        newTab.setAttribute("id", QUESTION + count);
+        newTab.setAttribute("data-toggle", "tab");
+        newTab.setAttribute("href", "#nav-home");
+        newTab.setAttribute("role", "tab");
+        newTab.setAttribute("aria-controls", "nav-home");
+        newTab.setAttribute("aria-selected", "true");
+        newTab.innerHTML = QUESTION + count + "&nbsp;";
+        let closeButton = document.createElement("button");
+        closeButton.setAttribute("class","closeQuestionTab");
+        closeButton.addEventListener("click",(e)=>{this.closeQuestionTab(QUESTION+count)});
+        let closeIcon = document.createElement("i");
+        closeIcon.setAttribute("class","fa fa-close");
+        closeButton.appendChild(closeIcon);
+        newTab.appendChild(closeButton);
         tab.appendChild(newTab);
+        this.setState({count: count + 1});
+    }
+
+    closeQuestionTab = (tabId) =>{
+        let tab = document.getElementById(tabId);
+       tab.parentNode.removeChild(tab);
     }
 
     render() {
@@ -86,12 +103,15 @@ class LecturerPageContainer extends Component {
                 <nav>
                     <div className="nav nav-tabs" id="nav-tab" role="tablist">
                         <div id="question-tab" className="nav">
-                        <a className="nav-item nav-link active" id="nav-home-tab"
-                            data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Question 1</a>
-                        <a className="nav-item nav-link" id="nav-profile-tab"
-                            data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Question 2</a>
+                            <a className="nav-item nav-link active" id="question1"
+                                data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">
+                                Question 1&nbsp;
+                                <button className="closeQuestionTab" onClick={(e) => { e.stopPropagation(); this.closeQuestionTab(QUESTION+"1") }}>
+                                    <i className="fa fa-close" />
+                                </button>
+                            </a>
                         </div>
-                        <button className="addQuestionButton" onClick={(e) => {e.stopPropagation();this.addQuestionTab()}}>
+                        <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab("question1") }}>
                             <i className="fa fa-plus" />
                         </button>
                         <button className="btn btn-success" style={{ float: 'right' }} onClick={this.onDownLoad}>
@@ -100,7 +120,7 @@ class LecturerPageContainer extends Component {
                     </div>
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
-                    <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="question1">
                         <TreeViewWeb eventData={eventData} onSave={this.onSave} />
                     </div>
                     <div className="bottomDiv">
