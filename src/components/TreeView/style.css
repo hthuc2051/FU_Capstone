@@ -254,6 +254,8 @@ form.node_edit_form .field.action_node .fa.fa-close {
 }
 .addQuestionButton{
     width: 40px ;
+    height: 40px;
+    margin-left: 5px;
     border: 0px;
     background-color: white;
     border-radius: 50px;
@@ -265,5 +267,15 @@ form.node_edit_form .field.action_node .fa.fa-close {
     text-align: center;
 }
 .addQuestionButton:hover{
+    background-color: lightgray;
+}
+.closeQuestionTab{
+    width: 22px;
+    height: 22px;
+    border: 0px;
+    background-color: white;
+    border-radius: 50px;
+}
+.closeQuestionTab:hover{
     background-color: lightgray;
 }
