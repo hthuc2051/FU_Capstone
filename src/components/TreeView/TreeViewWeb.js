@@ -3,22 +3,22 @@ import scriptObj from './sample.data.js';
 import './style.css';
 import { Variable } from '../index.js';
 import * as Constant from '../../constants/AppConstants';
+import { connectAdvanced } from 'react-redux';
 export default class TreeViewWeb extends Component {
 
   constructor(props) {
     super(props);
     this.txtMethodName = React.createRef();
     this.state = {
-      data: scriptObj,
+      data: '',
       editableNode: '',
-      expectedResult: scriptObj.expectedResult,
-      methodNameText: Constant.METHOD_NAME,
-      expectedResultText: scriptObj.expectedResult.value,
+      expectedResult: '',
+      expectedResultText: '',
       eventData: null,
-      listInputParam: scriptObj.params[0].children,
-      listStep: scriptObj.params[1].children,
+      listInputParam: '',
+      listStep: '',
       question: {
-        tescase: 'question1',
+        testcase: 'question1',
         code: ''
       }
     }
@@ -26,8 +26,22 @@ export default class TreeViewWeb extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
-    if (nextProps.eventData === prevState.eventData) {
+    if (nextProps.eventData === prevState.eventData && nextProps.eventData !== null) {
       return null;
+    }
+    if(nextProps.question !== null){
+      if(document.getElementById('txtMethodName') !== null){
+        document.getElementById('txtMethodName') .value = nextProps.question.data.methodName;
+      }
+      return {
+        data: nextProps.question.data, 
+        question: nextProps.question,
+        expectedResult: nextProps.question.data.expectedResult,
+        expectedResultText: nextProps.question.data.expectedResult.value,
+        listInputParam: nextProps.question.data.params[0].children,
+        listStep: nextProps.question.data.params[1].children,
+      }
+    
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
     return { eventData: nextProps.eventData }
@@ -211,10 +225,10 @@ export default class TreeViewWeb extends Component {
 
   editMethodName = () => {
     let method = this.txtMethodName.current.value.replace(/\s/g, '').trim();
-    if (method != '') {
-      this.setState({ methodNameText: method });
-    } else {
-      this.setState({ methodNameText: Constant.METHOD_NAME });
+    let {data} = this.state;
+    if (method !== '') {
+      data.methodName = method;
+      this.setState({ data });
     }
   }
 
@@ -251,12 +265,13 @@ export default class TreeViewWeb extends Component {
   }
 
   render() {
+
     let { expectedResult } = this.state;
     return (
       <div className="col-md-12 mb-4">
         <div className="group_dropdown_content">
           <div className="tree">
-            <input type="text" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
+            <input  type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
             <ul>
               <li>
                 <div className="node"><i className="fa fa-minus-square-o"></i>Expected Result</div>
@@ -277,7 +292,7 @@ export default class TreeViewWeb extends Component {
           </div>
           <div className="codePage" id="code" name="code" >
             <code className="codeLine" id="codevalue">
-              public void <span className="methodName">{this.state.methodNameText}</span>()&#123;<br />
+              public void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
               {this.state.listStep.map((item, index) => this.createStep(item, index))}
               assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",question1(
               {this.state.listInputParam.map((item, index) => this.createParam(item.value, index))}
