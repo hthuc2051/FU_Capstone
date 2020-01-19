@@ -6,11 +6,11 @@ class TopNavBar extends Component {
     render() {
         let { pageTitle } = this.props;
         return (
-            <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-                <a className="navbar-brand mr-1" href="index.html">{pageTitle}</a>
-                <button className="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-                    <i className="fa fa-bars" />
-                </button>
+            <nav className="navbar navbar-expand navbar-dark  static-top">
+                <div id="header-logo" className="logo-bg">
+                    <a className="navbar-brand mr-1" href="index.html">{pageTitle} - Logo</a>
+                </div>
+                
                 {/* Navbar Search */}
                 {/* <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                     <div class="input-group">

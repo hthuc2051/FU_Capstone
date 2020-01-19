@@ -81,7 +81,7 @@ export default class TreeViewWeb extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
-    if (paramObj === undefined) { return; }
+    if (typeof(paramObj) === undefined) { return; }
     if (paramObj.name !== '' && paramObj.exportValue !== '') {
       paramObj.type = this.state.editableNode.type;
       paramObj.name = this.state.editableNode.name;
@@ -268,7 +268,7 @@ export default class TreeViewWeb extends Component {
 
     let { expectedResult } = this.state;
     return (
-      <div className="col-md-12 mb-4">
+      <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
             <input  type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />

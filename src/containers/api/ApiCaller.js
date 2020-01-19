@@ -14,12 +14,12 @@ export default async function callApi(endpoint, method = "GET", body, headerType
     let result = null;
     try {
         console.log(body);
-        result = await axios({
-            method: method,
-            url: `${Constant.API_URL_DUMMY}/${endpoint}`,
-            data: body,
-            headers : headers
-        })
+        // result = await axios({
+        //     method: method,
+        //     url: `${Constant.API_URL_DUMMY}/${endpoint}`,
+        //     data: body,
+        //     headers : headers
+        // })
     } catch (err) {
         result = err.response;
     }

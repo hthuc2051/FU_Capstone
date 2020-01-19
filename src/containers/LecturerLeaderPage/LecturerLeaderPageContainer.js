@@ -5,6 +5,7 @@ import * as Constants from '../constants';
 import { onLoading } from './actions';
 import { fetchEventsData, creatTestScript } from './axios';
 import scriptObj from '../../components/TreeView/sample.data';
+import './style.css';
 const QUESTION = "question";
 const QUESTION_UPPER = "Question";
 class LecturerPageContainer extends Component {
@@ -66,10 +67,10 @@ class LecturerPageContainer extends Component {
     }
 
     createTestScript = () => {
-        let {questionArr} = this.state;
-        let newQuestionArr = { name: 'test1',questions: []};
-        for(let i = 0; i< questionArr.questions.length;i++){
-            let question = {testcase:questionArr.questions[i].testcase, code: questionArr.questions[i].code } ;
+        let { questionArr } = this.state;
+        let newQuestionArr = { name: 'test1', questions: [] };
+        for (let i = 0; i < questionArr.questions.length; i++) {
+            let question = { testcase: questionArr.questions[i].testcase, code: questionArr.questions[i].code };
             newQuestionArr.questions.push(question);
         }
         this.props.saveTestScript(newQuestionArr);
@@ -143,36 +144,42 @@ class LecturerPageContainer extends Component {
         let { isLoading, eventData } = this.state;
         return (
             <div id="content-wrapper">
-                {isLoading ? '1' : 'OK'}
-                <nav>
-                    <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                        <div id="question-tab" className="nav">
-                            <a className="nav-item nav-link active" id="question1"
-                                data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView("question1") }} href="#panel1" role="tab" aria-controls="nav-home" aria-selected="true">
-                                Question 1&nbsp;
+                <div className={isLoading ? 'loading' : 'none-loading'}>
+                    <div className="loader"></div>
+                </div>
+                <nav className="question-nav">
+                    <div className="d-flex justify-content-between" id="nav-tab" role="tablist">
+                        <div className="nav nav-tabs ">
+                            <div id="question-tab" className="nav">
+                                <a className="nav-item nav-link active" id="question1"
+                                    data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView("question1") }} href="#panel1" role="tab" aria-controls="nav-home" aria-selected="true">
+                                    Question 1&nbsp;
                                 <button className="closeQuestionTab" onClick={(e) => { e.stopPropagation(); this.closeQuestionTab(QUESTION + "1", "1") }}>
-                                    <i className="fa fa-close" />
-                                </button>
-                            </a>
+                                        <i className="fa fa-close" />
+                                    </button>
+                                </a>
+                            </div>
+                            <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab("question1") }}>
+                                <i className="fa fa-plus" />
+                            </button>
                         </div>
-                        <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab("question1") }}>
-                            <i className="fa fa-plus" />
-                        </button>
                         <button className="btn btn-success" style={{ float: 'right' }} onClick={this.onDownLoad}>
                             <i className="fa fa-download" style={{ fontSize: '22px' }}></i>
                         </button>
                     </div>
+
                 </nav>
                 <div className="tab-content" id="nav-tabContent">
-                    <div className="tab-pane fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
+                    <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                         <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} />
-                    </div>
-                    <div className="bottomDiv">
+                        <div className="tab-create">
                         <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
                             <i className="fa fa-plus" />
                             &nbsp;CREATE TEST SCRIPT
                          </button>
                     </div>
+                    </div>
+                    
                 </div>
             </div>
         );

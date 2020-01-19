@@ -1,6 +1,5 @@
 import React from 'react';
-import { LoginPage, LecturerLeaderPage, AdminPage } from './pages/index';
-import AdminActionPage from './components/AdminAction/Action';
+import { LoginPage, LecturerLeaderPage, AdminPage,CodePage } from './pages/index';
 
 const routes = [
     {
@@ -21,7 +20,7 @@ const routes = [
     {
         path: '/admin/action',
         exact: false,
-        main: () => <AdminActionPage />
+        main: () => <CodePage />
     }
 
 ];

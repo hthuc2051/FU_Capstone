@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LeftSideBar, TopNavBar } from './../components/index';
+import { LeftSideBar, TopNavBar,Footer } from './../components/index';
 import { LecturerLeaderPageContainer } from '../containers/index';
 import './style.css';
 
@@ -30,7 +30,7 @@ class LecturerLeaderPage extends Component {
                         <LecturerLeaderPageContainer />
                     </div>
                 </div>
-
+                {/* <Footer/> */}
             </div>
         );
     }

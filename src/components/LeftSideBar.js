@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import  './sidebar.css';
 class LeftSideBar extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +13,6 @@ class LeftSideBar extends Component {
             <ul className="sidebar navbar-nav">
                 <li className="nav-item">
                     <a className="nav-link" href="#">
-                        <i className="fas fa-fw fa-tachometer-alt" />
                         <span>Dashboard</span>
                     </a>
                 </li>
@@ -37,12 +37,10 @@ class LeftSideBar extends Component {
                 </li> */}
                 <li className="nav-item">
                     <a className="nav-link" href="#">
-                        <i className="fas fa-fw fa-chart-area" />
-                        <span>Generate new script</span></a>
+                        <span>New script</span></a>
                 </li>
                 <li className="nav-item active">
                     <a className="nav-link" href="#">
-                        <i className="fas fa-fw fa-table" />
                         <span>Scripts's history</span></a>
                 </li>
             </ul>

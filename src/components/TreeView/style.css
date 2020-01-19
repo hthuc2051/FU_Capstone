@@ -260,12 +260,7 @@ form.node_edit_form .field.action_node .fa.fa-close {
     background-color: white;
     border-radius: 50px;
 }
-.bottomDiv{
-    float: left;
-    width: 100%;
-    margin-top: 50px;
-    text-align: center;
-}
+
 .addQuestionButton:hover{
     background-color: lightgray;
 }
@@ -278,4 +273,9 @@ form.node_edit_form .field.action_node .fa.fa-close {
 }
 .closeQuestionTab:hover{
     background-color: lightgray;
+}
+.tab-create{
+    float: left;
+    width: 100%;
+    margin-top: 30px;
 }

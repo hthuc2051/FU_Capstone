@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {LeftSideBar, TopNavBar } from './../components/index';
-import './Home.css';
+import { LeftSideBar, TopNavBar } from './../components/index';
+import './style.css';
 const ADMIN_PAGE_TITLE = 'Admin page';
 
 class AdminPage extends Component {
@@ -26,7 +26,6 @@ class AdminPage extends Component {
     onExpand1() {
 
         this.setState({
-
             expanded1: !this.state.expanded1
         })
 
@@ -45,85 +44,76 @@ class AdminPage extends Component {
 
                         {/* Content */}
                         <div id="content-wrapper" >
-                            <div className="list-group">
-                                <p className="ml-50">
-                                    <span>
-                                        <i onClick={this.onExpand} className={this.state.expanded === false ? "fa fa-plus" : "fa fa-minus"} data-toggle="collapse" href="#collapseExample">
+                            <div className="content">
+                                <div className="card">
+                                    <div className="card-header" id="headingOne">
+                                        <h5 className="mb-0">
+                                            <a className="btn btn-link toggle-btn" data-toggle="collapse"
+                                                href="#toggleJava" role="button" aria-expanded="false"
+                                                aria-controls="multiCollapseExample1">
+                                                Java</a>
+                                        </h5>
+                                    </div>
+                                    <div className="collapse multi-collapse" id="toggleJava">
+                                        <div className="card card-body">
+                                            <div className="row">
+                                                <div className="col-sm-2">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" className="card-img-top" alt="..." />
+                                                    <div className="card">
+                                                        <div className="card-body">
+                                                            <h5 className="card-title">Template for practical 2</h5>
 
-                                        </i>
-                                        <a class="btn" onClick={this.onExpand} data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                            C#
-                                </a>
-                                    </span>
-
-
-                                </p>
-                                <div class="collapse ml-80" id="collapseExample" >
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" class="card-img-top" alt="..." />
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Template for practical 2</h5>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" class="card-img-top" alt="..." />
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Template for practical 2</h5>
+                                                <div className="col-sm-2">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" className="card-img-top" alt="..." />
+                                                    <div className="card">
+                                                        <div className="card-body">
+                                                            <h5 className="card-title">Template for practical 2</h5>
 
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                <p className="ml-50">
-                                    <span>
-                                        <i className={this.state.expanded1 === false ? "fa fa-plus" : "fa fa-minus"} onClick={this.onExpand1} data-toggle="collapse" href="#collapseExample2">
 
-                                        </i>
-                                        <a onClick={this.onExpand1} class="btn" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                            Java
-                                </a>
-                                    </span>
+                                <div className="card">
+                                    <div className="card-header" id="headingOne">
+                                        <h5 className="mb-0">
+                                            <a className="btn btn-link toggle-btn" data-toggle="collapse"
+                                                href="#toggleCSharp" role="button" aria-expanded="false"
+                                                aria-controls="multiCollapseExample1">
+                                                C#</a>
+                                        </h5>
+                                    </div>
+                                    <div className="collapse multi-collapse" id="toggleCSharp">
+                                        <div className="card card-body">
+                                            <div className="row">
+                                                <div className="col-sm-2">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" className="card-img-top" alt="..." />
+                                                    <div className="card">
+                                                        <div className="card-body">
+                                                            <h5 className="card-title">Template for practical 2</h5>
 
-
-                                </p>
-                                <div class="collapse ml-80" id="collapseExample2" >
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" class="card-img-top" alt="..." />
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Template for practical 2</h5>
-
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" class="card-img-top" alt="..." />
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">Template for practical 2</h5>
+                                                <div className="col-sm-2">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Folder.svg/1200px-Folder.svg.png" className="card-img-top" alt="..." />
+                                                    <div className="card">
+                                                        <div className="card-body">
+                                                            <h5 className="card-title">Template for practical 2</h5>
 
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-                            </div>
-
-
-
-
-
-
-                            <div>
                             </div>
                         </div>
                     </div>
