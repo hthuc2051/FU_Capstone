@@ -3,7 +3,35 @@ import { LeftSideBar, TopNavBar,Footer } from '../components/index';
 import { HeaderLecturerPageContainer } from '../containers/index';
 import './style.css';
 
-const LECTURER_PAGE_TITLE = 'Lecturer page';
+const PAGE_TITLE = 'Header-Lec page';
+
+const navArr = [
+    {
+        title:'Dashboard',
+        type:'nav-item',
+        link:'/head-lecturer'
+    },
+    {
+        title:'Practical subjects',
+        type:'drop-down',
+        link:'/head-lecturer/1/subjects',
+        dropDownArr:[
+            {
+                title:'C#',
+                link:'/head-lecturer/1/subject/c#'
+            },
+            {
+                title:'Java',
+                link:'/head-lecturer/1/subject/java'
+            }
+        ]
+    },
+    {
+        title:'Invigilate request',
+        type:'nav-item',
+        link:'/request'
+    }
+]
 
 class HeaderLecturerPage extends Component {
 
@@ -19,12 +47,12 @@ class HeaderLecturerPage extends Component {
             <div>
                 <div>
                     {/* Top navigation */}
-                    <TopNavBar pageTitle={LECTURER_PAGE_TITLE} />
+                    <TopNavBar pageTitle={PAGE_TITLE} />
 
                     <div id="wrapper">
 
                         {/* Sidebar */}
-                        <LeftSideBar />
+                        <LeftSideBar navArr ={navArr} />
 
                         {/* Content */}
                         <HeaderLecturerPageContainer />

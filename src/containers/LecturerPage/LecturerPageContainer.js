@@ -9,12 +9,12 @@ class LecturerPageContainer extends Component {
         super(props);
         this.state = {
             isLoading: false,
-
+            subjectCode : "",
         };
     }
 
-    componentDidMount() {
-
+    componentDidMount(){
+        // Fetch API here with subject code 
     }
 
     // old : componentWillReceiveProps
@@ -23,10 +23,12 @@ class LecturerPageContainer extends Component {
         if (nextProps === prevState) {
             return null;
         }
+
         // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
         return {
             eventData: nextProps.eventData,
             file: nextProps.file,
+            subjectCode: nextProps.subjectCode,
         }
 
     }
@@ -38,13 +40,13 @@ class LecturerPageContainer extends Component {
             <div id="content-wrapper">
                
                 <div className="card content">
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Practical date</th>
                                 <th scope="col">Class</th>
-                                <th scope="col">Script import</th>
+                                <th scope="col">File import</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,10 +79,10 @@ class LecturerPageContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        statusCode: state.lecturerLeaderPage.statusCode,
-        isLoading: state.lecturerLeaderPage.isLoading,
-        message: state.lecturerLeaderPage.message,
-        error: state.lecturerLeaderPage.error,
+        statusCode: state.headerLecturerPage.statusCode,
+        isLoading: state.headerLecturerPage.isLoading,
+        message: state.headerLecturerPage.message,
+        error: state.headerLecturerPage.error,
     }
 }
 

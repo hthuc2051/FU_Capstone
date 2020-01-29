@@ -1,28 +1,6 @@
 import React, { Component } from 'react';
 import './sidebar.css';
 
-const navArr = [
-    {
-        title: 'Single Nav-item',
-        type: 'nav-item',
-        link: 'nav-item-link'
-    },
-    {
-        title: 'Dropdown-item',
-        type: 'drop-down',
-        link: 'nav-item-link',
-        dropDownArr: [
-            {
-                title: 'Dropdown item 1',
-                link: 'link for dropdown-item1'
-            },
-            {
-                title: 'Dropdown item 2',
-                link: 'link for dropdown-item1'
-            }
-        ]
-    }
-]
 
 class LeftSideBar extends Component {
     constructor(props) {

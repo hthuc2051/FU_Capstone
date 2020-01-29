@@ -27,7 +27,9 @@ i, a{
     min-width: 80px;
 }
 
-
+table{
+  text-align: center;
+}
 
 #container {
     margin: 10px;

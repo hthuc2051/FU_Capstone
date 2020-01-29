@@ -8,7 +8,7 @@ const initStage = {
     error: null,
 };
 
-const lecturerLeaderPage = (state = initStage, action) => {
+const headerLecturerPage = (state = initStage, action) => {
     console.log(action);
 
     switch (action.type) {
@@ -44,4 +44,4 @@ const lecturerLeaderPage = (state = initStage, action) => {
     }
 };
 
-export default lecturerLeaderPage;
+export default headerLecturerPage;

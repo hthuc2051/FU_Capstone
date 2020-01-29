@@ -1,4 +1,4 @@
-import HeaderLecturerPageContainer from './HeaderLecturerPage/LecturerLeaderPageContainer';
+import HeaderLecturerPageContainer from './HeaderLecturerPage/HeaderLecturerPageContainer';
 import CodePageContainer from './CodePage/CodePageContainer';
 import LecturerPageContainer from './LecturerPage/LecturerPageContainer';
 export {

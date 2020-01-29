@@ -149,7 +149,7 @@ class HeaderLecturerPageContainer extends Component {
                     <div className="loader"></div>
                 </div>
                 <nav className="question-nav">
-                    <div className="d-flex justify-content-between" id="nav-tab" role="tablist">
+                    <div id="nav-tab" role="tablist">
                         <div className="nav nav-tabs ">
                             <div id="question-tab" className="nav">
                                 <a className="nav-item nav-link active" id="question1"
@@ -164,9 +164,6 @@ class HeaderLecturerPageContainer extends Component {
                                 <i className="fa fa-plus" />
                             </button>
                         </div>
-                        <button className="btn btn-success" style={{ float: 'right', maxHeight:'42px' }} onClick={this.onDownLoad}>
-                            <i className="fa fa-download" style={{ fontSize: '22px' }}></i>
-                        </button>
                     </div>
 
                 </nav>
@@ -189,12 +186,12 @@ class HeaderLecturerPageContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        statusCode: state.lecturerLeaderPage.statusCode,
-        isLoading: state.lecturerLeaderPage.isLoading,
-        message: state.lecturerLeaderPage.message,
-        error: state.lecturerLeaderPage.error,
-        eventData: state.lecturerLeaderPage.eventData,
-        file: state.lecturerLeaderPage.file,
+        statusCode: state.headerLecturerPage.statusCode,
+        isLoading: state.headerLecturerPage.isLoading,
+        message: state.headerLecturerPage.message,
+        error: state.headerLecturerPage.error,
+        eventData: state.headerLecturerPage.eventData,
+        file: state.headerLecturerPage.file,
     }
 }
 

@@ -122,7 +122,7 @@ class Variable extends Component {
 
 const mapStateToProps = state => {
     return {
-        eventData: state.lecturerLeaderPage.eventData,
+        eventData: state.headerLecturerPage.eventData,
     }
 }
 
