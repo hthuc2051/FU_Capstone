@@ -1,16 +1,21 @@
 import React from 'react';
-import { LoginPage, LecturerLeaderPage, AdminPage,CodePage } from './pages/index';
+import { LoginPage, HeaderLecturerPage, AdminPage, CodePage, LecturerPage } from './pages/index';
 
 const routes = [
     {
-        path: '/lecturer-leader',
+        path: '/header-lecturer',
         exact: false,
-        main: () => <LecturerLeaderPage />
+        main: () => <HeaderLecturerPage />
     },
     {
         path: '/login',
         exact: false,
         main: () => <LoginPage />
+    },
+    {
+        path: '/lecturer',
+        exact: false,
+        main: () => <LecturerPage />
     },
     {
         path: '/admin',
@@ -22,7 +27,6 @@ const routes = [
         exact: false,
         main: () => <CodePage />
     }
-
 ];
 
 export default routes;

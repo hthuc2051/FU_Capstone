@@ -87,6 +87,9 @@ class Variable extends Component {
 
     renderOptions = (label) => {
         let { eventData } = this.state;
+        if(eventData === null){
+            return;
+        }
         let options;
         if (label == AppConstant.LABEL_STEP) {
             options = eventData.map((item, index) =>

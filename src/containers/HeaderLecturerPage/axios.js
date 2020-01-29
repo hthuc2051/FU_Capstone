@@ -17,7 +17,6 @@ export const creatTestScript = async (testScript, dispatch) => {
 }
 
 const handleResponse = async (response, action, dispatch) => {
-    console.log(response);
     let status = response.status;
     switch (status) {
         case 200:

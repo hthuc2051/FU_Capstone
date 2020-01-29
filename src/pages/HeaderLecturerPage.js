@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { LeftSideBar, TopNavBar,Footer } from './../components/index';
-import { LecturerLeaderPageContainer } from '../containers/index';
+import { LeftSideBar, TopNavBar,Footer } from '../components/index';
+import { HeaderLecturerPageContainer } from '../containers/index';
 import './style.css';
 
 const LECTURER_PAGE_TITLE = 'Lecturer page';
 
-class LecturerLeaderPage extends Component {
+class HeaderLecturerPage extends Component {
 
     constructor(props) {
         super(props);
@@ -27,7 +27,7 @@ class LecturerLeaderPage extends Component {
                         <LeftSideBar />
 
                         {/* Content */}
-                        <LecturerLeaderPageContainer />
+                        <HeaderLecturerPageContainer />
                     </div>
                 </div>
                 {/* <Footer/> */}
@@ -36,5 +36,5 @@ class LecturerLeaderPage extends Component {
     }
 }
 
-export default LecturerLeaderPage;
+export default HeaderLecturerPage;
 

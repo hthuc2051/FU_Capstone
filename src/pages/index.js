@@ -1,10 +1,12 @@
 import LoginPage from './LoginPage';
-import LecturerLeaderPage from './LecturerLeaderPage';
+import HeaderLecturerPage from './HeaderLecturerPage';
 import AdminPage from './AdminPage';
 import CodePage from './CodePage';
+import LecturerPage from './LecturerPage';
 export {
     LoginPage,
-    LecturerLeaderPage,
+    HeaderLecturerPage,
     AdminPage,
     CodePage,
+    LecturerPage,
 }

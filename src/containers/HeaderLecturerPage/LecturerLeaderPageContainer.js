@@ -8,8 +8,9 @@ import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 const QUESTION = "question";
 const QUESTION_UPPER = "Question";
-class LecturerPageContainer extends Component {
+class HeaderLecturerPageContainer extends Component {
 
+    // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
 
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ class LecturerPageContainer extends Component {
                 questions: [{
                     data: tempScript.scriptObj,
                     testcase: 'question1',
-                    code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
+                    code:'',
                 }]
             },
             count: 2,
@@ -163,7 +164,7 @@ class LecturerPageContainer extends Component {
                                 <i className="fa fa-plus" />
                             </button>
                         </div>
-                        <button className="btn btn-success" style={{ float: 'right' }} onClick={this.onDownLoad}>
+                        <button className="btn btn-success" style={{ float: 'right', maxHeight:'42px' }} onClick={this.onDownLoad}>
                             <i className="fa fa-download" style={{ fontSize: '22px' }}></i>
                         </button>
                     </div>
@@ -211,5 +212,5 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LecturerPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderLecturerPageContainer);
 
