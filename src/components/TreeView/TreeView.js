@@ -18,7 +18,7 @@ export default class Treeview extends Component {
       appType: 'WEB'
     }
   }
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     let { appType } = this.props;
     this.setState({
       appType: appType,

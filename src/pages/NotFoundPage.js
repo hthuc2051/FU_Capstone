@@ -4,7 +4,7 @@ const PAGE_TITLE = "Not found page"
 
 class NotFoundPage extends Component {
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         document.title = PAGE_TITLE;
     }
     render() {
