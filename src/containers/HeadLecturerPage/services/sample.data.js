@@ -1,6 +1,7 @@
 
 
-import * as Constant from './../../constants/AppConstants';
+import * as Constant from './../../../constants/AppConstants';
+
 export default class ScriptObject{
   constructor(){
 

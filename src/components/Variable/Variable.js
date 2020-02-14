@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './style.css';
 import * as AppConstant from '../../constants/AppConstants';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 const arrOptions = ['Boolean', 'Char', 'Integer', 'Float', 'Double', 'String'];
 const arrEvents = ['findViewById', 'findViewByName'];
@@ -13,7 +13,7 @@ class Variable extends Component {
             label: "",
             paramObj: null,
             parent: null,
-            index: null,
+            index: 1,
             selectedType: 'String',
             txtName: "",
             txtValue: "",
@@ -23,10 +23,10 @@ class Variable extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         let { paramObj, appType, parent, index, eventData } = nextProps;
+        console.log(nextProps);
         if (nextProps.eventData === prevState.eventData) {
             return null;
         }
-
         return {
             eventData: eventData,
             paramObj: paramObj,
@@ -45,9 +45,9 @@ class Variable extends Component {
             [name]: target.value
         });
     }
+
     doneEdit = () => {
         let { paramObj, selectedType, txtName, txtValue } = this.state;
-
         paramObj.type = selectedType;
         paramObj.name = txtName;
         paramObj.value = txtValue;
@@ -61,6 +61,7 @@ class Variable extends Component {
         let { txtName, txtValue } = this.state;
         let { label } = this.props;
         let { paramObj } = this.props;
+        console.log(paramObj);
         return (
             <div className="variable-item">
                 <label>{paramObj.label}</label>
@@ -78,8 +79,8 @@ class Variable extends Component {
                     </div>
                 </div>
                 <div className="action-tab">
-                    <button type="button" className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.doneEdit() }} >Save</button>
-                    <button type="button" className="btn btn-danger" onClick={(e) => { e.stopPropagation(); this.closeForm() }}>Discard</button>
+                    <button type="button" className="btn btn-success" onClick={this.doneEdit } >Save</button>
+                    <button type="button" className="btn btn-danger" onClick={this.closeForm }>Discard</button>
                 </div>
             </div>
         );
@@ -110,7 +111,6 @@ class Variable extends Component {
                 </option>
             );
         }
-
         return (
             <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.onChange}>
                 {options}
@@ -120,14 +120,8 @@ class Variable extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        eventData: state.headerLecturerPage.eventData,
-    }
-}
 
-
-export default connect(mapStateToProps, null)(Variable);
+export default Variable;
 
 
 

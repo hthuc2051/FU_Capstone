@@ -9,11 +9,11 @@ class LecturerPageContainer extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            subjectCode : "",
+            subjectCode: "",
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         // Fetch API here with subject code 
     }
 
@@ -32,13 +32,14 @@ class LecturerPageContainer extends Component {
         }
 
     }
-
+    onDownload = (id) => {
+        window.open("http://localhost:8080/api/templates/" + id);
+    }
 
     render() {
         let { isLoading } = this.state;
         return (
             <div id="content-wrapper">
-               
                 <div className="card content">
                     <table className="table">
                         <thead>
@@ -54,20 +55,20 @@ class LecturerPageContainer extends Component {
                                 <th scope="row">1</th>
                                 <td>25-02-2020</td>
                                 <td>SE1268</td>
-                                <td><a href="#">Download</a></td>
+                                <td><a onClick={() => this.onDownload('5')} href="#">Download</a></td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
                                 <td>25-03-2020</td>
                                 <td>SE1267</td>
-                                <td><a href="#">Download</a></td>
+                                <td><a onClick={() => this.onDownload('5')} href="#">Download</a></td>
 
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
                                 <td>25-04-2020</td>
                                 <td>SE1269</td>
-                                <td><a href="#">Download</a></td>
+                                <td><a onClick={() => this.onDownload('5')} href="#">Download</a></td>
                             </tr>
                         </tbody>
                     </table>

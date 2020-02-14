@@ -10,7 +10,11 @@ export default class Treeview extends Component {
     this.state = {
       data: scriptObj,
       editableNode: '',
-      expectedResult: scriptObj.expectedResult,
+      expectedResult: {
+        type: 'String',
+        value: 'admin',
+        editMode: false,
+      },
       appType: 'WEB'
     }
   }
@@ -110,7 +114,7 @@ export default class Treeview extends Component {
         <form className="node_edit_form">
           <Variable
             label={label}
-            paramObj={paramObj}
+            // paramObj={paramObj}
             appType='Web'
             parent={parent}
             index={index}
@@ -120,6 +124,18 @@ export default class Treeview extends Component {
         </form>
       </div>
     )
+  }
+  
+  addChild = (node) => {
+    node.showChildren = true;
+    node.children.push({
+      name: '',
+      exportValue: '',
+      showChildren: false,
+      editMode: true,
+      children: []
+    });
+    this.setState({ node });
   }
 
   makeChildren = (node) => {
@@ -136,6 +152,7 @@ export default class Treeview extends Component {
           <div className="node">
             <i className="fa fa-minus-square-o"></i>{paramObj.name}
             <span className="actions">
+              <i className="fa fa-plus" onClick={(e)=> { e.stopPropagation(); this.addChild('value') }}> </i>
               <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
               <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
             </span>

@@ -17,22 +17,22 @@ class LeftSideBar extends Component {
             <ul className="sidebar navbar-nav">
                 {navArr ? this.renderNavArr(navArr) : ''}
             </ul>
-
         );
-
     }
     renderNavArr = (navArr) => {
+        console.log(navArr.length);
         let result = [];
         if (navArr !== null && navArr.length > 0) {
             result = navArr.map((item, index) => {
-                if (item.type === 'drop-down') {
+                if (item.type === "drop-down") {
+                console.log(item);
                     return (
                         <li key={index} className="nav-item dropdown show">
                             <a className="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="true">
                                 <span>{item.title}</span>
                             </a>
-                            <div className="dropdown-menu show" aria-labelledby="pagesDropdown" x-placement="bottom-start"
+                            <div className="dropdown-menu" aria-labelledby="pagesDropdown" x-placement="bottom-start"
                             >
                                 {this.renderDropDownItems(item.dropDownArr)}
                             </div>

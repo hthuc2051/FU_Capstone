@@ -1,0 +1,56 @@
+.page-wrapper{
+  width: 100%;
+  min-height: 500px;
+}
+#content-wrapper{
+    background: #f6f8fa;
+    overflow-y: scroll;
+    max-height: 500px;
+}
+.script-name{
+  margin-bottom: 20px;
+}
+
+.tab-content, .tab-panel{
+    width: 100%;
+    height: 100%;
+}
+.tab-content{
+    padding: 15px;
+}
+.tab-panel{
+    background: white;
+}
+.question-nav{
+    margin: 0 15px;
+    background: white;
+    padding: 15px;
+}
+.nav-tabs .nav-link {
+    border-color: #e9ecef #e9ecef #dee2e6;
+}
+
+/**  STYLE 11 */
+#content-wrapper::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+} 
+#content-wrapper::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: rgba(0,0,0,0.1);
+  border: 1px solid #ccc;
+}
+
+#content-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: linear-gradient(to left, #aaa, #e4e4e4);
+  border: 1px solid #aaa;
+}
+
+#content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #fff;
+}
+
+#content-wrapper::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(to left, #22ADD4, #1E98BA);
+}

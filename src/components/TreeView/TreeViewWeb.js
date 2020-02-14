@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import scriptObj from './sample.data.js';
 import './style.css';
 import { Variable } from '../index.js';
 import * as Constant from '../../constants/AppConstants';
-import { connectAdvanced } from 'react-redux';
-export default class TreeViewWeb extends Component {
+class TreeViewWeb extends Component {
 
   constructor(props) {
     super(props);
@@ -25,23 +23,25 @@ export default class TreeViewWeb extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
+
     if (nextProps.eventData === prevState.eventData && nextProps.eventData !== null) {
       return null;
     }
-    if(nextProps.question !== null){
-      if(document.getElementById('txtMethodName') !== null){
-        document.getElementById('txtMethodName') .value = nextProps.question.data.methodName;
+
+    if (nextProps.question !== null) {
+      if (document.getElementById('txtMethodName') !== null) {
+        document.getElementById('txtMethodName').value = nextProps.question.data.methodName;
       }
       return {
-        data: nextProps.question.data, 
+        data: nextProps.question.data,
         question: nextProps.question,
         expectedResult: nextProps.question.data.expectedResult,
         expectedResultText: nextProps.question.data.expectedResult.value,
         listInputParam: nextProps.question.data.params[0].children,
         listStep: nextProps.question.data.params[1].children,
+        eventData : nextProps.eventData,
       }
-    
+
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
     return { eventData: nextProps.eventData }
@@ -81,7 +81,7 @@ export default class TreeViewWeb extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
-    if (typeof(paramObj) === undefined) { return; }
+    if (typeof (paramObj) === undefined) { return; }
     if (paramObj.name !== '' && paramObj.exportValue !== '') {
       paramObj.type = this.state.editableNode.type;
       paramObj.name = this.state.editableNode.name;
@@ -97,12 +97,12 @@ export default class TreeViewWeb extends Component {
   }
 
   doneEdit = (paramObj) => {
+
     if (paramObj.value == '') {
-      //not add node into tree
       window.alert("Please Insert All The Input Fields")
     } else {
       paramObj.editMode = false;
-      this.setState({ paramObj }, () => {this.saveTestCase();});
+      this.setState({ paramObj }, () => { this.saveTestCase(); });
       if (paramObj.label == undefined) {
         this.setState({ expectedResultText: paramObj.value });
       }
@@ -140,6 +140,7 @@ export default class TreeViewWeb extends Component {
             appType='Web'
             parent={parent}
             index={index}
+            eventData = {eventData}
             doneEdit={this.doneEdit}
             closeForm={this.closeForm}
           />
@@ -147,7 +148,19 @@ export default class TreeViewWeb extends Component {
       </div>
     )
   }
-
+  addChild = (node) => {
+    node.showChildren = true;
+    node.children.push({
+      label: Constant.LABEL_PARAM,
+      type: 'String',
+      name: 'string',
+      value: 'null',
+      showChildren: false,
+      editMode: false,
+      children: []
+    });
+    this.setState({ node });
+  }
   makeChildren = (node) => {
     if (typeof node === 'undefined' || node.length === 0) return null;
     let children;
@@ -189,6 +202,7 @@ export default class TreeViewWeb extends Component {
         let normalMode = (
           <div className="node"><i className="fa fa-square-o"></i>{paramObj.type}-{paramObj.name}-{paramObj.value}
             <span className="actions">
+              <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
               <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
               <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
             </span>
@@ -225,7 +239,7 @@ export default class TreeViewWeb extends Component {
 
   editMethodName = () => {
     let method = this.txtMethodName.current.value.replace(/\s/g, '').trim();
-    let {data} = this.state;
+    let { data } = this.state;
     if (method !== '') {
       data.methodName = method;
       this.setState({ data });
@@ -271,7 +285,7 @@ export default class TreeViewWeb extends Component {
       <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
-            <input  type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
+            <input type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
             <ul>
               <li>
                 <div className="node"><i className="fa fa-minus-square-o"></i>Expected Result</div>
@@ -306,6 +320,5 @@ export default class TreeViewWeb extends Component {
       </div>
     );
   }
-
-
 }
+export default TreeViewWeb;

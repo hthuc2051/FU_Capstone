@@ -1,52 +1,49 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Treeview, TreeViewWeb } from '../../components/index';
-import * as Constants from '../constants';
-import { onLoading } from './actions';
-import { fetchEventsData, creatTestScript } from './axios';
-import scriptObj from '../../components/TreeView/sample.data';
-import './style.css';
+import { TreeViewWeb } from './../../../components/index';
+import scriptObj from './sample.data';
+import '../style.css';
+
 const QUESTION = "question";
 const QUESTION_UPPER = "Question";
-class HeaderLecturerPageContainer extends Component {
 
+class CreateTestScript extends Component {
     // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
-
     constructor(props) {
         super(props);
         var tempScript = new scriptObj();
         this.state = {
             isLoading: false,
+            pageType: '',
             eventData: null,
             questionArr: {
                 name: 'test1',
                 questions: [{
                     data: tempScript.scriptObj,
                     testcase: 'question1',
-                    code:'',
+                    code: '',
                 }]
             },
+            scriptName: '',
             count: 2,
             selectedTab: 0,
         };
     }
     componentDidMount() {
-        this.props.fetchEvents();
+
+        // this.props.fetchEvents();
     }
 
-    // old : componentWillReceiveProps
     static getDerivedStateFromProps(nextProps, prevState) {
-        // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
         if (nextProps === prevState) {
             return null;
         }
-        // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
         return {
             eventData: nextProps.eventData,
             file: nextProps.file,
+            pageType: nextProps.pageType,
         }
-
     }
+
     onSave = (question) => {
         let { questionArr } = this.state;
         let isExisted = false;
@@ -61,10 +58,7 @@ class HeaderLecturerPageContainer extends Component {
             questionArr.questions.push(question);
         }
         this.setState({ questionArr });
-    }
 
-    onDownLoad = () => {
-        window.open("http://localhost:8080/api/download");
     }
 
     createTestScript = () => {
@@ -74,7 +68,9 @@ class HeaderLecturerPageContainer extends Component {
             let question = { testcase: questionArr.questions[i].testcase, code: questionArr.questions[i].code };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr);
+        // Save here
+        console.log(questionArr);
+        // this.props.saveTestScript(newQuestionArr);
     }
 
     // click Add question button
@@ -142,72 +138,52 @@ class HeaderLecturerPageContainer extends Component {
     }
 
     render() {
-        let { isLoading, eventData } = this.state;
+        let { isLoading, eventData, pageType } = this.state;
         return (
-            <div id="content-wrapper">
-                <div className={isLoading ? 'loading' : 'none-loading'}>
-                    <div className="loader"></div>
-                </div>
-                <nav className="question-nav">
-                    <div id="nav-tab" role="tablist">
-                        <div className="nav nav-tabs ">
-                            <div id="question-tab" className="nav">
-                                <a className="nav-item nav-link active" id="question1"
-                                    data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView("question1") }} href="#panel1" role="tab" aria-controls="nav-home" aria-selected="true">
-                                    Question 1&nbsp;
+            <div>
+                <div id="content-wrapper">
+                    <div className={isLoading ? 'loading' : 'none-loading'}>
+                        <div className="loader"></div>
+                    </div>
+                    <nav className="question-nav">
+                        <input type="text" name="txtScriptName" className="form-control script-name" placeholder="Script's name" />
+                        <div id="nav-tab" role="tablist">
+                            <div className="nav nav-tabs ">
+                                <div id="question-tab" className="nav">
+                                    <a className="nav-item nav-link active" id="question1"
+                                        data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView("question1") }} href="#panel1" role="tab" aria-controls="nav-home" aria-selected="true">
+                                        Question 1&nbsp;
                                 <button className="closeQuestionTab" onClick={(e) => { e.stopPropagation(); this.closeQuestionTab(QUESTION + "1", "1") }}>
-                                        <i className="fa fa-close" />
-                                    </button>
-                                </a>
+                                            <i className="fa fa-close" />
+                                        </button>
+                                    </a>
+                                </div>
+                                <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab("question1") }}>
+                                    <i className="fa fa-plus" />
+                                </button>
                             </div>
-                            <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab("question1") }}>
-                                <i className="fa fa-plus" />
-                            </button>
                         </div>
-                    </div>
 
-                </nav>
-                <div className="tab-content" id="nav-tabContent">
-                    <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
-                        <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} />
-                        <div className="tab-create">
-                        <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
-                            <i className="fa fa-plus" />
-                            &nbsp;CREATE TEST SCRIPT
+                    </nav>
+                    <div className="tab-content" id="nav-tabContent">
+                        <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
+                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} />
+                            <div className="tab-create">
+                                <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
+                                    <i className="fa fa-plus" />
+                                    &nbsp;CREATE TEST SCRIPT
                          </button>
+                            </div>
+                        </div>
+
                     </div>
-                    </div>
-                    
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        statusCode: state.headerLecturerPage.statusCode,
-        isLoading: state.headerLecturerPage.isLoading,
-        message: state.headerLecturerPage.message,
-        error: state.headerLecturerPage.error,
-        eventData: state.headerLecturerPage.eventData,
-        file: state.headerLecturerPage.file,
-    }
-}
 
-const mapDispatchToProps = (dispatch, props) => {
-    return {
-        onLoading: () => {
-            dispatch(onLoading(Constants.FETCH_EVENTS + Constants.PREFIX_LOADING));
-        },
-        fetchEvents: () => {
-            fetchEventsData(dispatch);
-        },
-        saveTestScript: (testScript) => {
-            creatTestScript(testScript, dispatch);
-        }
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderLecturerPageContainer);
+export default CreateTestScript;
 

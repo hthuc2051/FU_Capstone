@@ -1,47 +1,58 @@
-import React from 'react';
-import { LoginPage, HeaderLecturerPage, AdminPage, CodePage, LecturerPage,NotFoundPage } from './pages/index';
+import { LoginPage, HeadLecturerPage, AdminPage, CodePage, 
+    LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage } from './pages/index';
 
 const routes = [
     {
-        path: '/header-lecturer',
-        exact: false,
-        main: HeaderLecturerPage
+        path: '/login',
+        exact: true,
+        main: LoginPage
+    },
+    // Head lecturer,
+    {
+        path: '/subjects/:subjectId/scripts',
+        exact: true,
+        main: ListScriptsPage
     },
     {
-        path: '/login',
+        path: '/subjects/:subjectId/scripts/create',
         exact: false,
-        main: LoginPage 
+        main: CreateScriptPage
+    },
+    {
+        path: '/subjects/:subjectId/practical-exams',
+        exact: true,
+        main: ListPracticalExamsPage
+    },
+    {
+        path: '/subjects/:subjectId/practical-exams/create',
+        exact: false,
+        main: ListPracticalExamsPage
     },
     // Lecturer
     {
         path: '/lecturer',
         exact: true,
-        main: LecturerPage 
+        main: LecturerPage
     },
     {
-        path: '/lecturer/:id/subject',
+        path: '/subjects/:id/:subjectName',
         exact: true,
-        main: LecturerPage 
-    },
-    {
-        path: '/lecturer/:id/subject/:subjectCode',
-        exact: false,
-        main: LecturerPage 
+        main: LecturerPage
     },
     {
         path: '/lecturer/:id/invigilate-request',
         exact: false,
-        main: LecturerPage 
+        main: LecturerPage
     },
     {
         path: '/admin',
         exact: true,
-        main: AdminPage 
+        main: AdminPage
     },
     {
         path: '/admin/action',
         exact: false,
-        main: CodePage 
+        main: CodePage
     },
     {
         path: '/not-found',

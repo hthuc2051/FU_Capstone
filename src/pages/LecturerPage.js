@@ -4,27 +4,7 @@ import { LecturerPageContainer } from './../containers/index';
 import './style.css';
 const CODE_PAGE_TITLE = 'Lecturer page';
 
-const navArr = [
-    {
-        title: 'Dashboard',
-        type: 'nav-item',
-        link: '/lecturer'
-    },
-    {
-        title: 'Practical subjects',
-        type: 'drop-down',
-        link: '/lecturer/1/subjects',
-        dropDownArr: [
-            {
-                title: 'C#',
-                link: '/lecturer/1/subject/csharp'
-            },
-            {
-                title: 'Java',
-                link: '/lecturer/1/subject/java'
-            }
-        ]
-    },
+let navArr = [
     {
         title: 'Invigilate request',
         type: 'nav-item',
@@ -36,8 +16,39 @@ const navArr = [
 
 class LecturerPage extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            navArr: navArr,
+        };
+    }
+
+    componentDidMount() {
+        // let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        // let { navArr } = this.state;
+        // if (typeof (userInfo) !== 'undefined') {
+        //     let subjects = userInfo.subjects;
+        //     navArr[1].subjectsDropDownArr = this.createDropDownArr(userInfo.id, subjects);
+        // }
+        // this.setState({navArr});
+    }
+
+    createDropDownArr = (userId, subjects) => {
+        // let result = [];
+        // if (subjects && subjects.length > 0) {
+        //     subjects.map((subject) => {
+        //         result.push({
+        //             title: subject.name,
+        //             link: '/lecturer/' + userId + '/subjects/' + subject.id + '/' + subject.name
+        //         })
+        //     })
+        // }
+        // return result;
+    }
+
     render() {
         let { subjectCode } = this.props.match.params;
+        let {navArr}  = this.state;
         return (
             <div>
                 <div>
