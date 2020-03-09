@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Combobox from 'react-widgets/lib/Combobox'
-import 'react-widgets/dist/css/react-widgets.css';
 
 
 class ModalEditPracticalExam extends Component {
@@ -52,12 +50,7 @@ class ModalEditPracticalExam extends Component {
                                     <input readOnly={true} type="password" className="form-control" id="date" placeholder="Date" />
                                 </div>
                                 <div className="form-group">
-                                    <Combobox
-                                        data={lecturers}
-                                        defaultValue={lecturers[0]}
-                                        // onChange={this.onChangeCombobox}
-                                        onSelect={this.onChangeCombobox}
-                                    />
+                                    
                                 </div>
 
                             </form>
