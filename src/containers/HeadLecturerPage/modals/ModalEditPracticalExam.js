@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 
 class ModalEditPracticalExam extends Component {
@@ -9,36 +10,74 @@ class ModalEditPracticalExam extends Component {
         super(props);
         this.state = {
             practicalExam: null,
+            subjects: [],
+            classes: [],
+            isEdit: false,
+            checkedItems: new Map(),
         };
     }
 
 
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        console.log(nextProps);
         if (nextProps === prevState) {
             return null;
         }
         return {
-            practicalExam: nextProps.practicalExam,
+            subjects: nextProps.subjects,
+            classes: nextProps.classes,
+            practicalExam: nextProps.editObj,
+            isEdit: nextProps.isEdit,
         }
     }
     onChangeCombobox = (value, index) => {
 
     }
 
+    handleChange = (e)=> {
+        let { checkedItems } = this.state;
+        const id = e.target.name;
+        const isChecked = e.target.checked;
+        checkedItems.set(id, isChecked);
+        console.log(checkedItems);
+        this.setState({
+            checkedItems: checkedItems,
+        })
+    }
+
+    onCloseDetails = () => {
+        this.setState({
+            isEdit: false,
+        })
+        this.props.onCloseDetails(false);
+    }
+
     render() {
-        let { practicalExam } = this.state;
+        let { practicalExam, classes,checkedItems, isEdit } = this.state;
+        console.log(checkedItems);
         let lecturers = practicalExam ? practicalExam.lecturers : [];
+        let modalClass = isEdit ? "modal" : "modal fade";
+        let modalStyle = isEdit ? "block" : "";
+        console.log(isEdit);
         return (
-            <div className="modal fade" id="exampleModalCenter" tabIndex={-1} role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className={modalClass} style={{ display: modalStyle }} id="exampleModalCenter" tabIndex={-1} role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">Edit Practical exam</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <button onClick={this.onCloseDetails} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
+                        {
+                            classes.map((item, index) => (
+                                <label key={index}>
+                                    {item.classCode}
+                                    <Checkbox name={item.id} checked={checkedItems.get(item.id)} onChange={this.handleChange} />
+                                </label>
+                            ))
+                        }
                         <div className="modal-body">
                             <form>
                                 <div className="form-group">
@@ -50,7 +89,7 @@ class ModalEditPracticalExam extends Component {
                                     <input readOnly={true} type="password" className="form-control" id="date" placeholder="Date" />
                                 </div>
                                 <div className="form-group">
-                                    
+
                                 </div>
 
                             </form>
@@ -66,7 +105,16 @@ class ModalEditPracticalExam extends Component {
     }
 }
 
+const Checkbox = ({ type = 'checkbox', name, checked, onChange }) => (
+    <input type={type} name={name} checked={checked} onChange={onChange} />
+);
 
+const mapStateToProps = (state) => {
+    return {
+        subjects: state.headerLecturerPage.subjects,
+        classes: state.headerLecturerPage.classes,
+    }
+}
 
-export default ModalEditPracticalExam;
+export default connect(mapStateToProps, null)(ModalEditPracticalExam);
 

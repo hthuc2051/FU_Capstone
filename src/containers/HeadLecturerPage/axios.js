@@ -9,10 +9,21 @@ export const fetchEventsData = async (dispatch) => {
     }
 }
 
-export const creatTestScript = async (testScript, dispatch) => {
+export const createTestScript = async (testScript, dispatch) => {
     let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, testScript, null);
     if (res != null) {
         handleResponse(res, Constants.END_POINT_POST_TESTSCRIPT, dispatch);
+    }
+}
+
+export const fetchPracticalExams = async (subjectId, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_SUBJECTS,
+        subjectId,
+        Constants.END_POINT_PRACTICAL_EXAMS);
+    let res = await callApi(endPoint);
+    if (res != null) {
+        handleResponse(res, Constants.FETCH_PRACTICAL_EXAMS, dispatch);
     }
 }
 

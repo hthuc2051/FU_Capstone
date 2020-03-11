@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import ModalEditPracticalExam from '../modals/ModalEditPracticalExam';
 import '../style.css';
-
+import * as Constants from '../../constants';
+import { onLoading } from '../actions';
+import { fetchPracticalExams } from '../axios';
 let lecturers = ['HauDV - Đoàn Văn Hậu', 'PhuongNC - Nguyễn Công Phượng', 'HaiNQ - Nguyễn Quang Hải']
 
 
@@ -11,99 +14,143 @@ class ListPracticalExams extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            practicalExamArr: [],
-            practicalExam: null,
+            practicalExams: [],
+            editObj: null,
+            isEdit: false,
         };
     }
 
     componentDidMount() {
         // Fetch API here with subject code 
+        this.props.onFetchPracticalExams(1);
     }
-    viewDetails = (id) =>{
-        let practicalExam = {
-            code: 'Java_SE1269_14_02_2020_030013',
-            time: '25-03-2020',
-            lecturers:lecturers,
-        }
+    viewDetails = (id) => {
+
+        let {practicalExams} = this.state;
+        let obj = practicalExams.find( item => item.id === id );
         this.setState({
-            practicalExam: practicalExam,
+            isEdit: true,
+            editObj: obj,
         })
         // Open modal
     }
-    onDelete = (id) =>{
+    onDelete = (id) => {
         // Open modal
     }
-    onUpdate = (id) =>{
+    onUpdate = (id) => {
         // Open modal
+    }
+    onCloseDetails = (isEdit) => {
+        this.setState({
+            isEdit: isEdit,
+        })
     }
 
     // old : componentWillReceiveProps
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     // nếu props mới vào mà giống state cũ thì k thay đổi gì cả
-    //     if (nextProps === prevState) {
-    //         return null;
-    //     }
-
-    //     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
-    //     return {
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps === prevState) {
+            return null;
+        }
+        // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
+        return {
            
-    //     }
+            practicalExams: nextProps.practicalExams,
+            isLoading: nextProps.isLoading,
 
-    // }
+        }
+    }
 
+
+    renderPracticalExams = (arr) => {
+        let result = null;
+        if (arr.length > 0) {
+            result = arr.map((item, index) => {
+                return (
+                    <tr key={(index + 1)} >
+                        <th scope="row">{(index + 1)}</th>
+                        <td>{item.code}</td>
+                        <td>{item.date}</td>
+                        <td>{item.state}</td>
+                        <td><button
+                            type="button" className="btn btn-danger"
+                            onClick={() => this.onDelete(item.id)}>Delete</button></td>
+                        <td><button
+                            type="button" className="btn btn-info"
+                            onClick={() => this.viewDetails(item.id)}>Details</button></td>
+                    </tr>
+                )
+            });
+        }
+        return result;
+    }
 
     render() {
-        let { practicalExam } = this.state;
+        let { practicalExams, editObj, isEdit } = this.state;
+        console.log(practicalExams);
         return (
             <div id="content-wrapper">
+                <nav className="question-nav">
+                    <div className="input-field">
+                        <div className="icon-wrap">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={20} height={20} viewBox="0 0 20 20">
+                                <path d="M18.869 19.162l-5.943-6.484c1.339-1.401 2.075-3.233 2.075-5.178 0-2.003-0.78-3.887-2.197-5.303s-3.3-2.197-5.303-2.197-3.887 0.78-5.303 2.197-2.197 3.3-2.197 5.303 0.78 3.887 2.197 5.303 3.3 2.197 5.303 2.197c1.726 0 3.362-0.579 4.688-1.645l5.943 6.483c0.099 0.108 0.233 0.162 0.369 0.162 0.121 0 0.242-0.043 0.338-0.131 0.204-0.187 0.217-0.503 0.031-0.706zM1 7.5c0-3.584 2.916-6.5 6.5-6.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5-6.5-2.916-6.5-6.5z" />
+                            </svg>
+                        </div>
+                        <input id="search" type="text" placeholder="Search..." />
+                    </div>
+                </nav>
+                <br />
                 <div className="card content">
+                    <div className="table-title">
+                        <div className="row">
+                            <div className="col-sm-12">
+                                <button type="button" className="btn btn-primary add-new"><i className="fa fa-plus" /> Add New</button>
+                            </div>
+                        </div>
+                    </div>
                     <table className="table">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Pracical exam code</th>
+                                <th scope="col">Code</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">Details</th>
+                                <th scope="col">State</th>
                                 <th scope="col">Delete</th>
-                                <th scope="col">Update</th>
+                                <th scope="col">Details</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Practical_Java_SE1268</td>
-                                <td>25-03-2020</td>
-                                <td><a data-toggle="modal" data-target="#exampleModalCenter" onClick={() => this.viewDetails('5')} href="#">Details</a></td>
-                                <td><a  onClick={() => this.onDelete('5')} href="#">Delete</a></td>
-                                <td><a onClick={() => this.onUpdate('5')} href="#">Update</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Practical_Java_SE1268</td>
-                                <td>25-03-2020</td>
-                                <td><a  onClick={() => this.viewDetails('5')} href="#">Details</a></td>
-                                <td><a onClick={() => this.onDelete('5')} href="#">Delete</a></td>
-                                <td><a onClick={() => this.onUpdate('5')} href="#">Update</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Practical_Java_SE1268</td>
-                                <td>25-03-2020</td>
-                                <td><a  onClick={() => this.viewDetails('5')} href="#">Details</a></td>
-                                <td><a onClick={() => this.onDelete('5')} href="#">Delete</a></td>
-                                <td><a onClick={() => this.onUpdate('5')} href="#">Update</a></td>
-                            </tr>
+                            {practicalExams ? this.renderPracticalExams(practicalExams) : 'No content'}
                         </tbody>
                     </table>
                 </div>
                 {/* For modal */}
-                {practicalExam ? <ModalEditPracticalExam practicalExam ={practicalExam} />:''}
+                {/* <ModalEditPracticalExam/> */}
+                {isEdit ? <ModalEditPracticalExam isEdit={isEdit} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+
             </div>
         );
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        isLoading: state.headerLecturerPage.isLoading,
+        message: state.headerLecturerPage.message,
+        error: state.headerLecturerPage.error,
+        practicalExams: state.headerLecturerPage.practicalExams,
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onLoading: () => {
+            dispatch(onLoading(Constants.FETCH_PRACTICAL_EXAMS + Constants.PREFIX_LOADING));
+        },
+        onFetchPracticalExams: (subjectId) => {
+            fetchPracticalExams(subjectId, dispatch);
+        }
+    }
+}
 
-
-export default ListPracticalExams;
+export default connect(mapStateToProps, mapDispatchToProps)(ListPracticalExams);
 

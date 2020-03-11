@@ -7,11 +7,11 @@ export const onLoading = (action) => {
     }
 }
 
-export const is2xx = (statusCode, action, eventData) => {
+export const is2xx = (statusCode, action, data) => {
     return {
         statusCode: statusCode,
         type: action,
-        eventData: eventData,
+        data: data,
     }
 }
 

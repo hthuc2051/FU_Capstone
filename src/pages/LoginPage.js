@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './style.css';
-import {history} from './../App';
+import { history } from './../App';
 class LoginPage extends Component {
 
     constructor(props) {
@@ -10,10 +10,9 @@ class LoginPage extends Component {
         };
     }
     componentDidMount() {
-       
 
     }
-    onLogin = ()=>{
+    onLogin = () => {
 
         let userInfo = {
             id: "1",
@@ -32,9 +31,7 @@ class LoginPage extends Component {
         };
         console.log(JSON.stringify(userInfo));
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        history.push("/lecturer/1");
-
-        
+        history.push("/lecturer");
     }
     render() {
         return (

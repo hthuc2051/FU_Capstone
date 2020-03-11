@@ -5,7 +5,7 @@ import ListScripts from './services/ListScripts';
 import * as Constants from '../constants';
 import * as AppConstant from './../../constants/AppConstants';
 import { onLoading } from './actions';
-import { fetchEventsData, creatTestScript } from './axios';
+import { fetchEventsData, createTestScript } from './axios';
 import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 import CreateTestScript from './services/CreateTestScript';
@@ -28,7 +28,8 @@ class HeadLecturerPageContainer extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchEvents();
+        // this.props.fetchEvents();
+        // this.props.
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -37,7 +38,6 @@ class HeadLecturerPageContainer extends Component {
         }
         return {
             eventData: nextProps.eventData,
-            file: nextProps.file,
             pageType: nextProps.pageType,
         }
     }
@@ -62,7 +62,6 @@ const mapStateToProps = state => {
         message: state.headerLecturerPage.message,
         error: state.headerLecturerPage.error,
         eventData: state.headerLecturerPage.eventData,
-        file: state.headerLecturerPage.file,
     }
 }
 
@@ -75,7 +74,7 @@ const mapDispatchToProps = (dispatch, props) => {
             fetchEventsData(dispatch);
         },
         saveTestScript: (testScript) => {
-            creatTestScript(testScript, dispatch);
+            createTestScript(testScript, dispatch);
         }
     }
 }

@@ -1,0 +1,18 @@
+// Action
+{
+  "active": true,
+  "adminId": 1,
+  "code": "action code 1",
+  "name": "action name 1",
+  "params": [
+    {
+      "name": "param name 1",
+      "type": "param type 1"
+    },
+    {
+      "name": "param name 2",
+      "type": "param type 2"
+    }
+  ],
+  "subjectId": 1
+}
