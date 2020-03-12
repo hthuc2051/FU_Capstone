@@ -11,8 +11,6 @@ import './style.css';
 import CreateTestScript from './services/CreateTestScript';
 import ListPracticalExams from './services/ListPracticalExams';
 
-const QUESTION = "question";
-const QUESTION_UPPER = "Question";
 class HeadLecturerPageContainer extends Component {
 
     // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
@@ -24,11 +22,13 @@ class HeadLecturerPageContainer extends Component {
             isLoading: false,
             pageType: '',
             eventData: null,
+            subjectId: 0
         };
     }
 
     componentDidMount() {
-        this.props.fetchEvents();
+        this.props.fetchEvents(this.props.subjectId);
+        this.setState({ subjectId: this.props.subjectId });
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -42,18 +42,67 @@ class HeadLecturerPageContainer extends Component {
         }
     }
 
+    getDataBeforeSaveTestScript = (questionArr, scriptName, file) => {
+        let { subjectId } = this.state;
+        console.log(questionArr);
+        console.log(file);
+        // temp data
+        //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
+        let tempQuestionPointStr = this.createQuestionPointString(questionArr.questions);
+        let headLecturerId = 1;
+        let question = this.createQuestionString(questionArr.questions);
+        let questionStr = JSON.stringify(question);
+        let formData = new FormData();
+        formData.append("name", scriptName);
+        formData.append("questionPointStr", tempQuestionPointStr);
+        formData.append("questions", questionStr);
+        formData.append("headLecturerId", headLecturerId);
+        formData.append("subjectId", subjectId);
+        formData.append("docsFile", file);
+        console.log(questionStr);
+        this.props.saveTestScript(formData);
+    }
+
+    createQuestionString(questionArr) {
+        // [{"testcase":"testcase1", "code":"ABC"}, {"testcase":"testcase2", "code":"AB2C"}]
+
+        questionArr.forEach(element => {
+            let code = Constants.ANOTATION_TEST + " \n" + element.code;
+            element.code = code;
+            delete element.point;
+        });
+        console.log(questionArr)
+        return questionArr;
+
+    }
+
+    createQuestionPointString(questionArr){
+        let questionStr = '';
+        questionArr.forEach(element => {
+            questionStr += element.testcase + ':' +element.point + '-';
+        });
+        if(questionStr.length > 0){
+            questionStr = questionStr.substring(0,questionStr.length - 1 );
+        }
+        console.log(questionStr);
+        return questionStr;
+    }
+
     render() {
         let { isLoading, eventData, pageType } = this.state;
+        console.log(eventData)
         return (
             <div className="page-wrapper" >
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
 
             </div>
         );
     }
 }
+
+
 
 const mapStateToProps = state => {
     return {
@@ -71,11 +120,11 @@ const mapDispatchToProps = (dispatch, props) => {
         onLoading: () => {
             dispatch(onLoading(Constants.FETCH_EVENTS + Constants.PREFIX_LOADING));
         },
-        fetchEvents: () => {
-            fetchEventsData(dispatch);
+        fetchEvents: (subjectId) => {
+            fetchEventsData(subjectId, dispatch);
         },
-        saveTestScript: (testScript) => {
-            creatTestScript(testScript, dispatch);
+        saveTestScript: (formData) => {
+            creatTestScript(formData, dispatch);
         }
     }
 }

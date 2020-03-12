@@ -1,6 +1,7 @@
 ﻿{
   "events": [
     {
+	"id": 1,
       "name": "sendKeysToElementById",
       "code": "driver.findElement(By.id(paramName)).clear(); <br/>driver.findElement(By.id(paramName)).sendKeys(paramValue); ",
       "listParams": [
@@ -13,7 +14,7 @@
           "paramType": "123456"
         }
       ],
-      "subject": "Java"
+      "subjectId": 1,
     },
     {
       "name": "sendKeysToElementByName",

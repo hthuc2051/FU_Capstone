@@ -23,6 +23,14 @@ export const FETCH_EVENTS_TIME_OUT = 'FETCH_EVENTS_TIME_OUT';
 
 // End point 
 export const API_URL = 'http://localhost:8080/api';
-export const API_URL_DUMMY = 'http://localhost:4000'
-export const END_POINT_EVENTS = "events";
-export const END_POINT_POST_TESTSCRIPT = "testscript";
+export const API_URL_DUMMY = 'http://localhost:3000'
+export const END_POINT_EVENTS = "actions/subjects";
+export const END_POINT_POST_TESTSCRIPT = "scripts";
+
+// API Method
+export const METHOD_GET = "GET";
+export const METHOD_POST = "POST";
+
+// Test Script
+export const ANOTATION_TEST = "@Test";
+

@@ -24,7 +24,7 @@ class CreateScriptPage extends Component {
                         <LeftSideBar navArr ={headLecturerNavArr} />
 
                         {/* Container */}
-                        <HeadLecturerPageContainer pageType ={AppConstant.PAGE_TYPE_CREATE_SCRIPT} subjectId={subjectId} />
+                        <HeadLecturerPageContainer  pageType ={AppConstant.PAGE_TYPE_CREATE_SCRIPT} subjectId={subjectId} />
                     </div>
                 </div>
             </div>

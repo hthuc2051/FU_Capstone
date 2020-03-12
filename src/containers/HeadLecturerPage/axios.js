@@ -2,18 +2,19 @@ import callApi from '../api/ApiCaller';
 import * as Actions from './actions';
 import * as Constants from '../constants';
 
-export const fetchEventsData = async (dispatch) => {
-    let res = await callApi(Constants.END_POINT_EVENTS);
+export const fetchEventsData = async (subjectId, dispatch) => {
+    let res = await callApi(Constants.END_POINT_EVENTS,Constants.METHOD_GET,subjectId);
     if (res != null) {
         handleResponse(res, Constants.FETCH_EVENTS, dispatch);
     }
 }
 
-export const creatTestScript = async (testScript, dispatch) => {
-    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, testScript, null);
+export const creatTestScript = async (formData, dispatch) => {
+    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
     if (res != null) {
         handleResponse(res, Constants.END_POINT_POST_TESTSCRIPT, dispatch);
     }
+    console.log(res);
 }
 
 const handleResponse = async (response, action, dispatch) => {
