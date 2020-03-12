@@ -94,9 +94,10 @@ class Variable extends Component {
     }
 
     renderCode(code, name, value) {
+        // change here
         do {
-            code = code.replace(AppConstant.PARAM_NAME, name);
-            code = code.replace(AppConstant.PARAM_VALUE, value);
+            code = code.replace(AppConstant.PARAM_NAME, '"'+name+'"');
+            code = code.replace(AppConstant.PARAM_VALUE,'"'+ value +'"');
         } while (code.indexOf(AppConstant.PARAM_VALUE) > -1 || code.indexOf(AppConstant.PARAM_NAME) > -1)
         return code;
     }

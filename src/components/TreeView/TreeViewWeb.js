@@ -271,11 +271,13 @@ class TreeViewWeb extends Component {
 
   createStep(step, index) {
     return (
-      <code key={index} className="codeLine" id="temp">
+     
+         <code key={index} className="codeLine" id="temp">
         {/* Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br /> */}
-        {step.code}
-      </code>
+        {step.code}<br/>
+         </code>
+  
     );
   }
 
@@ -316,7 +318,7 @@ class TreeViewWeb extends Component {
           <div className="codePage" id="code" name="code" >
             <code className="codeLine" id="codevalue">
               public void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
-              {this.state.listStep.map((item, index) => this.createStep(item, index))}<br/>
+              {this.state.listStep.map((item, index) => this.createStep(item, index))}
     assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",templateQuestion.question{this.props.selectedTab}(
               {this.state.listInputParam.map((item, index) => this.createParam(item.value, index))}
               ));<br />
