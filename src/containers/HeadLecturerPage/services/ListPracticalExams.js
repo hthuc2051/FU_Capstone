@@ -7,6 +7,8 @@ import * as Constants from '../../constants';
 import { onLoading } from '../actions';
 import { fetchPracticalExams } from '../axios';
 let lecturers = ['HauDV - Đoàn Văn Hậu', 'PhuongNC - Nguyễn Công Phượng', 'HaiNQ - Nguyễn Quang Hải']
+const TYPE_CREATE = 'CREATE';
+const TYPE_EDIT = 'EDIT';
 
 
 class ListPracticalExams extends Component {
@@ -16,7 +18,8 @@ class ListPracticalExams extends Component {
             isLoading: false,
             practicalExams: [],
             editObj: null,
-            isEdit: false,
+            isOpenForm: false,
+            formType: TYPE_CREATE,
         };
     }
 
@@ -25,11 +28,11 @@ class ListPracticalExams extends Component {
         this.props.onFetchPracticalExams(1);
     }
     viewDetails = (id) => {
-
-        let {practicalExams} = this.state;
-        let obj = practicalExams.find( item => item.id === id );
+        let { practicalExams } = this.state;
+        let obj = practicalExams.find(item => item.id === id);
         this.setState({
-            isEdit: true,
+            isOpenForm: true,
+            formType: TYPE_EDIT,
             editObj: obj,
         })
         // Open modal
@@ -37,12 +40,16 @@ class ListPracticalExams extends Component {
     onDelete = (id) => {
         // Open modal
     }
-    onUpdate = (id) => {
+    openCreateForm = () => {
+        this.setState({
+            isOpenForm: true,
+            formType: TYPE_CREATE,
+        })
         // Open modal
     }
-    onCloseDetails = (isEdit) => {
+    onCloseDetails = (isOpenForm) => {
         this.setState({
-            isEdit: isEdit,
+            isOpenForm: isOpenForm,
         })
     }
 
@@ -53,7 +60,7 @@ class ListPracticalExams extends Component {
         }
         // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
         return {
-           
+
             practicalExams: nextProps.practicalExams,
             isLoading: nextProps.isLoading,
 
@@ -85,8 +92,7 @@ class ListPracticalExams extends Component {
     }
 
     render() {
-        let { practicalExams, editObj, isEdit } = this.state;
-        console.log(practicalExams);
+        let { practicalExams, editObj, isOpenForm, formType } = this.state;
         return (
             <div id="content-wrapper">
                 <nav className="question-nav">
@@ -104,7 +110,7 @@ class ListPracticalExams extends Component {
                     <div className="table-title">
                         <div className="row">
                             <div className="col-sm-12">
-                                <button type="button" className="btn btn-primary add-new"><i className="fa fa-plus" /> Add New</button>
+                                <button onClick={this.openCreateForm} type="button" className="btn btn-primary add-new"><i className="fa fa-plus" /> Add New</button>
                             </div>
                         </div>
                     </div>
@@ -126,8 +132,7 @@ class ListPracticalExams extends Component {
                 </div>
                 {/* For modal */}
                 {/* <ModalEditPracticalExam/> */}
-                {isEdit ? <ModalEditPracticalExam isEdit={isEdit} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
-
+                {isOpenForm ? <ModalEditPracticalExam formType={formType} isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
             </div>
         );
     }

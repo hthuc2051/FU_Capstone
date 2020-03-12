@@ -41,6 +41,20 @@ const initStage = {
             classCode:'SE1200',
             subjectClassId:'9'
         }
+    ],
+    scripts:[
+        {
+            id:1,
+            name:'Script name 1',
+        },
+        {
+            id:2,
+            name:'SE1270',
+        },
+        {
+            id:3,
+            name:'SE1200',
+        }
     ]
 };
 

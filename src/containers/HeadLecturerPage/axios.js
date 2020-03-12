@@ -16,6 +16,8 @@ export const createTestScript = async (testScript, dispatch) => {
     }
 }
 
+
+// Practical exam
 export const fetchPracticalExams = async (subjectId, dispatch) => {
     let endPoint = Constants.generateEndPoint(
         Constants.END_POINT_SUBJECTS,
@@ -24,6 +26,13 @@ export const fetchPracticalExams = async (subjectId, dispatch) => {
     let res = await callApi(endPoint);
     if (res != null) {
         handleResponse(res, Constants.FETCH_PRACTICAL_EXAMS, dispatch);
+    }
+}
+
+export const createPracticalExams = async (practicalExam, dispatch) => {
+    let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);
+    if (res != null) {
+        handleResponse(res, Constants.END_POINT_PRACTICAL_EXAMS, dispatch);
     }
 }
 

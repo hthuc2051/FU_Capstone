@@ -32,7 +32,7 @@ export const API_URL = 'http://localhost:8080/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
 export const END_POINT_EVENTS = "events";
 export const END_POINT_SUBJECTS = "subjects";
-export const END_POINT_PRACTICAL_EXAMS = "practical-exams";
+export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
 
 

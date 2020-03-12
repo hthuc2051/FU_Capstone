@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as Constants from '../../constants';
+import { onLoading } from '../actions';
+import { createPracticalExams } from '../axios';
+
+const TYPE_CREATE = 'CREATE';
+const TYPE_EDIT = 'EDIT';
 
 
 class ModalEditPracticalExam extends Component {
@@ -12,91 +18,164 @@ class ModalEditPracticalExam extends Component {
             practicalExam: null,
             subjects: [],
             classes: [],
-            isEdit: false,
-            checkedItems: new Map(),
+            scripts: [],
+            practicalDate: '',
+            isOpenForm: false,
+            checkedClasses: new Map(),
+            checkedScripts: new Map(),
+            subjectSelected: '',
         };
     }
 
-
-
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(nextProps);
         if (nextProps === prevState) {
             return null;
         }
+
         return {
             subjects: nextProps.subjects,
             classes: nextProps.classes,
+            scripts: nextProps.scripts,
             practicalExam: nextProps.editObj,
-            isEdit: nextProps.isEdit,
+            isOpenForm: nextProps.isOpenForm,
+            formType: nextProps.formType,
         }
     }
+
     onChangeCombobox = (value, index) => {
 
     }
 
-    handleChange = (e)=> {
-        let { checkedItems } = this.state;
+    handleCheckedClasses = (e) => {
+        let { checkedClasses } = this.state;
         const id = e.target.name;
         const isChecked = e.target.checked;
-        checkedItems.set(id, isChecked);
-        console.log(checkedItems);
+        checkedClasses.set(id, isChecked);
         this.setState({
-            checkedItems: checkedItems,
+            checkedClasses: checkedClasses,
         })
+    }
+
+    handleCheckedScripts = (e) => {
+        let { checkedScripts } = this.state;
+        const id = e.target.name;
+        const isChecked = e.target.checked;
+        checkedScripts.set(id, isChecked);
+        this.setState({
+            checkedScripts: checkedScripts,
+        })
+    }
+
+    onChange = (e) => {
+        var target = e.target;
+        var name = target.name;
+        this.setState({
+            [name]: target.value
+        });
     }
 
     onCloseDetails = () => {
         this.setState({
-            isEdit: false,
+            isOpenForm: false,
         })
         this.props.onCloseDetails(false);
     }
 
+    onSave = () => {
+        let { formType, checkedClasses, checkedScripts, practicalDate } = this.state;
+        let listScripts = Array.from(checkedScripts.keys());
+        let subjectClasses = Array.from(checkedClasses.keys());
+        let practicalExam = null;
+        switch (formType) {
+            case TYPE_CREATE:
+                practicalExam = {
+                    listScripts: listScripts,
+                    subjectClasses: subjectClasses,
+                    date: practicalDate,
+                }
+                break;
+            default:
+        }
+        this.props.onCreatePracticalExams(practicalExam);
+    }
+
     render() {
-        let { practicalExam, classes,checkedItems, isEdit } = this.state;
-        console.log(checkedItems);
+        let { practicalExam, classes, scripts, checkedScripts, checkedClasses, isOpenForm, formType, selectValue } = this.state;
         let lecturers = practicalExam ? practicalExam.lecturers : [];
-        let modalClass = isEdit ? "modal" : "modal fade";
-        let modalStyle = isEdit ? "block" : "";
-        console.log(isEdit);
+        let modalClass = isOpenForm ? "modal" : "modal fade";
+        let modalStyle = isOpenForm ? "block" : "";
+        console.log(isOpenForm);
         return (
             <div className={modalClass} style={{ display: modalStyle }} id="exampleModalCenter" tabIndex={-1} role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLongTitle">Edit Practical exam</h5>
+                            <h5 className="modal-title" id="exampleModalLongTitle">
+                                {formType === TYPE_EDIT ? 'Edit' : 'Create'} practical exam
+                            </h5>
                             <button onClick={this.onCloseDetails} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        {
-                            classes.map((item, index) => (
-                                <label key={index}>
-                                    {item.classCode}
-                                    <Checkbox name={item.id} checked={checkedItems.get(item.id)} onChange={this.handleChange} />
-                                </label>
-                            ))
-                        }
+                        <div className="dropdown-box">
+                            <div>Subjects</div>
+                            <select
+                                name="subjectSelected"
+                                value={selectValue}
+                                onChange={this.onChange}
+                            >
+                                <option value="1">Java</option>
+                                <option value="2">CSharp</option>
+                                <option value="3">C</option>
+                                <option value="4">Java web</option>
+                            </select>
+                        </div>
+                        <div className="check-box">
+                            <div>Classes</div>
+                            <div className="classes-box">
+                                {
+                                    classes.map((item, index) => (
+                                        <label key={index}>
+                                            <Checkbox name={item.id} checked={checkedClasses.get(item.id)} onChange={this.handleCheckedClasses} />
+                                            {item.classCode}
+                                        </label>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                        <div className="check-box ">
+                            <div>Script availables</div>
+                            <div className="scripts-box" >
+                                {
+                                    scripts.map((item, index) => (
+                                        <label key={index}>
+                                            <Checkbox name={item.id} checked={checkedScripts.get(item.id)} onChange={this.handleCheckedScripts} />
+                                            {item.name}
+                                        </label>
+                                    ))
+                                }
+                            </div>
+                        </div>
+
                         <div className="modal-body">
                             <form>
-                                <div className="form-group">
-                                    <label htmlFor="txtPracticalExamCode">Exam code</label>
-                                    <input type="text" name="txtPracticalExamCode" className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
-                                </div>
+                                {formType === TYPE_EDIT ?
+                                    <div className="form-group">
+                                        <label htmlFor="txtPracticalExamCode">Exam code</label>
+                                        <input readOnly={true} type="text" name="txtPracticalExamCode" className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
+                                    </div> : ''
+                                }
+
                                 <div className="form-group">
                                     <label htmlFor="date">Date</label>
-                                    <input readOnly={true} type="password" className="form-control" id="date" placeholder="Date" />
+                                    <input onChange={this.onChange} type="date" name="practicalDate" className="form-control" id="date" placeholder="Date" />
                                 </div>
                                 <div className="form-group">
-
                                 </div>
-
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
+                            <button onClick={this.onSave} type="button" className="btn btn-success">Save</button>
                         </div>
                     </div>
                 </div>
@@ -113,8 +192,20 @@ const mapStateToProps = (state) => {
     return {
         subjects: state.headerLecturerPage.subjects,
         classes: state.headerLecturerPage.classes,
+        scripts: state.headerLecturerPage.scripts,
     }
 }
 
-export default connect(mapStateToProps, null)(ModalEditPracticalExam);
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onLoading: () => {
+            dispatch(onLoading(Constants.FETCH_PRACTICAL_EXAMS + Constants.PREFIX_LOADING));
+        },
+        onCreatePracticalExams: (practicalExam) => {
+            createPracticalExams(practicalExam, dispatch);
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditPracticalExam);
 

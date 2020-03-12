@@ -103,3 +103,19 @@
 .modal{
   background-color: rgba(0,0,0,0.4);
 }
+.classes-box, .scripts-box{
+  max-height: 150px;
+  overflow-y: scroll;
+}
+.check-box, .dropdown-box{
+  padding: 5px 15px;
+}
+.modal-content select{
+  width: 100%;
+}
+.check-box div, .dropdown-box div{
+  margin: 5px 0px;
+}
+.check-box label, .dropdown-box label{
+  margin: 0px 10px;
+}
