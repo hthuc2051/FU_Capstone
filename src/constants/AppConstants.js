@@ -6,3 +6,7 @@ export const METHOD_NAME = 'testcase';
 export const PAGE_TYPE_CREATE_SCRIPT = "CREATE_SCRIPT";
 export const PAGE_TYPE_LIST_SCRIPT = "LIST_SCRIPT";
 export const PAGE_TYPE_LIST_PRACTICAL_EXAM = "LIST_PRACTICAL_EXAM";
+
+// Param
+export const PARAM_NAME = 'paramName';
+export const PARAM_VALUE = 'paramValue';

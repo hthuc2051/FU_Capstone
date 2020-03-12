@@ -17,16 +17,17 @@ class TreeViewWeb extends Component {
       listStep: '',
       question: {
         testcase: 'question1',
-        code: ''
+        code: '',
+        point: 0 ,
       }
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
 
-    if (nextProps.eventData === prevState.eventData && nextProps.eventData !== null) {
-      return null;
-    }
+    // if (nextProps.eventData === prevState.eventData && nextProps.eventData !== null) {
+    //   return null;
+    // }
 
     if (nextProps.question !== null) {
       if (document.getElementById('txtMethodName') !== null) {
@@ -97,7 +98,6 @@ class TreeViewWeb extends Component {
   }
 
   doneEdit = (paramObj) => {
-
     if (paramObj.value == '') {
       window.alert("Please Insert All The Input Fields")
     } else {
@@ -271,20 +271,31 @@ class TreeViewWeb extends Component {
 
   createStep(step, index) {
     return (
-      <code key={index} className="codeLine">
-        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
-        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br />
-      </code>
+     
+         <code key={index} className="codeLine" id="temp">
+        {/* Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
+        Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br /> */}
+        {step.code}<br/>
+         </code>
+  
     );
   }
 
-  render() {
+  handlePoint =(e)=>{
+   let point = e.target.value;
+   let {question} = this.state;
+   question.point = point;
+   this.setState({question}) 
+  }
 
-    let { expectedResult } = this.state;
+  render() {
+    let { expectedResult ,question} = this.state;
+    console.log(this.props.question);
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
+            Point <input type ="text" name="txtPoint"  value = {question.point} onChange={(e) =>this.handlePoint(e)}/>
             <input type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
             <ul>
               <li>
@@ -308,7 +319,7 @@ class TreeViewWeb extends Component {
             <code className="codeLine" id="codevalue">
               public void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
               {this.state.listStep.map((item, index) => this.createStep(item, index))}
-              assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",question1(
+    assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",templateQuestion.question{this.props.selectedTab}(
               {this.state.listInputParam.map((item, index) => this.createParam(item.value, index))}
               ));<br />
               &#125;

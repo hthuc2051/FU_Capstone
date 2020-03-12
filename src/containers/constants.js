@@ -34,6 +34,12 @@ export const END_POINT_EVENTS = "events";
 export const END_POINT_SUBJECTS = "subjects";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
+// API Method
+export const METHOD_GET = "GET";
+export const METHOD_POST = "POST";
+
+// Test Script
+export const ANOTATION_TEST = "@Test";
 
 
 export const generateEndPoint = (...params) => {

@@ -10,7 +10,7 @@ export default class ScriptObject{
     methodName: Constant.METHOD_NAME,
     expectedResult: {
       type: 'String',
-      value: 'null',
+      value: 'result',
       editMode: false,
     },
     params: [
@@ -44,11 +44,12 @@ export default class ScriptObject{
           {
   
             label: Constant.LABEL_STEP,
-            type:'type',
+            type:'sendKeysToElementById',
             name: 'name',
             value:'value',
             showChildren: false,
             editMode: false,
+            code:'driver.findElement(By.id("name")).clear(); driver.findElement(By.id("name")).sendKeys("value");',
             children: []
           }
         ]
