@@ -14,8 +14,10 @@ export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_EVENTS_OK = 'FETCH_EVENTS_OK';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
 export const FETCH_EVENTS_TIME_OUT = 'FETCH_EVENTS_TIME_OUT';
-
-
+export const FETCH_ACTIONS = 'FETCH_ACTIONS';
+export const FETCH_ACTIONS_OK = 'FETCH_ACTIONS_OK';
+export const FETCH_ACTIONS_FAILED = 'FETCH_ACTIONS_FAILED';
+export const FETCH_ACTIONS_TIME_OUT = 'FETCH_ACTIONS_TIME_OUT';
 
 
 
@@ -26,3 +28,4 @@ export const API_URL = 'http://localhost:8080/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
 export const END_POINT_EVENTS = "events";
 export const END_POINT_POST_TESTSCRIPT = "testscript";
+export const END_POINT_LIST_ACTION = "actions";
