@@ -4,7 +4,7 @@ const initStage = {
     eventData: null,
     practicalExams: [],
     isLoading: false,
-    statusCode: 500,
+    statusCode: null,
     message: '',
     error: null,
     subjects: [
@@ -25,35 +25,35 @@ const initStage = {
             name: "C"
         }
     ],
-    classes:[
+    classes: [
         {
-            id:1,
-            classCode:'SE1269',
-            subjectClassId:'7'
+            id: 6,
+            classCode: 'SE1269',
+            subjectClassId: '7'
         },
         {
-            id:2,
-            classCode:'SE1270',
-            subjectClassId:'8'
+            id: 2,
+            classCode: 'SE1270',
+            subjectClassId: '8'
         },
         {
-            id:3,
-            classCode:'SE1200',
-            subjectClassId:'9'
+            id: 3,
+            classCode: 'SE1200',
+            subjectClassId: '9'
         }
     ],
-    scripts:[
+    scripts: [
         {
-            id:1,
-            name:'Script name 1',
+            id: 1,
+            name: 'Script Java Practical De 1',
         },
         {
-            id:2,
-            name:'SE1270',
+            id: 3,
+            name: 'Script Java Practical De 2',
         },
         {
-            id:3,
-            name:'SE1200',
+            id: 5,
+            name: 'Script Java Practical De 3',
         }
     ]
 };
@@ -113,6 +113,34 @@ const headerLecturerPage = (state = initStage, action) => {
                 error: action.action,
                 message: Messages.MSG_TIMEOUT,
             });
+
+
+        // CREATE practical exam
+        case Actions.CREATE_PRACTICAL_EXAMS:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.CREATE_PRACTICAL_EXAMS_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.CREATE_PRACTICAL_EXAMS_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.data,
+                message: Messages.MSG_FAILED,
+            });
+        case Actions.CREATE_PRACTICAL_EXAMS_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_TIMEOUT,
+            });
+
 
 
         // Answer EVENTS

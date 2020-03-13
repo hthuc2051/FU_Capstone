@@ -58,15 +58,20 @@ class ListPracticalExams extends Component {
         if (nextProps === prevState) {
             return null;
         }
-        // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
         return {
 
             practicalExams: nextProps.practicalExams,
             isLoading: nextProps.isLoading,
-
         }
     }
 
+    // componentDidUpdate(prevProps) {
+    //     if (typeof (prevProps.statusCode) !== 'undefined' && prevProps.statusCode !== null) {
+    //         switch (prevProps.statusCode) {
+    //             case 200:
+    //         }
+    //     }
+    // }
 
     renderPracticalExams = (arr) => {
         let result = null;
@@ -141,6 +146,7 @@ class ListPracticalExams extends Component {
 const mapStateToProps = (state) => {
     return {
         isLoading: state.headerLecturerPage.isLoading,
+        statusCode: state.headerLecturerPage.statusCode,
         message: state.headerLecturerPage.message,
         error: state.headerLecturerPage.error,
         practicalExams: state.headerLecturerPage.practicalExams,

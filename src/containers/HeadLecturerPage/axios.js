@@ -33,7 +33,7 @@ export const fetchPracticalExams = async (subjectId, dispatch) => {
 export const createPracticalExams = async (practicalExam, dispatch) => {
     let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);
     if (res != null) {
-        handleResponse(res, Constants.END_POINT_PRACTICAL_EXAMS, dispatch);
+        handleResponse(res, Constants.CREATE_PRACTICAL_EXAMS, dispatch);
     }
 }
 

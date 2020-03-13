@@ -16,13 +16,19 @@ export const FETCH_EVENTS_OK = 'FETCH_EVENTS_OK';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
 export const FETCH_EVENTS_TIME_OUT = 'FETCH_EVENTS_TIME_OUT';
 
+
+
+// Practical exam
 export const FETCH_PRACTICAL_EXAMS = 'FETCH_PRACTICAL_EXAMS';
 export const FETCH_PRACTICAL_EXAMS_OK = 'FETCH_PRACTICAL_EXAMS_OK';
 export const FETCH_PRACTICAL_EXAMS_FAILED = 'FETCH_PRACTICAL_EXAMS_FAILED';
 export const FETCH_PRACTICAL_EXAMS_TIME_OUT = 'FETCH_PRACTICAL_EXAMS_TIME_OUT';
 
 
-
+export const CREATE_PRACTICAL_EXAMS = 'CREATE_PRACTICAL_EXAMS';
+export const CREATE_PRACTICAL_EXAMS_OK = 'CREATE_PRACTICAL_EXAMS_OK';
+export const CREATE_PRACTICAL_EXAMS_FAILED = 'CREATE_PRACTICAL_EXAMS_FAILED';
+export const CREATE_PRACTICAL_EXAMS_TIME_OUT = 'CREATE_PRACTICAL_EXAMS_TIME_OUT';
 
 
 
@@ -30,8 +36,9 @@ export const FETCH_PRACTICAL_EXAMS_TIME_OUT = 'FETCH_PRACTICAL_EXAMS_TIME_OUT';
 // End point 
 export const API_URL = 'http://localhost:8080/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
-export const END_POINT_EVENTS = "events";
+export const END_POINT_EVENTS = "actions/subjects";
 export const END_POINT_SUBJECTS = "subjects";
+export const END_POINT_LECTURER = "lecturers";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
 // API Method
