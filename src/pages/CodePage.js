@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LeftSideBar, TopNavBar } from './../components/index';
 import { CodePageContainer } from './../containers/index';
 import './style.css';
+import ListActionsPage from '../containers/AdminPage/ListActionsPage';
 const CODE_PAGE_TITLE = 'Code page';
 class CodePage extends Component {
 
@@ -16,7 +17,7 @@ class CodePage extends Component {
                         <LeftSideBar />
 
                         {/* Container */}
-                        <CodePageContainer />
+                        <ListActionsPage />
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@ export default async function callApi(endpoint, method = "GET", body, headerType
     // headers = { 'Authorization': token, 'Content-Type': 'multipart/form-data' }
     // headers = {'Content-Type': 'multipart/form-data' }
     //   } else if (headerType === 'LOGIN') {
-   
+
     //   }
     let result = null;
     try {
@@ -22,19 +22,19 @@ export default async function callApi(endpoint, method = "GET", body, headerType
             result = await axios({
                 method: method,
                 url: `${Constant.API_URL}/${endpoint}/${body}`,
-                data:body,
+                data: body,
                 headers: headers
             })
-        }else if(Constant.END_POINT_POST_TESTSCRIPT === endpoint){
+        } else if (Constant.END_POINT_POST_TESTSCRIPT === endpoint) {
             console.log(body);
-            headers = {'Content-Type': 'multipart/form-data' }
+            headers = { 'Content-Type': 'multipart/form-data' }
             result = await axios({
                 method: method,
                 url: `${Constant.API_URL}/${endpoint}`,
-                data:body,
+                data: body,
                 headers: headers
             })
-        } 
+        }
         else {
             headers = { 'Content-Type': 'application/json' }
             result = await axios({
