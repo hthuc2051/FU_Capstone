@@ -1,4 +1,3 @@
-import generate from "@babel/generator";
 
 // Common prefix
 export const PREFIX_LOADING = "_LOADING";
@@ -9,6 +8,8 @@ export const PREFIX_GET = "GET";
 export const PREFIX_POST = "POST";
 export const PREFIX_PUT = "PUT";
 export const PREFIX_DELETE = "DELETE";
+
+export const RESET_ACTION_STATUS = "FREE";
 
 // Actions constant
 export const FETCH_EVENTS = 'FETCH_EVENTS';
@@ -32,6 +33,11 @@ export const CREATE_PRACTICAL_EXAMS_OK = 'CREATE_PRACTICAL_EXAMS_OK';
 export const CREATE_PRACTICAL_EXAMS_FAILED = 'CREATE_PRACTICAL_EXAMS_FAILED';
 export const CREATE_PRACTICAL_EXAMS_TIME_OUT = 'CREATE_PRACTICAL_EXAMS_TIME_OUT';
 
+
+export const DELETE_PRACTICAL_EXAMS = 'DELETE_PRACTICAL_EXAMS';
+export const DELETE_PRACTICAL_EXAMS_OK = 'DELETE_PRACTICAL_EXAMS_OK';
+export const DELETE_PRACTICAL_EXAMS_FAILED = 'DELETE_PRACTICAL_EXAMS_FAILED';
+export const DELETE_PRACTICAL_EXAMS_TIME_OUT = 'DELETE_PRACTICAL_EXAMS_TIME_OUT';
 
 
 

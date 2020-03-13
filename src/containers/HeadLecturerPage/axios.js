@@ -3,7 +3,7 @@ import * as Actions from './actions';
 import * as Constants from '../constants';
 
 export const fetchEventsData = async (subjectId, dispatch) => {
-    let res = await callApi(Constants.END_POINT_EVENTS,Constants.METHOD_GET,subjectId);
+    let res = await callApi(Constants.END_POINT_EVENTS, Constants.METHOD_GET, subjectId);
     if (res != null) {
         handleResponse(res, Constants.FETCH_EVENTS, dispatch);
     }
@@ -34,6 +34,16 @@ export const createPracticalExams = async (practicalExam, dispatch) => {
     let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);
     if (res != null) {
         handleResponse(res, Constants.CREATE_PRACTICAL_EXAMS, dispatch);
+    }
+}
+
+export const deletePracticalExam = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_PRACTICAL_EXAMS,
+        id);
+    let res = await callApi(endPoint,Constants.PREFIX_DELETE);
+    if (res != null) {
+        handleResponse(res, Constants.DELETE_PRACTICAL_EXAMS, dispatch);
     }
 }
 

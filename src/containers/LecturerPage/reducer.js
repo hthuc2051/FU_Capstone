@@ -9,7 +9,6 @@ const initStage = {
 };
 
 const lecturerPage = (state = initStage, action) => {
-    console.log(action);
     switch (action.type) {
         // Fetch practical exam
         case Actions.FETCH_PRACTICAL_EXAMS:
@@ -27,14 +26,14 @@ const lecturerPage = (state = initStage, action) => {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
-                message: Messages.MSG_FAILED,
+                message: action.message,
             });
         case Actions.FETCH_PRACTICAL_EXAMS_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
-                message: Messages.MSG_TIMEOUT,
+                message: action.message,
             });
         // Answer EVENTS
         default:
