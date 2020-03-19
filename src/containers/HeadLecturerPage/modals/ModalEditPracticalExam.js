@@ -15,6 +15,8 @@ class ModalEditPracticalExam extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading :false,
+            statusCode : false,
             practicalExam: null,
             subjects: [],
             classes: [],
@@ -31,9 +33,12 @@ class ModalEditPracticalExam extends Component {
         if (nextProps === prevState) {
             return null;
         }
-
+        if(nextProps.statusCode === 200){
+            console.log('OK');
+        }
         return {
             subjects: nextProps.subjects,
+            statusCode: nextProps.statusCode,
             classes: nextProps.classes,
             scripts: nextProps.scripts,
             practicalExam: nextProps.editObj,
@@ -136,7 +141,7 @@ class ModalEditPracticalExam extends Component {
                                 {
                                     classes.map((item, index) => (
                                         <label key={index}>
-                                            <Checkbox name={item.id} checked={checkedClasses.get(item.id)} onChange={this.handleCheckedClasses} />
+                                            <Checkbox name={item.subjectClassId} checked={checkedClasses.get(item.subjectClassId)} onChange={this.handleCheckedClasses} />
                                             {item.classCode}
                                         </label>
                                     ))
@@ -193,6 +198,8 @@ const mapStateToProps = (state) => {
         subjects: state.headerLecturerPage.subjects,
         classes: state.headerLecturerPage.classes,
         scripts: state.headerLecturerPage.scripts,
+        statusCode: state.headerLecturerPage.statusCode,
+        message: state.headerLecturerPage.message,
     }
 }
 

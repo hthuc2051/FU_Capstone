@@ -7,17 +7,11 @@ export const onLoading = (action) => {
     }
 }
 
-export const onFinishing = (action) => {
-    return {
-        type: action,
-    }
-}
-
-export const is2xx = (statusCode, action, data) => {
+export const is2xx = (statusCode, action, listActions) => {
     return {
         statusCode: statusCode,
         type: action,
-        data: data,
+        listActions: listActions,
     }
 }
 

@@ -1,44 +1,45 @@
 import * as Actions from '../constants';
 import * as Messages from '../messages';
 const initStage = {
-    practicalExams: [],
+    listActions: null,
     isLoading: false,
-    statusCode: null,
+    statusCode: 500,
     message: '',
     error: null,
 };
 
-const lecturerPage = (state = initStage, action) => {
+const listActionsPage = (state = initStage, action) => {
     switch (action.type) {
-        // Fetch practical exam
-        case Actions.FETCH_PRACTICAL_EXAMS:
+        // Fetch events
+        case Actions.FETCH_ACTIONS:
             return Object.assign({}, state, {
                 isLoading: true,
             });
-        case Actions.FETCH_PRACTICAL_EXAMS_OK:
+        case Actions.FETCH_ACTIONS_OK:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: 200,
-                practicalExams: action.data,
+                listActions: action.listActions,
             });
-        case Actions.FETCH_PRACTICAL_EXAMS_FAILED:
+        case Actions.FETCH_ACTIONS_FAILED:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
-                message: action.message,
+                message: Messages.MSG_FAILED,
             });
-        case Actions.FETCH_PRACTICAL_EXAMS_TIME_OUT:
+        case Actions.FETCH_ACTIONS_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
-                message: action.message,
+                message: Messages.MSG_TIMEOUT,
             });
-        // Answer EVENTS
+
+        // Answer ACTIONS
         default:
             return state;
     }
 };
 
-export default lecturerPage;
+export default listActionsPage;

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import swal from 'sweetalert';
 import ModalEditPracticalExam from '../modals/ModalEditPracticalExam';
 import '../style.css';
 import * as Constants from '../../constants';
-import { onLoading } from '../actions';
-import { fetchPracticalExams } from '../axios';
+import { onLoading, onFinishing } from '../actions';
+import { fetchPracticalExams, deletePracticalExam } from '../axios';
 let lecturers = ['HauDV - Đoàn Văn Hậu', 'PhuongNC - Nguyễn Công Phượng', 'HaiNQ - Nguyễn Quang Hải']
 const TYPE_CREATE = 'CREATE';
 const TYPE_EDIT = 'EDIT';
@@ -37,8 +37,17 @@ class ListPracticalExams extends Component {
         })
         // Open modal
     }
-    onDelete = (id) => {
-        // Open modal
+    onDelete = async (id) => {
+        let result = await swal({
+            title: "Confirm delete",
+            text: "Are you sure to want to delete this practical exam?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        });
+        if (result === true) {
+            this.props.onDeletePracticalExam(id);
+        }
     }
     openCreateForm = () => {
         this.setState({
@@ -58,15 +67,39 @@ class ListPracticalExams extends Component {
         if (nextProps === prevState) {
             return null;
         }
-        // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
-        return {
+        let { action, message } = nextProps;
+        if (prevState.action !== action) {
 
+        }
+        return {
             practicalExams: nextProps.practicalExams,
             isLoading: nextProps.isLoading,
-
+            statusCode: nextProps.statusCode,
+            action: nextProps.action,
+            message: nextProps.message,
         }
     }
 
+    componentDidUpdate(prevProps) {
+        // Render giao diện sau khi call api
+        let { action, statusCode, message } = this.state;
+        if (prevProps.action !== action && message !== '') {
+            switch (statusCode) {
+                case 200:
+                    swal("Successfully !", message, "success");
+                    break;
+                case 500:
+                case 409:
+                    swal("Failed !", message, "error");
+                    break;
+            }
+
+            this.setState({
+                action: '',
+            })
+            this.props.onFinishing();
+        }
+    }
 
     renderPracticalExams = (arr) => {
         let result = null;
@@ -141,8 +174,10 @@ class ListPracticalExams extends Component {
 const mapStateToProps = (state) => {
     return {
         isLoading: state.headerLecturerPage.isLoading,
+        statusCode: state.headerLecturerPage.statusCode,
         message: state.headerLecturerPage.message,
         error: state.headerLecturerPage.error,
+        action: state.headerLecturerPage.action,
         practicalExams: state.headerLecturerPage.practicalExams,
     }
 }
@@ -151,8 +186,14 @@ const mapDispatchToProps = (dispatch, props) => {
         onLoading: () => {
             dispatch(onLoading(Constants.FETCH_PRACTICAL_EXAMS + Constants.PREFIX_LOADING));
         },
+        onFinishing: () => {
+            dispatch(onFinishing(Constants.RESET_ACTION_STATUS));
+        },
         onFetchPracticalExams: (subjectId) => {
             fetchPracticalExams(subjectId, dispatch);
+        },
+        onDeletePracticalExam: (id) => {
+            deletePracticalExam(id, dispatch);
         }
     }
 }

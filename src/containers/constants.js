@@ -1,4 +1,3 @@
-import generate from "@babel/generator";
 
 // Common prefix
 export const PREFIX_LOADING = "_LOADING";
@@ -10,23 +9,40 @@ export const PREFIX_POST = "POST";
 export const PREFIX_PUT = "PUT";
 export const PREFIX_DELETE = "DELETE";
 
+export const RESET_ACTION_STATUS = "FREE";
+
 // Actions constant
 export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_EVENTS_OK = 'FETCH_EVENTS_OK';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
 export const FETCH_EVENTS_TIME_OUT = 'FETCH_EVENTS_TIME_OUT';
+export const FETCH_ACTIONS = 'FETCH_ACTIONS';
+export const FETCH_ACTIONS_OK = 'FETCH_ACTIONS_OK';
+export const FETCH_ACTIONS_FAILED = 'FETCH_ACTIONS_FAILED';
+export const FETCH_ACTIONS_TIME_OUT = 'FETCH_ACTIONS_TIME_OUT';
 
+// Practical exam
 export const FETCH_PRACTICAL_EXAMS = 'FETCH_PRACTICAL_EXAMS';
 export const FETCH_PRACTICAL_EXAMS_OK = 'FETCH_PRACTICAL_EXAMS_OK';
 export const FETCH_PRACTICAL_EXAMS_FAILED = 'FETCH_PRACTICAL_EXAMS_FAILED';
 export const FETCH_PRACTICAL_EXAMS_TIME_OUT = 'FETCH_PRACTICAL_EXAMS_TIME_OUT';
+
 
 export const FETCH_TEST_SCRIPT= 'FETCH_TEST_SCRIPT_EXAMS';
 export const FETCH_TEST_SCRIPT_OK = 'FETCH_TEST_SCRIPT_OK';
 export const FETCH_TEST_SCRIPT_FAILED = 'FETCH_TEST_SCRIPT_FAILED';
 export const FETCH_TEST_SCRIPT_TIME_OUT = 'FETCH_TEST_SCRIPT_TIME_OUT';
 
+export const CREATE_PRACTICAL_EXAMS = 'CREATE_PRACTICAL_EXAMS';
+export const CREATE_PRACTICAL_EXAMS_OK = 'CREATE_PRACTICAL_EXAMS_OK';
+export const CREATE_PRACTICAL_EXAMS_FAILED = 'CREATE_PRACTICAL_EXAMS_FAILED';
+export const CREATE_PRACTICAL_EXAMS_TIME_OUT = 'CREATE_PRACTICAL_EXAMS_TIME_OUT';
 
+
+export const DELETE_PRACTICAL_EXAMS = 'DELETE_PRACTICAL_EXAMS';
+export const DELETE_PRACTICAL_EXAMS_OK = 'DELETE_PRACTICAL_EXAMS_OK';
+export const DELETE_PRACTICAL_EXAMS_FAILED = 'DELETE_PRACTICAL_EXAMS_FAILED';
+export const DELETE_PRACTICAL_EXAMS_TIME_OUT = 'DELETE_PRACTICAL_EXAMS_TIME_OUT';
 
 
 
@@ -35,9 +51,15 @@ export const API_URL = 'http://localhost:8080/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
 export const END_POINT_EVENTS = "actions/subjects";
 export const END_POINT_SUBJECTS = "subjects";
+export const END_POINT_LECTURER = "lecturers";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
+<<<<<<< HEAD
 export const END_POINT_TESTSCRIPTS = "testScript";
+=======
+export const END_POINT_LIST_ACTION = "actions";
+
+>>>>>>> origin/featutes/thucnh_practicalExam
 // API Method
 export const METHOD_GET = "GET";
 export const METHOD_POST = "POST";

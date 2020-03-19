@@ -4,7 +4,8 @@ const initStage = {
     eventData: null,
     practicalExams: [],
     isLoading: false,
-    statusCode: 500,
+    statusCode: null,
+    action: '',
     message: '',
     error: null,
     subjects: [
@@ -27,7 +28,7 @@ const initStage = {
     ],
     classes: [
         {
-            id: 1,
+            id: 6,
             classCode: 'SE1269',
             subjectClassId: '7'
         },
@@ -45,23 +46,29 @@ const initStage = {
     scripts: [
         {
             id: 1,
-            name: 'Script name 1',
-        },
-        {
-            id: 2,
-            name: 'SE1270',
+            name: 'Script Java Practical De 1',
         },
         {
             id: 3,
-            name: 'SE1200',
+            name: 'Script Java Practical De 2',
+        },
+        {
+            id: 5,
+            name: 'Script Java Practical De 3',
         }
     ]
 };
 
 const headerLecturerPage = (state = initStage, action) => {
     console.log(action);
-
+    state.action = action.type;
     switch (action.type) {
+        // [NOTE] - Reset global action state after finish call api
+        case Actions.RESET_ACTION_STATUS:
+            return Object.assign({}, state, {
+                action: action.type,
+            });
+
         // Fetch events
         case Actions.FETCH_EVENTS:
             return Object.assign({}, state, {
@@ -77,15 +84,13 @@ const headerLecturerPage = (state = initStage, action) => {
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
-                error: action.action,
-                message: Messages.MSG_FAILED,
+                message: action.error.message,
             });
         case Actions.FETCH_EVENTS_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
-                error: action.action,
-                message: Messages.MSG_TIMEOUT,
+                message: action.error.message,
             });
 
         // Fetch practical exam
@@ -103,17 +108,39 @@ const headerLecturerPage = (state = initStage, action) => {
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
-                error: action.action,
-                message: Messages.MSG_FAILED,
+                message: action.error.message,
             });
         case Actions.FETCH_PRACTICAL_EXAMS_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
-                error: action.action,
-                message: Messages.MSG_TIMEOUT,
+                message: action.error.message,
             });
 
+
+        // CREATE practical exam
+        case Actions.CREATE_PRACTICAL_EXAMS:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.CREATE_PRACTICAL_EXAMS_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.CREATE_PRACTICAL_EXAMS_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+            });
+        case Actions.CREATE_PRACTICAL_EXAMS_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+            });
         // Fetch TestScripts
         case Actions.FETCH_TEST_SCRIPT:
             return Object.assign({}, state, {
@@ -140,6 +167,29 @@ const headerLecturerPage = (state = initStage, action) => {
                 message: Messages.MSG_TIMEOUT,
             });
         // Answer EVENTS
+        // DELETE practical exam
+        case Actions.DELETE_PRACTICAL_EXAMS:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.DELETE_PRACTICAL_EXAMS_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.DELETE_PRACTICAL_EXAMS_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+            });
+        case Actions.DELETE_PRACTICAL_EXAMS_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+            });
         default:
             return state;
     }
