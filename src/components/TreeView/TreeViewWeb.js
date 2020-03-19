@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './style.css';
 import { Variable } from '../index.js';
 import * as Constant from '../../constants/AppConstants';
+
 class TreeViewWeb extends Component {
 
   constructor(props) {
@@ -12,13 +13,14 @@ class TreeViewWeb extends Component {
       editableNode: '',
       expectedResult: '',
       expectedResultText: '',
+      expectedResultType: 'String',
       eventData: null,
       listInputParam: '',
       listStep: '',
       question: {
         testcase: 'question1',
         code: '',
-        point: 0 ,
+        point: 0,
       }
     }
   }
@@ -40,7 +42,7 @@ class TreeViewWeb extends Component {
         expectedResultText: nextProps.question.data.expectedResult.value,
         listInputParam: nextProps.question.data.params[0].children,
         listStep: nextProps.question.data.params[1].children,
-        eventData : nextProps.eventData,
+        eventData: nextProps.eventData,
       }
 
     }
@@ -104,7 +106,7 @@ class TreeViewWeb extends Component {
       paramObj.editMode = false;
       this.setState({ paramObj }, () => { this.saveTestCase(); });
       if (paramObj.label == undefined) {
-        this.setState({ expectedResultText: paramObj.value });
+        this.setState({ expectedResultText: paramObj.value, expectedResultType: paramObj.type });
       }
     }
   }
@@ -140,7 +142,7 @@ class TreeViewWeb extends Component {
             appType='Web'
             parent={parent}
             index={index}
-            eventData = {eventData}
+            eventData={eventData}
             doneEdit={this.doneEdit}
             closeForm={this.closeForm}
           />
@@ -199,8 +201,15 @@ class TreeViewWeb extends Component {
 
       // A node has no children
       else if (paramObj.children.length === 0) {
+        console.log(paramObj)
         let normalMode = (
-          <div className="node"><i className="fa fa-square-o"></i>{paramObj.type}-{paramObj.name}-{paramObj.value}
+          <div className="node"><i className="fa fa-square-o"></i>
+            {paramObj.label === Constant.LABEL_STEP ?
+              paramObj.type  +" - " + paramObj.name +" - " + paramObj.value
+              :
+              paramObj.type +" - " + paramObj.value
+            }
+
             <span className="actions">
               <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
               <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
@@ -246,14 +255,18 @@ class TreeViewWeb extends Component {
     }
   }
 
-  createParam = (param, index) => {
+  createParam = (param, index,type) => {
+    // type = string
+    if(type === Constant.ARRAY_OPTIONS[5]){
+      param = '"' + param + '"';
+    }
     if (index !== this.state.listInputParam.length - 1) {
       return (
-        <span key={index}><span className="codeParam">"{param}"</span>,</span>
+        <span key={index}><span className="codeParam">{param}</span>,</span>
       );
     } else {
       return (
-        <span key={index} className="codeParam">"{param}"</span>
+        <span key={index} className="codeParam">{param}</span>
       );
     }
   }
@@ -271,44 +284,56 @@ class TreeViewWeb extends Component {
 
   createStep(step, index) {
     return (
-     
-         <code key={index} className="codeLine" id="temp">
+
+      <code key={index} className="codeLine" id="temp">
         {/* Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br /> */}
-        {step.code}<br/>
-         </code>
-  
+        {step.code}<br />
+      </code>
+
     );
   }
 
-  handlePoint =(e)=>{
-   let point = e.target.value;
-   let {question} = this.state;
-   question.point = point;
-   this.setState({question}) 
+  handlePoint = (e) => {
+    let point = e.target.value;
+    let { question } = this.state;
+    question.point = point;
+    this.setState({ question })
+  }
+
+  renderExpectedResult(expectedResult, expectedResultType) {
+    let strValue = '';
+    strValue = expectedResultType + ".valueOf(" + expectedResult + ")";
+    return strValue;
   }
 
   render() {
-    let { expectedResult ,question} = this.state;
-    console.log(this.props.question);
+    let { expectedResult, question, expectedResultType, expectedResultText, listInputParam } = this.state;
+    console.log(listInputParam);
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
-            Point <input type ="text" name="txtPoint"  value = {question.point} onChange={(e) =>this.handlePoint(e)}/>
+            {question.point === 0 ?
+              <p> Point <input type="text" name="txtPoint" value='' onChange={(e) => this.handlePoint(e)} /></p>
+              :
+              <p> Point <input type="text" name="txtPoint" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
+            }
+
             <input type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
             <ul>
               <li>
                 <div className="node"><i className="fa fa-minus-square-o"></i>Expected Result</div>
                 <ul>
                   <li onClick={(e) => e.stopPropagation()}>
-                    {(expectedResult.editMode) ? this.nodeEditForm(Constant.LABEL_EXPECTED_RESULT, expectedResult) : <div className="node">
-                      <i className="fa fa-square-o"></i>
-                      {expectedResult.type}-{expectedResult.value}
-                      <span className="actions">
-                        <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(expectedResult) }}></i>
-                      </span>
-                    </div>}
+                    {(expectedResult.editMode) ? this.nodeEditForm(Constant.LABEL_EXPECTED_RESULT, expectedResult) :
+                      <div className="node">
+                        <i className="fa fa-square-o"></i>
+                        {expectedResult.type} - {expectedResult.value}
+                        <span className="actions">
+                          <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(expectedResult) }}></i>
+                        </span>
+                      </div>}
                   </li>
                 </ul>
               </li>
@@ -319,8 +344,8 @@ class TreeViewWeb extends Component {
             <code className="codeLine" id="codevalue">
               public void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
               {this.state.listStep.map((item, index) => this.createStep(item, index))}
-    assertEquals("<span className="codeParam">{this.state.expectedResultText}</span>",templateQuestion.question{this.props.selectedTab}(
-              {this.state.listInputParam.map((item, index) => this.createParam(item.value, index))}
+    assertEquals(<span className="codeParam">{this.renderExpectedResult(expectedResultText, expectedResultType)}</span>,templateQuestion.question{this.props.selectedTab}(
+              {this.state.listInputParam.map((item, index) => this.createParam(item.value, index,item.type))}
               ));<br />
               &#125;
             </code>

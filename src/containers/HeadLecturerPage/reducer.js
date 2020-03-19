@@ -25,35 +25,35 @@ const initStage = {
             name: "C"
         }
     ],
-    classes:[
+    classes: [
         {
-            id:1,
-            classCode:'SE1269',
-            subjectClassId:'7'
+            id: 1,
+            classCode: 'SE1269',
+            subjectClassId: '7'
         },
         {
-            id:2,
-            classCode:'SE1270',
-            subjectClassId:'8'
+            id: 2,
+            classCode: 'SE1270',
+            subjectClassId: '8'
         },
         {
-            id:3,
-            classCode:'SE1200',
-            subjectClassId:'9'
+            id: 3,
+            classCode: 'SE1200',
+            subjectClassId: '9'
         }
     ],
-    scripts:[
+    scripts: [
         {
-            id:1,
-            name:'Script name 1',
+            id: 1,
+            name: 'Script name 1',
         },
         {
-            id:2,
-            name:'SE1270',
+            id: 2,
+            name: 'SE1270',
         },
         {
-            id:3,
-            name:'SE1200',
+            id: 3,
+            name: 'SE1200',
         }
     ]
 };
@@ -114,7 +114,31 @@ const headerLecturerPage = (state = initStage, action) => {
                 message: Messages.MSG_TIMEOUT,
             });
 
-
+        // Fetch TestScripts
+        case Actions.FETCH_TEST_SCRIPT:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.FETCH_TEST_SCRIPT_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                listScripts: action.data,
+            });
+        case Actions.FETCH_TEST_SCRIPT_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_FAILED,
+            });
+        case Actions.FETCH_TEST_SCRIPT_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_TIMEOUT,
+            });
         // Answer EVENTS
         default:
             return state;

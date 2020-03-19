@@ -19,7 +19,7 @@ class HeadLecturerPageContainer extends Component {
         super(props);
         var tempScript = new scriptObj();
         this.state = {
-            isLoading: false,
+            isLoading: true,
             pageType: '',
             eventData: null,
             subjectId: 0
@@ -37,6 +37,7 @@ class HeadLecturerPageContainer extends Component {
         }
         return {
             eventData: nextProps.eventData,
+            isLoading:nextProps.isLoading,
             pageType: nextProps.pageType,
         }
     }
@@ -75,24 +76,28 @@ class HeadLecturerPageContainer extends Component {
 
     }
 
-    createQuestionPointString(questionArr){
+    createQuestionPointString(questionArr) {
         let questionStr = '';
         questionArr.forEach(element => {
-            questionStr += element.testcase + ':' +element.point + '-';
+            questionStr += element.testcase + ':' + element.point + '-';
         });
-        if(questionStr.length > 0){
-            questionStr = questionStr.substring(0,questionStr.length - 1 );
+        if (questionStr.length > 0) {
+            questionStr = questionStr.substring(0, questionStr.length - 1);
         }
         console.log(questionStr);
         return questionStr;
     }
 
     render() {
-        let { isLoading, eventData, pageType } = this.state;
+        let { isLoading, eventData, pageType,subjectId } = this.state;
         console.log(eventData)
         return (
+
             <div className="page-wrapper" >
-                {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts /> : ''}
+                <div className={isLoading ? 'loading' : 'none-loading'}>
+                    <div className="loader"></div>
+                </div>
+                {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId= {subjectId}/> : ''}
                 {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
 

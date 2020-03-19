@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TreeViewWeb } from './../../../components/index';
 import scriptObj from './sample.data';
+import * as AppConstant from './../../../constants/AppConstants';
 import '../style.css';
 
 const QUESTION = "question";
@@ -20,15 +21,15 @@ class CreateTestScript extends Component {
                 questions: [{
                     data: tempScript.scriptObj,
                     testcase: 'question1',
-                    code:'',
+                    code: '',
                     point: 0,
                 }]
             },
             scriptName: '',
             count: 2,
             selectedTab: 0,
-            txtScriptName:'',
-            selectedFile:null,
+            txtScriptName: '',
+            selectedFile: null,
         };
     }
     componentDidMount() {
@@ -65,17 +66,35 @@ class CreateTestScript extends Component {
     }
 
     createTestScript = () => {
-        let { questionArr, txtScriptName,selectedFile } = this.state;
+        let { questionArr, txtScriptName, selectedFile } = this.state;
+        let isvalid = this.checkValid(questionArr, txtScriptName);
+        if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
         for (let i = 0; i < questionArr.questions.length; i++) {
-            let question = { testcase: questionArr.questions[i].testcase, code: questionArr.questions[i].code,point: questionArr.questions[i].point };
+            let question = { testcase: questionArr.questions[i].testcase, code: questionArr.questions[i].code, point: questionArr.questions[i].point };
             newQuestionArr.questions.push(question);
         }
-        // Save here
-        console.log(questionArr);
-        //todo: add file document herer
-        console.log(this.state);
-         this.props.saveTestScript(newQuestionArr,txtScriptName,selectedFile);
+        //   this.props.saveTestScript(newQuestionArr,txtScriptName,selectedFile);
+    }
+
+    checkValid(questionArr, txtScriptName) {
+        if (txtScriptName === '') {
+            window.alert(AppConstant.ERROR_MSG_EMPTY_SCRIPT_NAME);
+            return false;
+        }
+        for (let i = 0; i < questionArr.questions.length; i++) {
+            let code = questionArr.questions[i].code;
+            let point = questionArr.questions[i].point;
+            if(code === ''){
+                window.alert( AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE+ questionArr.questions[i].testcase);
+                return false;
+            }
+            if(point === 0){
+                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT +questionArr.questions[i].testcase);
+                return false;
+            }
+        }
+        return true;
     }
 
     // click Add question button
@@ -105,7 +124,7 @@ class CreateTestScript extends Component {
         //add question into questionarr
         let { questionArr } = this.state;
         let tempScript = new scriptObj();
-        let item = { testcase: QUESTION + count, data: tempScript.scriptObj, point:0 };
+        let item = { testcase: QUESTION + count, data: tempScript.scriptObj, point: 0 };
         questionArr.questions.push(item);
         this.setState({ questionArr });
     }
@@ -151,8 +170,8 @@ class CreateTestScript extends Component {
         });
     }
 
-    handleFile = (e) =>{
-        this.setState({selectedFile: e.target.files[0]});
+    handleFile = (e) => {
+        this.setState({ selectedFile: e.target.files[0] });
     }
 
     render() {
@@ -164,8 +183,8 @@ class CreateTestScript extends Component {
                         <div className="loader"></div>
                     </div>
                     <nav className="question-nav">
-                        
-                        <input type="text" name="txtScriptName" onChange={this.onChange} className="form-control script-name" placeholder="Script's name" />
+
+                        <input type="text" name="txtScriptName" id="txtScriptName" onChange={this.onChange} className="form-control script-name" placeholder="Script's name" />
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
                                 <div id="question-tab" className="nav">
@@ -186,10 +205,10 @@ class CreateTestScript extends Component {
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
-                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab = {this.state.selectedTab + 1} />
+                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab + 1} />
                             <div className="tab-create">
-                                <input type ="file" name="file" onChange={(e) => {this.handleFile(e)}}/>
-                                <button className="btn btn-success" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
+                                <input type="file" name="file" onChange={(e) => { this.handleFile(e) }} />
+                                <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
                                     <i className="fa fa-plus" />
                                     &nbsp;CREATE TEST SCRIPT
                          </button>

@@ -30,6 +30,13 @@ export const fetchPracticalExams = async (subjectId, dispatch) => {
     }
 }
 
+export const fetchTestScripts = async (subjectId, dispatch) => {
+    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT,"GET",subjectId);
+    if(res != null){
+        handleResponse(res,Constants.FETCH_TEST_SCRIPT,dispatch);
+    }
+}
+
 export const createPracticalExams = async (practicalExam, dispatch) => {
     let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);
     if (res != null) {

@@ -3,7 +3,7 @@ import './style.css';
 import * as AppConstant from '../../constants/AppConstants';
 // import { connect } from 'react-redux';
 
-const arrOptions = ['Boolean', 'Char', 'Integer', 'Float', 'Double', 'String'];
+
 
 class Variable extends Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class Variable extends Component {
                     paramObj: paramObj,
                     parent: parent,
                     index: index,
-                    selectedType: arrOptions[0],
+                    selectedType: AppConstant.ARRAY_OPTIONS[0],
                     txtName: paramObj.name,
                     txtValue: paramObj.value,
                     isCreate : true,
@@ -118,7 +118,7 @@ class Variable extends Component {
                     <div className="input-group mb-3">
                         {/*  */}
                         {this.renderOptions(paramObj.label)}
-                        {label === AppConstant.LABEL_PARAM ?
+                        {paramObj.label === AppConstant.LABEL_STEP ?
                             <input name="txtName" className="form-control" placeholder="Name"
                                 value={txtName}
                                 onChange={this.onChange}
@@ -151,7 +151,7 @@ class Variable extends Component {
                 </option>
             );
         } else {
-            options = arrOptions.map((data, index) =>
+            options = AppConstant.ARRAY_OPTIONS.map((data, index) =>
                 <option
                     key={index}
                     value={data}
