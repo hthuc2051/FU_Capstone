@@ -18,7 +18,7 @@ class Variable extends Component {
             txtValue: "",
             eventData: null,
             isCreate: false,
-            backUpdParamObj:null
+            backUpdParamObj: null,
         };
     }
 
@@ -67,7 +67,13 @@ class Variable extends Component {
 
     }
 
-
+componentDidMount(){
+    let{backUpdParamObj,paramObj} = this.state; 
+    if(backUpdParamObj === null && paramObj !== null){
+        backUpdParamObj = this.iterationCopy(paramObj);
+        this.setState({backUpdParamObj}); 
+    }
+}
 
     doneEdit = () => {
         let { paramObj, selectedType, txtName, txtValue, eventData } = this.state;
@@ -123,9 +129,8 @@ class Variable extends Component {
         this.props.closeForm(paramObj, parent, index);
     }
     render() {
-        let { txtName, txtValue } = this.state;
+        let { txtName, txtValue,paramObj } = this.state;
         let { label } = this.props;
-        let { paramObj } = this.props;
         console.log(paramObj);
         return (
             <div className="variable-item">
@@ -166,10 +171,6 @@ class Variable extends Component {
         let{backUpdParamObj} = this.state;
         let result = null;
         let arr = null;
-        if(backUpdParamObj === null){
-            backUpdParamObj = this.iterationCopy(paramObj);
-            this.setState({backUpdParamObj}); 
-        }
         arr = paramObj.params;
         if (paramObj != null && typeof (paramObj) !== 'undefined') {
             if (arr != null && typeof (arr) !== 'undefined' && arr.length > 0) {
@@ -204,6 +205,7 @@ class Variable extends Component {
                     let arr = [];
                     element.params.forEach(param => {
                         let tempParam = this.iterationCopy(param);
+                        tempParam.value = tempParam.name;
                         arr.push(tempParam);
                     });
                     paramObj.name = tempEvent.name;

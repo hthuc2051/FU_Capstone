@@ -110,7 +110,6 @@ class TreeViewWeb extends Component {
       window.alert("Please Insert All The Input Fields")
     } else {
       paramObj.editMode = false;
-      console.log(paramObj);
       this.setState({ paramObj }, () => { this.saveTestCase(); });
       if (paramObj.label == undefined) {
         this.setState({ expectedResultText: paramObj.value, expectedResultType: paramObj.type });
@@ -126,6 +125,9 @@ class TreeViewWeb extends Component {
   addMember = (parent) => {
     let sampleData = this.state.eventData[0];
     if (sampleData !== null && typeof (sampleData) !== 'undefined') {
+      sampleData.params.forEach(element => {
+        element.value = element.name;
+      });
       let newChild = {
         label: parent[0].label,
         type: '',
@@ -163,17 +165,24 @@ class TreeViewWeb extends Component {
     )
   }
   addChild = (node) => {
-    console.log(this.state.eventData);
     node.showChildren = true;
-    node.children.push({
-      label: Constant.LABEL_PARAM,
-      type: 'String',
-      name: 'string',
-      value: 'null',
-      showChildren: false,
-      editMode: false,
-      children: []
-    });
+
+    let sampleData = this.state.eventData[0];
+    if (sampleData !== null && typeof (sampleData) !== 'undefined') {
+      sampleData.params.forEach(element => {
+        element.value = element.name;
+      });
+      let newChild = {
+        label: node.label,
+        name: sampleData.name,
+        code: sampleData.code,
+        params: sampleData.params,
+        showChildren: false,
+        editMode: true,
+        children: []
+      }
+      node.children.push(newChild);
+    }
     this.setState({ node });
   }
   makeChildren = (node) => {
@@ -214,7 +223,6 @@ class TreeViewWeb extends Component {
 
       // A node has no children
       else if (paramObj.children.length === 0) {
-        console.log(paramObj)
         let normalMode = (
           <div className="node"><i className="fa fa-square-o"></i>
             {paramObj.label === Constant.LABEL_STEP ?
@@ -308,15 +316,38 @@ class TreeViewWeb extends Component {
   }
 
   createStep(step, index) {
-    return (
+    console.log(step);
 
+    let code = this.getChildCode(step);
+
+    return (
       <code key={index} className="codeLine" id="temp">
         {/* Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br /> */}
-        {step.code}<br />
+        {/* {step.code} */}
+        {code}
+        <br />
       </code>
 
     );
+  }
+
+  getChildCode(step) {
+    let code = step.code;
+    let child = step.children;
+    let temp = '';
+    if (child !== null && typeof (child) !== 'undefined') {
+      if (child.length > 0) {
+        child.map((item, i) => { temp += this.getChildCode(item) });
+      }
+    }
+    if (code.indexOf('//body') > -1 && temp !== '' && typeof (temp) !== 'undefined') {
+      code = code.replace('//body', temp);
+    }
+    if (code !== null && typeof (code) !== 'undefined') {
+      return code;
+    }
+    return '';
   }
 
   handlePoint = (e) => {
@@ -334,7 +365,7 @@ class TreeViewWeb extends Component {
 
   render() {
     let { expectedResult, question, expectedResultType, expectedResultText, listInputParam } = this.state;
-    console.log(listInputParam);
+    console.log(question);
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
