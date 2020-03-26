@@ -32,9 +32,24 @@ class HeadLecturerPageContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        console.log(nextProps);
         if (nextProps === prevState) {
             return null;
         }
+        // if(nextProps.eventData !== null){
+        //     nextProps.eventData.forEach(element => {
+        //         element.params = [{
+        //             type: 'String',
+        //             name: '$paramName',
+        //             value: '$paramName',
+        //           },
+        //           {
+        //             type: 'String',
+        //             name: '$paramValue',
+        //             value: '$paramValue',
+        //           }]
+        //     });
+        // }
         return {
             eventData: nextProps.eventData,
             isLoading:nextProps.isLoading,

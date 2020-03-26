@@ -47,19 +47,16 @@ export const DELETE_PRACTICAL_EXAMS_TIME_OUT = 'DELETE_PRACTICAL_EXAMS_TIME_OUT'
 
 
 // End point 
-export const API_URL = 'http://localhost:8080/api';
+export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
 export const END_POINT_EVENTS = "actions/subjects";
 export const END_POINT_SUBJECTS = "subjects";
 export const END_POINT_LECTURER = "lecturers";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
-<<<<<<< HEAD
 export const END_POINT_TESTSCRIPTS = "testScript";
-=======
 export const END_POINT_LIST_ACTION = "actions";
 
->>>>>>> origin/featutes/thucnh_practicalExam
 // API Method
 export const METHOD_GET = "GET";
 export const METHOD_POST = "POST";

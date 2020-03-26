@@ -18,6 +18,7 @@ class Variable extends Component {
             txtValue: "",
             eventData: null,
             isCreate: false,
+            backUpdParamObj:null
         };
     }
 
@@ -28,63 +29,56 @@ class Variable extends Component {
             return null;
         }
         // if is create new
-        if (paramObj.type === '' || paramObj.type === null) {
-            if(paramObj.label === AppConstant.LABEL_STEP){ // step
-                return {
-                    eventData: eventData,
-                    paramObj: paramObj,
-                    parent: parent,
-                    index: index,
-                    selectedType: eventData[0].name,
-                    txtName: paramObj.name,
-                    txtValue: paramObj.value,
-                    isCreate : true,
-                }
-            }else if(paramObj.label === AppConstant.LABEL_PARAM){ // param
-                return {
-                    eventData: eventData,
-                    paramObj: paramObj,
-                    parent: parent,
-                    index: index,
-                    selectedType: AppConstant.ARRAY_OPTIONS[0],
-                    txtName: paramObj.name,
-                    txtValue: paramObj.value,
-                    isCreate : true,
-                }
-            }
-            
-        } else { //if update
+        // if (paramObj.name === '' || paramObj.name === null) {
+        //     if (paramObj.label === AppConstant.LABEL_STEP) { // step
+        //         console.log(eventData)
+        //         return {
+        //             eventData: eventData,
+        //             paramObj: paramObj,
+        //             parent: parent,
+        //             index: index,
+        //             selectedType: eventData[0].name,
+        //             txtName: paramObj.name,
+        //             txtValue: paramObj.value,
+        //             isCreate: true,
+        //         }
+        //     } else if (paramObj.label === AppConstant.LABEL_PARAM) { // param
+        //         return {
+        //             eventData: eventData,
+        //             paramObj: paramObj,
+        //             parent: parent,
+        //             index: index,
+        //             selectedType: AppConstant.ARRAY_OPTIONS[0],
+        //             txtName: paramObj.name,
+        //             txtValue: paramObj.value,
+        //             isCreate: true,
+        //         }
+        //     }
+
+        // } else { //if update
             return {
                 eventData: eventData,
                 paramObj: paramObj,
                 parent: parent,
                 index: index,
-                selectedType: paramObj.type,
-                txtName: paramObj.name,
-                txtValue: paramObj.value,
+                selectedType: paramObj.name,
             }
-        }
+      //  }
 
     }
 
-    onChange = (e) => {
-        var target = e.target;
-        var name = target.name;
-        this.setState({
-            [name]: target.value
-        });
-    }
+
 
     doneEdit = () => {
         let { paramObj, selectedType, txtName, txtValue, eventData } = this.state;
-        paramObj.type = selectedType;
-        paramObj.name = txtName;
+        paramObj.name = selectedType;
+        // paramObj.name = txtName;
         paramObj.value = txtValue;
         if (paramObj.label === AppConstant.LABEL_STEP) {
             eventData.forEach(element => {
                 if (element.name === selectedType) {
                     let code = element.code;
-                    let codeReturn = this.renderCode(code, txtName, txtValue);
+                    let codeReturn = this.renderCode(code, paramObj);
                     paramObj.code = codeReturn;
                 }
             });
@@ -93,13 +87,35 @@ class Variable extends Component {
         this.props.doneEdit(paramObj);
     }
 
-    renderCode(code, name, value) {
+    renderCode(code, paramObj) {
         // change here
-        do {
-            code = code.replace(AppConstant.PARAM_NAME, '"'+name+'"');
-            code = code.replace(AppConstant.PARAM_VALUE,'"'+ value +'"');
-        } while (code.indexOf(AppConstant.PARAM_VALUE) > -1 || code.indexOf(AppConstant.PARAM_NAME) > -1)
+        let arr = paramObj.params;
+        if (paramObj != null && typeof (paramObj) !== 'undefined') {
+            if (arr != null && typeof (arr) !== 'undefined' && arr.length > 0) {
+                let count = 0;
+                arr.forEach(element => {
+                    do {
+                        code = code.replace(element.name, this.checkParameterType(element));
+                        count++;
+                    } while (count < 10);
+                });
+            }
+
+        }
         return code;
+    }
+
+    checkParameterType(param) {
+        let type = param.type;
+        let value = param.value;
+        if (type !== null && type !== 'undefined' && value !== null && value !== 'undefined') {
+            switch (type) {
+                case AppConstant.ARRAY_OPTIONS[5]:
+                    return '"' + value + '"';
+                default: return value;
+            }
+        }
+        return "";
     }
 
     closeForm = () => {
@@ -119,11 +135,14 @@ class Variable extends Component {
                         {/*  */}
                         {this.renderOptions(paramObj.label)}
                         {paramObj.label === AppConstant.LABEL_STEP ?
+                            this.renderInput(paramObj) : ''}
+                        {/* <input name="txtValue" className="form-control" placeholder="Value" value={txtValue} onChange={this.onChange} /> */}
+                        {/* {paramObj.label === AppConstant.LABEL_STEP ?
                             <input name="txtName" className="form-control" placeholder="Name"
                                 value={txtName}
                                 onChange={this.onChange}
                             /> : ''}
-                        <input name="txtValue" className="form-control" placeholder="Value" value={txtValue} onChange={this.onChange} />
+                        <input name="txtValue" className="form-control" placeholder="Value" value={txtValue} onChange={this.onChange} /> */}
                         {/*  */}
                     </div>
                 </div>
@@ -134,6 +153,87 @@ class Variable extends Component {
             </div>
         );
     }
+
+    onChange = (e) => {
+        var target = e.target;
+        var name = target.name;
+        let { paramObj } = this.state;
+        paramObj.params[name].value = target.value;
+        this.setState({ paramObj });
+    }
+
+    renderInput(paramObj) {
+        let{backUpdParamObj} = this.state;
+        let result = null;
+        let arr = null;
+        if(backUpdParamObj === null){
+            backUpdParamObj = this.iterationCopy(paramObj);
+            this.setState({backUpdParamObj}); 
+        }
+        arr = paramObj.params;
+        if (paramObj != null && typeof (paramObj) !== 'undefined') {
+            if (arr != null && typeof (arr) !== 'undefined' && arr.length > 0) {
+                result = arr.map((item, index) => {
+                    return (<input name={index} key={index} className="form-control" placeholder={item.name}
+                        value={item.value}
+                        onChange={this.onChange}
+                    />);
+                })
+            }
+
+        }
+        return result;
+    }
+
+ changeSelectType = (e) =>{
+     e.preventDefault();
+    var target = e.target;
+    var name = target.name;
+    let value = target.value;
+    this.setState({
+        [name]: value
+    });
+    let {backUpdParamObj,paramObj,eventData} = this.state;
+    if(value!== null&& typeof(value) !== 'undefined' && backUpdParamObj !== null && typeof(backUpdParamObj)!== 'undefined'){
+        if(value == backUpdParamObj.name){
+            paramObj = this.iterationCopy(backUpdParamObj);
+        }else{
+            eventData.forEach(element => {
+                if(element.name === value){
+                    let tempEvent = this.iterationCopy(element);
+                    let arr = [];
+                    element.params.forEach(param => {
+                        let tempParam = this.iterationCopy(param);
+                        arr.push(tempParam);
+                    });
+                    paramObj.name = tempEvent.name;
+                    paramObj.params = arr;
+                    paramObj.code = tempEvent.code;
+                    this.setState({paramObj});
+                }
+            });
+        }
+    }
+ }
+
+  iterationCopy(src) {
+    let target = {};
+    for (let prop in src) {
+      if (src.hasOwnProperty(prop)) {
+        // if the value is a nested object, recursively copy all it's properties
+        if (this.isObject(src[prop])) {
+          target[prop] = this.iterationCopy(src[prop]);
+        } else {
+          target[prop] = src[prop];
+        }
+      }
+    }
+    return target;
+  }
+   isObject(obj) {
+    var type = typeof obj;
+    return type === 'function' || type === 'object' && !!obj;
+  };
 
     renderOptions = (label) => {
         let { eventData } = this.state;
@@ -161,7 +261,7 @@ class Variable extends Component {
             );
         }
         return (
-            <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.onChange}>
+            <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.changeSelectType}>
                 {options}
                 {/* Extends more later */}
             </select>

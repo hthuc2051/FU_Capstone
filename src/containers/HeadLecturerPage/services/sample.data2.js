@@ -1,7 +1,9 @@
+
+
 import * as Constant from './../../../constants/AppConstants';
 
-export default class ScriptObject {
-  constructor() {
+export default class ScriptObject{
+  constructor(){
 
   };
   scriptObj = {
@@ -22,9 +24,9 @@ export default class ScriptObject {
           {
             label: Constant.LABEL_PARAM,
             parentId: 50,
-            type: 'String',
-            name: 'String',
-            value: 'value',
+            type:'String',
+            name: 'name',
+            value:'value',
             showChildren: false,
             editMode: false,
             children: []
@@ -32,7 +34,7 @@ export default class ScriptObject {
         ]
       },
       {
-
+  
         parentId: 39,
         name: 'Step',
         label: Constant.LABEL_STEP,
@@ -40,21 +42,14 @@ export default class ScriptObject {
         editMode: false,
         children: [
           {
+  
             label: Constant.LABEL_STEP,
-            name: 'sendKeysToElementById',
-            params: [{
-              type: 'String',
-              name: '$paramName',
-              value: '$paramName',
-            },
-            {
-              type: 'String',
-              name: '$paramValue',
-              value: '$paramValue',
-            }],
+            type:'sendKeysToElementById',
+            name: 'name',
+            value:'value',
             showChildren: false,
             editMode: false,
-            code: 'driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);',
+            code:'driver.findElement(By.id("name")).clear(); driver.findElement(By.id("name")).sendKeys("value");',
             children: []
           }
         ]

@@ -44,7 +44,6 @@ class TreeViewWeb extends Component {
         listStep: nextProps.question.data.params[1].children,
         eventData: nextProps.eventData,
       }
-
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
     return { eventData: nextProps.eventData }
@@ -100,10 +99,18 @@ class TreeViewWeb extends Component {
   }
 
   doneEdit = (paramObj) => {
-    if (paramObj.value == '') {
+    let array = paramObj.params;
+    let isEmpty = false;
+    array.forEach(element => {
+      if (element.value == '') {
+        isEmpty = true;
+      }
+    });
+    if (isEmpty) {
       window.alert("Please Insert All The Input Fields")
     } else {
       paramObj.editMode = false;
+      console.log(paramObj);
       this.setState({ paramObj }, () => { this.saveTestCase(); });
       if (paramObj.label == undefined) {
         this.setState({ expectedResultText: paramObj.value, expectedResultType: paramObj.type });
@@ -117,17 +124,22 @@ class TreeViewWeb extends Component {
   }
 
   addMember = (parent) => {
-    let newChild = {
-      label: parent[0].label,
-      type: '',
-      name: '',
-      value: '',
-      showChildren: false,
-      editMode: true,
-      children: []
+    let sampleData = this.state.eventData[0];
+    if (sampleData !== null && typeof (sampleData) !== 'undefined') {
+      let newChild = {
+        label: parent[0].label,
+        type: '',
+        name: sampleData.name,
+        value: '',
+        code: sampleData.code,
+        params: sampleData.params,
+        showChildren: false,
+        editMode: true,
+        children: []
+      }
+      parent.push(newChild);
+      this.setState({ parent });
     }
-    parent.push(newChild);
-    this.setState({ parent });
   }
 
 
@@ -151,6 +163,7 @@ class TreeViewWeb extends Component {
     )
   }
   addChild = (node) => {
+    console.log(this.state.eventData);
     node.showChildren = true;
     node.children.push({
       label: Constant.LABEL_PARAM,
@@ -205,9 +218,10 @@ class TreeViewWeb extends Component {
         let normalMode = (
           <div className="node"><i className="fa fa-square-o"></i>
             {paramObj.label === Constant.LABEL_STEP ?
-              paramObj.type  +" - " + paramObj.name +" - " + paramObj.value
+              //paramObj.type  +" - " + paramObj.params +" - " + paramObj.value
+              this.renderParam(paramObj)
               :
-              paramObj.type +" - " + paramObj.value
+              paramObj.type + " - " + paramObj.value
             }
 
             <span className="actions">
@@ -240,6 +254,17 @@ class TreeViewWeb extends Component {
     );
   }
 
+  renderParam(paramObject) {
+    let strReturn = paramObject.name;
+    let paramArr = paramObject.params;
+    if (paramArr !== null && typeof (paramArr) !== 'undefined') {
+      paramArr.map((item, index) => {
+        strReturn += " - " + item.value;
+      })
+    }
+    return strReturn;
+  }
+
   getNodes = () => {
     if (typeof this.state.data.methodName === 'undefined') return null;
     let children = this.makeChildren(this.state.data.params);
@@ -255,9 +280,9 @@ class TreeViewWeb extends Component {
     }
   }
 
-  createParam = (param, index,type) => {
+  createParam = (param, index, type) => {
     // type = string
-    if(type === Constant.ARRAY_OPTIONS[5]){
+    if (type === Constant.ARRAY_OPTIONS[5]) {
       param = '"' + param + '"';
     }
     if (index !== this.state.listInputParam.length - 1) {
@@ -345,7 +370,7 @@ class TreeViewWeb extends Component {
               public void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
               {this.state.listStep.map((item, index) => this.createStep(item, index))}
     assertEquals(<span className="codeParam">{this.renderExpectedResult(expectedResultText, expectedResultType)}</span>,templateQuestion.question{this.props.selectedTab}(
-              {this.state.listInputParam.map((item, index) => this.createParam(item.value, index,item.type))}
+              {this.state.listInputParam.map((item, index) => this.createParam(item.value, index, item.type))}
               ));<br />
               &#125;
             </code>
