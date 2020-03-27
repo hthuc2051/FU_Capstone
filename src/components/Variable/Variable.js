@@ -28,68 +28,39 @@ class Variable extends Component {
         if (nextProps.eventData === prevState.eventData) {
             return null;
         }
-        // if is create new
-        // if (paramObj.name === '' || paramObj.name === null) {
-        //     if (paramObj.label === AppConstant.LABEL_STEP) { // step
-        //         console.log(eventData)
-        //         return {
-        //             eventData: eventData,
-        //             paramObj: paramObj,
-        //             parent: parent,
-        //             index: index,
-        //             selectedType: eventData[0].name,
-        //             txtName: paramObj.name,
-        //             txtValue: paramObj.value,
-        //             isCreate: true,
-        //         }
-        //     } else if (paramObj.label === AppConstant.LABEL_PARAM) { // param
-        //         return {
-        //             eventData: eventData,
-        //             paramObj: paramObj,
-        //             parent: parent,
-        //             index: index,
-        //             selectedType: AppConstant.ARRAY_OPTIONS[0],
-        //             txtName: paramObj.name,
-        //             txtValue: paramObj.value,
-        //             isCreate: true,
-        //         }
-        //     }
-
-        // } else { //if update
-            return {
-                eventData: eventData,
-                paramObj: paramObj,
-                parent: parent,
-                index: index,
-                selectedType: paramObj.name,
-            }
-      //  }
-
+        return {
+            eventData: eventData,
+            paramObj: paramObj,
+            parent: parent,
+            index: index,
+            selectedType: paramObj.name,
+        }
     }
 
-componentDidMount(){
-    let{backUpdParamObj,paramObj} = this.state; 
-    if(backUpdParamObj === null && paramObj !== null){
-        backUpdParamObj = this.iterationCopy(paramObj);
-        this.setState({backUpdParamObj}); 
+    componentDidMount() {
+        let { backUpdParamObj, paramObj } = this.state;
+        if (backUpdParamObj === null && paramObj !== null) {
+            backUpdParamObj = this.iterationCopy(paramObj);
+            this.setState({ backUpdParamObj });
+        }
     }
-}
 
     doneEdit = () => {
         let { paramObj, selectedType, txtName, txtValue, eventData } = this.state;
-        paramObj.name = selectedType;
-        // paramObj.name = txtName;
-        paramObj.value = txtValue;
-        if (paramObj.label === AppConstant.LABEL_STEP) {
-            eventData.forEach(element => {
-                if (element.name === selectedType) {
-                    let code = element.code;
-                    let codeReturn = this.renderCode(code, paramObj);
-                    paramObj.code = codeReturn;
-                }
-            });
-
+        if(paramObj.label === AppConstant.LABEL_STEP){
+            paramObj.name = selectedType;
+            if (paramObj.label === AppConstant.LABEL_STEP) {
+                eventData.forEach(element => {
+                    if (element.name === selectedType) {
+                        let code = element.code;
+                        let codeReturn = this.renderCode(code, paramObj);
+                        paramObj.code = codeReturn;
+                    }
+                });
+    
+            }
         }
+       
         this.props.doneEdit(paramObj);
     }
 
@@ -129,7 +100,7 @@ componentDidMount(){
         this.props.closeForm(paramObj, parent, index);
     }
     render() {
-        let { txtName, txtValue,paramObj } = this.state;
+        let { txtName, txtValue, paramObj } = this.state;
         let { label } = this.props;
         console.log(paramObj);
         return (
@@ -141,13 +112,14 @@ componentDidMount(){
                         {this.renderOptions(paramObj.label)}
                         {paramObj.label === AppConstant.LABEL_STEP ?
                             this.renderInput(paramObj) : ''}
-                        {/* <input name="txtValue" className="form-control" placeholder="Value" value={txtValue} onChange={this.onChange} /> */}
-                        {/* {paramObj.label === AppConstant.LABEL_STEP ?
-                            <input name="txtName" className="form-control" placeholder="Name"
-                                value={txtName}
-                                onChange={this.onChange}
-                            /> : ''}
-                        <input name="txtValue" className="form-control" placeholder="Value" value={txtValue} onChange={this.onChange} /> */}
+        
+                        {paramObj.label === AppConstant.LABEL_PARAM ?
+                            <input name="name" className="form-control" placeholder="Name" value={paramObj.name} onChange={this.onChange} />
+                            : ''}
+
+                        {paramObj.label === AppConstant.LABEL_PARAM ?
+                            <input name="value" className="form-control" placeholder="Value" value={paramObj.value} onChange={this.onChange} />
+                            : ''}
                         {/*  */}
                     </div>
                 </div>
@@ -163,12 +135,16 @@ componentDidMount(){
         var target = e.target;
         var name = target.name;
         let { paramObj } = this.state;
-        paramObj.params[name].value = target.value;
+        if(paramObj.label === AppConstant.LABEL_STEP){
+            paramObj.params[name].value = target.value;
+        }else {
+            paramObj[name] = target.value;
+        }
         this.setState({ paramObj });
     }
 
     renderInput(paramObj) {
-        let{backUpdParamObj} = this.state;
+        if (paramObj.label !== AppConstant.LABEL_STEP) return;
         let result = null;
         let arr = null;
         arr = paramObj.params;
@@ -186,56 +162,56 @@ componentDidMount(){
         return result;
     }
 
- changeSelectType = (e) =>{
-     e.preventDefault();
-    var target = e.target;
-    var name = target.name;
-    let value = target.value;
-    this.setState({
-        [name]: value
-    });
-    let {backUpdParamObj,paramObj,eventData} = this.state;
-    if(value!== null&& typeof(value) !== 'undefined' && backUpdParamObj !== null && typeof(backUpdParamObj)!== 'undefined'){
-        if(value == backUpdParamObj.name){
-            paramObj = this.iterationCopy(backUpdParamObj);
-        }else{
-            eventData.forEach(element => {
-                if(element.name === value){
-                    let tempEvent = this.iterationCopy(element);
-                    let arr = [];
-                    element.params.forEach(param => {
-                        let tempParam = this.iterationCopy(param);
-                        tempParam.value = tempParam.name;
-                        arr.push(tempParam);
-                    });
-                    paramObj.name = tempEvent.name;
-                    paramObj.params = arr;
-                    paramObj.code = tempEvent.code;
-                    this.setState({paramObj});
-                }
-            });
+    changeSelectType = (e) => {
+        e.preventDefault();
+        var target = e.target;
+        var name = target.name;
+        let value = target.value;
+        this.setState({
+            [name]: value
+        });
+        let { backUpdParamObj, paramObj, eventData } = this.state;
+        if (value !== null && typeof (value) !== 'undefined' && backUpdParamObj !== null && typeof (backUpdParamObj) !== 'undefined') {
+            if (value == backUpdParamObj.name) {
+                paramObj = this.iterationCopy(backUpdParamObj);
+            } else {
+                eventData.forEach(element => {
+                    if (element.name === value) {
+                        let tempEvent = this.iterationCopy(element);
+                        let arr = [];
+                        element.params.forEach(param => {
+                            let tempParam = this.iterationCopy(param);
+                            tempParam.value = tempParam.name;
+                            arr.push(tempParam);
+                        });
+                        paramObj.name = tempEvent.name;
+                        paramObj.params = arr;
+                        paramObj.code = tempEvent.code;
+                        this.setState({ paramObj });
+                    }
+                });
+            }
         }
     }
- }
 
-  iterationCopy(src) {
-    let target = {};
-    for (let prop in src) {
-      if (src.hasOwnProperty(prop)) {
-        // if the value is a nested object, recursively copy all it's properties
-        if (this.isObject(src[prop])) {
-          target[prop] = this.iterationCopy(src[prop]);
-        } else {
-          target[prop] = src[prop];
+    iterationCopy(src) {
+        let target = {};
+        for (let prop in src) {
+            if (src.hasOwnProperty(prop)) {
+                // if the value is a nested object, recursively copy all it's properties
+                if (this.isObject(src[prop])) {
+                    target[prop] = this.iterationCopy(src[prop]);
+                } else {
+                    target[prop] = src[prop];
+                }
+            }
         }
-      }
+        return target;
     }
-    return target;
-  }
-   isObject(obj) {
-    var type = typeof obj;
-    return type === 'function' || type === 'object' && !!obj;
-  };
+    isObject(obj) {
+        var type = typeof obj;
+        return type === 'function' || type === 'object' && !!obj;
+    };
 
     renderOptions = (label) => {
         let { eventData } = this.state;
@@ -252,6 +228,12 @@ componentDidMount(){
                     {item.name}
                 </option>
             );
+            return (
+                <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.changeSelectType}>
+                    {options}
+                    {/* Extends more later */}
+                </select>
+            )
         } else {
             options = AppConstant.ARRAY_OPTIONS.map((data, index) =>
                 <option
@@ -261,13 +243,14 @@ componentDidMount(){
                     {data}
                 </option>
             );
+            return (
+                <select name="type" value={this.state.paramObj.type} className="custom-select" onChange={this.onChange}>
+                    {options}
+                    {/* Extends more later */}
+                </select>
+            )
         }
-        return (
-            <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.changeSelectType}>
-                {options}
-                {/* Extends more later */}
-            </select>
-        )
+
     }
 }
 

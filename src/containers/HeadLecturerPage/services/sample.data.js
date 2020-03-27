@@ -13,25 +13,6 @@ export default class ScriptObject {
     },
     params: [
       {
-        label: Constant.LABEL_PARAM,
-        parentId: 39,
-        name: 'Input Parameters',
-        showChildren: true,
-        editMode: false,
-        children: [
-          {
-            label: Constant.LABEL_PARAM,
-            parentId: 50,
-            type: 'String',
-            name: 'String',
-            value: 'value',
-            showChildren: false,
-            editMode: false,
-            children: []
-          }
-        ]
-      },
-      {
 
         parentId: 39,
         name: 'Step',
@@ -41,7 +22,7 @@ export default class ScriptObject {
         children: [
           {
             label: Constant.LABEL_STEP,
-            name: 'sendKeysToElementById',
+            name: 'Input_TextBox_By_ID',
             params: [{
               type: 'String',
               name: '$paramName',

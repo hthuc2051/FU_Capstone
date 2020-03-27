@@ -23,7 +23,27 @@ class CreateTestScript extends Component {
                     testcase: 'question1',
                     code: '',
                     point: 0,
-                }]
+                }],
+                global_variable:
+                {
+                    label: AppConstant.LABEL_PARAM,
+                    parentId: 39,
+                    name: 'Global Variable',
+                    showChildren: true,
+                    editMode: false,
+                    children: [
+                        {
+                            label: AppConstant.LABEL_PARAM,
+                            parentId: 50,
+                            type: 'String',
+                            name: 'String',
+                            value: 'value',
+                            showChildren: false,
+                            editMode: false,
+                            children: []
+                        }
+                    ]
+                },
             },
             scriptName: '',
             count: 2,
@@ -65,6 +85,12 @@ class CreateTestScript extends Component {
         this.setState({ questionArr });
     }
 
+    onSaveGlobalVariable = (globalVariable) => {
+        let { global_variable } = this.state;
+        global_variable = globalVariable;
+        this.setState({ global_variable });
+    }
+
     createTestScript = () => {
         let { questionArr, txtScriptName, selectedFile } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
@@ -85,12 +111,12 @@ class CreateTestScript extends Component {
         for (let i = 0; i < questionArr.questions.length; i++) {
             let code = questionArr.questions[i].code;
             let point = questionArr.questions[i].point;
-            if(code === ''){
-                window.alert( AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE+ questionArr.questions[i].testcase);
+            if (code === '') {
+                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE + questionArr.questions[i].testcase);
                 return false;
             }
-            if(point === 0){
-                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT +questionArr.questions[i].testcase);
+            if (point === 0) {
+                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT + questionArr.questions[i].testcase);
                 return false;
             }
         }
@@ -205,7 +231,8 @@ class CreateTestScript extends Component {
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
-                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab + 1} />
+                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab + 1} 
+                            global_variable = {this.state.questionArr.global_variable} onSaveGlobalVariable = {this.onSaveGlobalVariable} />
                             <div className="tab-create">
                                 <input type="file" name="file" onChange={(e) => { this.handleFile(e) }} />
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
