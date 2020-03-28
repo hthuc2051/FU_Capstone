@@ -234,10 +234,13 @@ form.node_edit_form .field.action_node .fa.fa-close {
     float: left;
     padding-left: 20px;
     margin-top: 50px;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .codeLine {
     color: black;
+    overflow: scroll;
 }
 .methodName{
     color: blue;

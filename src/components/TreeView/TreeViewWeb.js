@@ -11,9 +11,6 @@ class TreeViewWeb extends Component {
     this.state = {
       data: '',
       editableNode: '',
-      expectedResult: '',
-      expectedResultText: '',
-      expectedResultType: 'String',
       eventData: null,
       listInputParam: '',
       global_variable: null,
@@ -22,7 +19,9 @@ class TreeViewWeb extends Component {
         testcase: 'question1',
         code: '',
         point: 0,
-      }
+      },
+      selectTemplate: '',
+      selectedTab: 0,
     }
   }
 
@@ -39,9 +38,8 @@ class TreeViewWeb extends Component {
       return {
         data: nextProps.question.data,
         question: nextProps.question,
-        expectedResult: nextProps.question.data.expectedResult,
-        expectedResultText: nextProps.question.data.expectedResult.value,
-        // listInputParam: nextProps.question.data.params[0].children,
+        selectedTab: nextProps.selectedTab,
+        selectTemplate: nextProps.question.data.template,
         global_variable: nextProps.global_variable,
         listStep: nextProps.question.data.params[0].children,
         eventData: nextProps.eventData,
@@ -114,9 +112,6 @@ class TreeViewWeb extends Component {
       } else {
         paramObj.editMode = false;
         this.setState({ paramObj }, () => { this.saveTestCase(); });
-        if (paramObj.label == undefined) {
-          this.setState({ expectedResultText: paramObj.value, expectedResultType: paramObj.type });
-        }
       }
     }
     else if (paramObj.label === Constant.LABEL_PARAM) {
@@ -138,7 +133,7 @@ class TreeViewWeb extends Component {
 
   saveGlobalVariable = () => {
     let { global_variable } = this.state;
-    if(global_variable !== null){
+    if (global_variable !== null) {
       this.props.onSaveGlobalVariable(global_variable);
     }
   }
@@ -313,6 +308,39 @@ class TreeViewWeb extends Component {
     );
   }
 
+
+  getChildCode(step, spaceIndex) {
+    let baseSpace = 20;
+    let code = step.code;
+    let child = step.children;
+    let tempCode = step.code;
+    let margin = baseSpace * spaceIndex;
+    let children = null;
+    if (child === null && typeof (child) === 'undefined') return;
+    children = child.map((element, index) => {
+      let item = '';
+      if (element.children.length > 0) {
+        let babies = this.getChildCode(element, spaceIndex + 1);
+        item = babies;
+      }
+      else {
+        item = (<span key={index} style={{ marginLeft: baseSpace*(spaceIndex + 1) }} >{element.code}<br /></span>);
+      }
+      return item;
+    });
+    if (tempCode.indexOf('//body') > -1) {
+      let temp = tempCode.split('//body');
+      code = (<span style={{ marginLeft: margin }}>
+        {temp[0]}<br />
+        {children}
+        <span style={{ marginLeft: margin }}>{temp[1]}</span><br />
+      </span>);
+    }
+    if (code !== null && typeof (code) !== 'undefined') {
+      return code;
+    }
+  }
+
   renderParam(paramObject) {
     let strReturn = paramObject.name;
     let paramArr = paramObject.params;
@@ -347,7 +375,7 @@ class TreeViewWeb extends Component {
         param = '"' + param + '"';
       }
       return (
-        <span>{item.type} {item.name} = <span key={index} className="codeParam">{param};</span><br /></span>
+        <span key={index} >{item.type} {item.name} = <span className="codeParam">{param};</span><br /></span>
       )
     }
   }
@@ -365,38 +393,18 @@ class TreeViewWeb extends Component {
 
   createStep(step, index) {
     console.log(step);
-
-    let code = this.getChildCode(step);
-
+    let code = this.getChildCode(step, 1);
     return (
       <code key={index} className="codeLine" id="temp">
         {/* Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).clear();<br />
         Driver.findViewById(<span className="codeParamBold">"{step.name}"</span>).sendKey(<span className="codeParamBold">"{step.value}"</span>);<br /> */}
         {/* {step.code} */}
         {code}
-        <br />
       </code>
 
     );
   }
 
-  getChildCode(step) {
-    let code = step.code;
-    let child = step.children;
-    let temp = '';
-    if (child !== null && typeof (child) !== 'undefined') {
-      if (child.length > 0) {
-        child.map((item, i) => { temp += this.getChildCode(item) });
-      }
-    }
-    if (code.indexOf('//body') > -1 && temp !== '' && typeof (temp) !== 'undefined') {
-      code = code.replace('//body', temp);
-    }
-    if (code !== null && typeof (code) !== 'undefined') {
-      return code;
-    }
-    return '';
-  }
 
   handlePoint = (e) => {
     let point = e.target.value;
@@ -405,14 +413,18 @@ class TreeViewWeb extends Component {
     this.setState({ question })
   }
 
-  renderExpectedResult(expectedResult, expectedResultType) {
-    let strValue = '';
-    strValue = expectedResultType + ".valueOf(" + expectedResult + ")";
-    return strValue;
+  changeTemplate = (e) => {
+    var target = e.target;
+    var name = target.name;
+    this.setState({
+      [name]: target.value
+    });
+    let { selectedTab } = this.state;
+    this.props.onchangeTemplate(target.value, selectedTab);
   }
 
   render() {
-    let { expectedResult, question, data, expectedResultType, expectedResultText, listInputParam, global_variable } = this.state;
+    let { selectTemplate, question, data, global_variable } = this.state;
     console.log(global_variable);
     console.log(data.params);
     return (
@@ -436,10 +448,20 @@ class TreeViewWeb extends Component {
             </ul>
           </div>
           <div className="codePage" id="code" name="code" >
+            <p>
+              TEMPLATE:
+              <select value={selectTemplate} name="selectTemplate" onChange={this.changeTemplate}>
+                <option value="None">None</option>
+                <option value="Login">Login</option>
+                <option value="Create">Create</option>
+                <option value="Update">Update</option>
+                <option value="Delete">Delete</option>
+              </select>
+            </p>
             <code className="codeLine" id="codevalue">
               <p>{global_variable.children.map((item, index) => this.createParam(item, index))}</p>
               public void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
-              {this.state.listStep.map((item, index) => this.createStep(item, index))}
+              <p>{this.state.listStep.map((item, index) => this.createStep(item, index))}</p>
               &#125;
             </code>
           </div>

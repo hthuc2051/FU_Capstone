@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TreeViewWeb } from './../../../components/index';
 import scriptObj from './sample.data';
 import * as AppConstant from './../../../constants/AppConstants';
+import ScriptTemplateJavaWeb from './template.Javaweb';
 import '../style.css';
 
 const QUESTION = "question";
@@ -11,7 +12,7 @@ class CreateTestScript extends Component {
     // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
     constructor(props) {
         super(props);
-        var tempScript = new scriptObj();
+        let template = new ScriptTemplateJavaWeb();
         this.state = {
             isLoading: false,
             pageType: '',
@@ -19,7 +20,7 @@ class CreateTestScript extends Component {
             questionArr: {
                 name: 'test1',
                 questions: [{
-                    data: tempScript.scriptObj,
+                    data: template.DEFAULT,
                     testcase: 'question1',
                     code: '',
                     point: 0,
@@ -149,8 +150,8 @@ class CreateTestScript extends Component {
         this.setState({ count: count + 1 });
         //add question into questionarr
         let { questionArr } = this.state;
-        let tempScript = new scriptObj();
-        let item = { testcase: QUESTION + count, data: tempScript.scriptObj, point: 0 };
+        let template = new ScriptTemplateJavaWeb();
+        let item = { testcase: QUESTION + count, data: template.DEFAULT, point: 0 };
         questionArr.questions.push(item);
         this.setState({ questionArr });
     }
@@ -183,6 +184,32 @@ class CreateTestScript extends Component {
                         document.getElementById(element).setAttribute("class", "nav-item nav-link active");
                     }
                 }
+            }
+            this.setState({ questionArr });
+        }
+    }
+
+    onchangeTemplate = (selectedTempalate, selectedTab) => {
+        let { questionArr } = this.state;
+        if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
+            switch (selectedTempalate) {
+                case 'Login':
+                    let login = new ScriptTemplateJavaWeb();
+                    questionArr.questions[selectedTab].data = login.LOGIN;
+                    break;
+                case 'Create':
+                    let create = new ScriptTemplateJavaWeb();
+                    questionArr.questions[selectedTab].data = create.CREATE;
+                    break;
+                case 'Update':
+                    let update = new ScriptTemplateJavaWeb();
+                    questionArr.questions[selectedTab].data = update.UPDATE;
+                    break;
+                case 'Delete':
+                    let deleteTemplate = new ScriptTemplateJavaWeb();
+                    questionArr.questions[selectedTab].data = deleteTemplate.DELETE;
+                    break;
+                default: questionArr.questions[selectedTab].data = new ScriptTemplateJavaWeb().DEFAULT;
             }
             this.setState({ questionArr });
         }
@@ -231,8 +258,8 @@ class CreateTestScript extends Component {
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
-                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab + 1} 
-                            global_variable = {this.state.questionArr.global_variable} onSaveGlobalVariable = {this.onSaveGlobalVariable} />
+                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
+                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
                             <div className="tab-create">
                                 <input type="file" name="file" onChange={(e) => { this.handleFile(e) }} />
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>

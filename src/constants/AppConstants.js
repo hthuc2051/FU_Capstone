@@ -1,7 +1,7 @@
 export const LABEL_PARAM = 'Parameter';
 export const LABEL_EXPECTED_RESULT= 'Expected result';
 export const LABEL_STEP= 'Step';
-export const METHOD_NAME = 'testcase';
+
 
 export const PAGE_TYPE_CREATE_SCRIPT = "CREATE_SCRIPT";
 export const PAGE_TYPE_LIST_SCRIPT = "LIST_SCRIPT";
@@ -18,3 +18,10 @@ export const ARRAY_OPTIONS = ['Boolean', 'Char', 'Integer', 'Float', 'Double', '
 export const ERROR_MSG_EMPTY_SCRIPT_NAME = "Please set script name";
 export const ERROR_MSG_EMPTY_QUESTION_POINT = "Please set point for question: ";
 export const ERROR_MSG_EMPTY_QUESTION_CODE = "Please set test script for question: ";
+
+// method name
+export const METHOD_NAME = 'testcase';
+export const METHOD_NAME_LOGIN = 'checkLogin';
+export const METHOD_NAME_CREATE = 'checkCreate';
+export const METHOD_NAME_UPDATE = 'checkUpdate';
+export const METHOD_NAME_DELETE = 'checkDelete';
