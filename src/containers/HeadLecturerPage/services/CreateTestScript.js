@@ -22,7 +22,7 @@ class CreateTestScript extends Component {
                 questions: [{
                     data: template.DEFAULT,
                     testcase: 'question1',
-                    code: '',
+                    code: template.DEFAULT.code,
                     point: 0,
                 }],
                 global_variable:
@@ -101,7 +101,7 @@ class CreateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].testcase, code: questionArr.questions[i].code, point: questionArr.questions[i].point };
             newQuestionArr.questions.push(question);
         }
-        //   this.props.saveTestScript(newQuestionArr,txtScriptName,selectedFile);
+           this.props.saveTestScript(newQuestionArr,txtScriptName,selectedFile,questionArr);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -196,20 +196,26 @@ class CreateTestScript extends Component {
                 case 'Login':
                     let login = new ScriptTemplateJavaWeb();
                     questionArr.questions[selectedTab].data = login.LOGIN;
+                    questionArr.questions[selectedTab].code = login.LOGIN.code;
                     break;
                 case 'Create':
                     let create = new ScriptTemplateJavaWeb();
                     questionArr.questions[selectedTab].data = create.CREATE;
+                    questionArr.questions[selectedTab].code = create.CREATE.code;
                     break;
                 case 'Update':
                     let update = new ScriptTemplateJavaWeb();
                     questionArr.questions[selectedTab].data = update.UPDATE;
+                    questionArr.questions[selectedTab].code = update.UPDATE.code;
                     break;
                 case 'Delete':
                     let deleteTemplate = new ScriptTemplateJavaWeb();
                     questionArr.questions[selectedTab].data = deleteTemplate.DELETE;
+                    questionArr.questions[selectedTab].code = deleteTemplate.DELETE.code;
                     break;
-                default: questionArr.questions[selectedTab].data = new ScriptTemplateJavaWeb().DEFAULT;
+                default: 
+                questionArr.questions[selectedTab].data = new ScriptTemplateJavaWeb().DEFAULT;
+                questionArr.questions[selectedTab].code = new ScriptTemplateJavaWeb().DEFAULT.code;
             }
             this.setState({ questionArr });
         }
@@ -221,6 +227,11 @@ class CreateTestScript extends Component {
         this.setState({
             [name]: target.value
         });
+        if(name === 'txtScriptName'){
+            let {questionArr} = this.state;
+            questionArr.name = target.value;
+            this.setState({questionArr});
+        }
     }
 
     handleFile = (e) => {

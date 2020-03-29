@@ -330,7 +330,7 @@ class TreeViewWeb extends Component {
     });
     if (tempCode.indexOf('//body') > -1) {
       let temp = tempCode.split('//body');
-      code = (<span style={{ marginLeft: margin }}>
+      code = (<span key={spaceIndex} style={{ marginLeft: margin }}>
         {temp[0]}<br />
         {children}
         <span style={{ marginLeft: margin }}>{temp[1]}</span><br />

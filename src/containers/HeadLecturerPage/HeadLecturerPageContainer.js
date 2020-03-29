@@ -52,12 +52,12 @@ class HeadLecturerPageContainer extends Component {
         // }
         return {
             eventData: nextProps.eventData,
-            isLoading:nextProps.isLoading,
+            isLoading: nextProps.isLoading,
             pageType: nextProps.pageType,
         }
     }
 
-    getDataBeforeSaveTestScript = (questionArr, scriptName, file) => {
+    getDataBeforeSaveTestScript = (questionArr, scriptName, file, originalArr) => {
         let { subjectId } = this.state;
         console.log(questionArr);
         console.log(file);
@@ -67,6 +67,10 @@ class HeadLecturerPageContainer extends Component {
         let headLecturerId = 1;
         let question = this.createQuestionString(questionArr.questions);
         let questionStr = JSON.stringify(question);
+        let questionData = JSON.stringify(originalArr);
+        console.log(questionData);
+        let temp = JSON.parse(questionData);
+        console.log(temp);
         let formData = new FormData();
         formData.append("name", scriptName);
         formData.append("questionPointStr", tempQuestionPointStr);
@@ -74,6 +78,7 @@ class HeadLecturerPageContainer extends Component {
         formData.append("headLecturerId", headLecturerId);
         formData.append("subjectId", subjectId);
         formData.append("docsFile", file);
+        formData.append("scriptData", questionData);
         console.log(questionStr);
         this.props.saveTestScript(formData);
     }
@@ -104,7 +109,7 @@ class HeadLecturerPageContainer extends Component {
     }
 
     render() {
-        let { isLoading, eventData, pageType,subjectId } = this.state;
+        let { isLoading, eventData, pageType, subjectId } = this.state;
         console.log(eventData)
         return (
 
@@ -112,7 +117,7 @@ class HeadLecturerPageContainer extends Component {
                 <div className={isLoading ? 'loading' : 'none-loading'}>
                     <div className="loader"></div>
                 </div>
-                {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId= {subjectId}/> : ''}
+                {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
 

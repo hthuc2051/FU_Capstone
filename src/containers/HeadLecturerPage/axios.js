@@ -10,6 +10,7 @@ export const fetchEventsData = async (subjectId, dispatch) => {
 }
 
 export const createTestScript = async (formData, dispatch) => {
+    console.log(formData);
     let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
     if (res != null) {
         handleResponse(res, Constants.END_POINT_POST_TESTSCRIPT, dispatch);
