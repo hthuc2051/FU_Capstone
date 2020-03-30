@@ -15,7 +15,7 @@ class CodePage extends Component {
                         <LeftSideBar />
 
                         {/* Container */}
-                        <CodePageContainer />
+                        <AdminPageContainer />
                     </div>
                 </div>
             </div>
