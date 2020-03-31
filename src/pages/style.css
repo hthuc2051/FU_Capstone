@@ -95,6 +95,10 @@
 }
 
 /* Admin page */
+.admin-page #content-wrapper {
+  max-height: 800px;
+}
+
 .toggle-btn{
   width: 100%;
   text-align: left;

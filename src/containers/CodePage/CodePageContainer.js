@@ -55,6 +55,7 @@ class CodePageContainer extends Component {
         });
         console.log(action);
     }
+    
     renderInputElement() {
         var getDOMroot = document.getElementById('paramRoot');
         getDOMroot.innerHTML = "";

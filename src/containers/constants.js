@@ -16,10 +16,16 @@ export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_EVENTS_OK = 'FETCH_EVENTS_OK';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
 export const FETCH_EVENTS_TIME_OUT = 'FETCH_EVENTS_TIME_OUT';
+
 export const FETCH_ACTIONS = 'FETCH_ACTIONS';
 export const FETCH_ACTIONS_OK = 'FETCH_ACTIONS_OK';
 export const FETCH_ACTIONS_FAILED = 'FETCH_ACTIONS_FAILED';
 export const FETCH_ACTIONS_TIME_OUT = 'FETCH_ACTIONS_TIME_OUT';
+
+export const DELETE_ACTION = 'DELETE_ACTION';
+export const DELETE_ACTION_OK = 'DELETE_ACTION_OK';
+export const DELETE_ACTION_FAILED = 'DELETE_ACTION_FAILED';
+export const DELETE_ACTION_TIME_OUT = 'DELETE_ACTION_TIME_OUT';
 
 // Practical exam
 export const FETCH_PRACTICAL_EXAMS = 'FETCH_PRACTICAL_EXAMS';
@@ -56,6 +62,9 @@ export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
 export const END_POINT_TESTSCRIPTS = "testScript";
 export const END_POINT_LIST_ACTION = "actions";
+
+export const END_POINT_ACTION = "actions";
+
 
 // API Method
 export const METHOD_GET = "GET";

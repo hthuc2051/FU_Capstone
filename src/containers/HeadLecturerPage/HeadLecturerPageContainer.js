@@ -88,7 +88,6 @@ class HeadLecturerPageContainer extends Component {
 
         questionArr.forEach(element => {
             let code = Constants.ANOTATION_TEST + " \n" + element.code;
-            element.code = code;
             delete element.point;
         });
         console.log(questionArr)

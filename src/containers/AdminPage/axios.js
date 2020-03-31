@@ -3,16 +3,17 @@ import * as Actions from './actions';
 import * as Constants from '../constants';
 
 export const getListActions = async (dispatch) => {
-    let res = await callApi(Constants.END_POINT_LIST_ACTION);
+    let res = await callApi(Constants.END_POINT_ACTION);
     if (res != null) {
         handleResponse(res, Constants.FETCH_ACTIONS, dispatch);
     }
 }
 
-export const creatTestScript = async (testScript, dispatch) => {
-    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, testScript, null);
+export const deleteAction = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(Constants.END_POINT_ACTION, id);
+    let res = await callApi(endPoint, Constants.PREFIX_DELETE);
     if (res != null) {
-        handleResponse(res, Constants.END_POINT_POST_TESTSCRIPT, dispatch);
+        handleResponse(res, Constants.DELETE_ACTION, dispatch);
     }
 }
 
