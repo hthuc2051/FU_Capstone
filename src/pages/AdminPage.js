@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { LeftSideBar, TopNavBar } from '../components/index';
 import { AdminPageContainer, CodePageContainer } from '../containers/index';
 import './style.css';
-const ADMIN_PAGE_TITLE = 'Admin page';
+const ADMIN_PAGE_TITLE = 'Admin Page';
 class CodePage extends Component {
 
     render() {

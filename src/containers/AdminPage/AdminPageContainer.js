@@ -5,7 +5,7 @@ import { onFinishing } from './actions';
 import swal from 'sweetalert';
 import * as Constants from '../constants.js';
 import './style.css';
-import { history } from '../../App';
+import { withRouter } from 'react-router-dom';
 
 class AdminPageContainer extends Component {
 
@@ -63,12 +63,12 @@ class AdminPageContainer extends Component {
                 result = listActions.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <th scope="row">{++index}</th>
-                            <td>{item.name}</td>
-                            <td>
+                            <td className='align-middle'>{++index}</td>
+                            <td className='align-middle'>{item.name}</td>
+                            <td className='align-middle'>
                                 <div>
                                     <p>
-                                        <a className="btn btn-info" data-toggle="collapse" href={'#collapseCode' + index} >
+                                        <a className="btn btn-info" data-toggle="collapse" href={'#collapseCode' + index}>
                                             Details
                                         </a>
                                     </p>
@@ -76,26 +76,30 @@ class AdminPageContainer extends Component {
                                         <div className="col">
                                             <div className="collapse multi-collapse" id={'collapseCode' + index}>
                                                 <div className="card card-body code">
-                                                    {item.code}
+                                                    {item.code ? this.renderCode(item.code) : ''}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td className='align-middle'>
                                 <div className="collapse multi-collapse" id={'collapseCode' + index}>
-                                    <div>
+                                    <div className='params'>
                                         {item.params ? this.renderParam(item.params) : ''}
                                     </div>
                                 </div>
                             </td>
-                            <td>{item.subjectId}</td>
-                            <td>
+                            <td className='align-middle'>
+                                <div className='subjects'>
+                                    {item.subjectName ? this.renderSubject(item.subjectName) : ''}
+                                </div>
+                            </td>
+                            <td className='align-middle'>
                                 <button className="btn btn-danger"
                                     onClick={() => this.onDelete(item.id)}>Delete</button>
                             </td>
-                            <td>
+                            <td className='align-middle'>
                                 <button className="btn btn-primary"
                                     onClick={() => this.onUpdate(item.id)}>Update</button>
                             </td>
@@ -126,16 +130,43 @@ class AdminPageContainer extends Component {
     }
 
     openCreateForm = () => {
-        history.push();
+        this.props.history.push('/admin/action/create');
     }
 
     renderParam = (params) => {
         let result = [];
         result = params.map((item, index) => {
             return (
-                <p key={index}>{item.type} - {item.name}</p>
+                <p key={index}>{item.name} - {item.type}</p>
             );
         });
+        return result;
+    }
+
+    renderSubject = (subjects) => {
+        let result = [];
+        result = subjects.map((item, index) => {
+            return (
+                <p key={index}>{item}</p>
+            );
+        });
+        return result;
+    }
+
+    renderCode = (code) => {
+        let result = [];
+        if (code !== null) {
+            let codeSnippet = [];
+            codeSnippet = String(code).trim().split(/(.*?;)/g);
+            console.log(codeSnippet);
+            result = codeSnippet.map((item, index) => {
+                if (item !== '') {
+                    return (
+                        <p key={index}>{item}</p>
+                    );
+                }
+            });
+        }
         return result;
     }
 
@@ -168,8 +199,8 @@ class AdminPageContainer extends Component {
                                 <th scope="col">No</th>
                                 <th scope="col">Action Name</th>
                                 <th scope="col">Code</th>
-                                <th scope="col">Params</th>
-                                <th scope="col">Subject ID</th>
+                                <th scope="col">Parameter</th>
+                                <th scope="col">Subject</th>
                                 <th scope="col">Delete</th>
                                 <th scope="col">Update</th>
                             </tr>
@@ -209,4 +240,4 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminPageContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminPageContainer));
