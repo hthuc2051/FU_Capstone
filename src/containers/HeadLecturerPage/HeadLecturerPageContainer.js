@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Treeview, TreeViewWeb } from '../../components/index';
 import ListScripts from './services/ListScripts';
 import * as Constants from '../constants';
 import * as AppConstant from './../../constants/AppConstants';
@@ -10,6 +9,8 @@ import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 import CreateTestScript from './services/CreateTestScript';
 import ListPracticalExams from './services/ListPracticalExams';
+import ScriptTemplateJavaWeb from './services/template.Javaweb';
+import ScriptTemplateJava from './services/template.Java';
 
 class HeadLecturerPageContainer extends Component {
 
@@ -22,13 +23,27 @@ class HeadLecturerPageContainer extends Component {
             isLoading: true,
             pageType: '',
             eventData: null,
-            subjectId: 0
+            subjectId: 0, 
+            currentTemplate : ScriptTemplateJavaWeb
         };
     }
 
     componentDidMount() {
-        this.props.fetchEvents(this.props.subjectId);
-        this.setState({ subjectId: this.props.subjectId });
+        let{subjectId} = this.props;
+        this.props.fetchEvents(subjectId);
+        this.setState({ subjectId: subjectId });
+        if(subjectId !== null){
+            let template = this.getTemplateBySubjectID(subjectId);
+            this.setState({currentTemplate: template});
+        }
+    }
+    getTemplateBySubjectID = (subjectId) =>{
+        switch (subjectId){
+            case '1': return ScriptTemplateJava;
+            case '2': return ScriptTemplateJava;
+            case '3': return ScriptTemplateJavaWeb;
+            default: return ScriptTemplateJavaWeb;
+        }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -36,20 +51,6 @@ class HeadLecturerPageContainer extends Component {
         if (nextProps === prevState) {
             return null;
         }
-        // if(nextProps.eventData !== null){
-        //     nextProps.eventData.forEach(element => {
-        //         element.params = [{
-        //             type: 'String',
-        //             name: '$paramName',
-        //             value: '$paramName',
-        //           },
-        //           {
-        //             type: 'String',
-        //             name: '$paramValue',
-        //             value: '$paramValue',
-        //           }]
-        //     });
-        // }
         return {
             eventData: nextProps.eventData,
             isLoading: nextProps.isLoading,
@@ -108,7 +109,7 @@ class HeadLecturerPageContainer extends Component {
     }
 
     render() {
-        let { isLoading, eventData, pageType, subjectId } = this.state;
+        let { isLoading, eventData, pageType, subjectId,currentTemplate } = this.state;
         console.log(eventData)
         return (
 
@@ -117,7 +118,7 @@ class HeadLecturerPageContainer extends Component {
                     <div className="loader"></div>
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
 
             </div>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { TreeViewWeb } from './../../../components/index';
-import scriptObj from './sample.data';
 import * as AppConstant from './../../../constants/AppConstants';
 import ScriptTemplateJavaWeb from './template.Javaweb';
 import '../style.css';
@@ -51,11 +50,12 @@ class CreateTestScript extends Component {
             selectedTab: 0,
             txtScriptName: '',
             selectedFile: null,
+            currentTemplate : ScriptTemplateJavaWeb,
         };
     }
-    componentDidMount() {
-
-        // this.props.fetchEvents();
+    componentDidUpdate() {
+        let {currentTemplate,questionArr} = this.state;
+        questionArr.questions[0].data = new currentTemplate().DEFAULT;
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -66,6 +66,7 @@ class CreateTestScript extends Component {
             eventData: nextProps.eventData,
             file: nextProps.file,
             pageType: nextProps.pageType,
+            currentTemplate: nextProps.currentTemplate
         }
     }
 
@@ -149,8 +150,8 @@ class CreateTestScript extends Component {
         newTab.addEventListener("click", (e) => { this.resetTreeView(newTab.id) });
         this.setState({ count: count + 1 });
         //add question into questionarr
-        let { questionArr } = this.state;
-        let template = new ScriptTemplateJavaWeb();
+        let { questionArr,currentTemplate } = this.state;
+        let template = new currentTemplate;
         let item = { testcase: QUESTION + count, data: template.DEFAULT, point: 0 };
         questionArr.questions.push(item);
         this.setState({ questionArr });
@@ -190,32 +191,32 @@ class CreateTestScript extends Component {
     }
 
     onchangeTemplate = (selectedTempalate, selectedTab) => {
-        let { questionArr } = this.state;
+        let { questionArr,currentTemplate } = this.state;
         if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
             switch (selectedTempalate) {
                 case 'Login':
-                    let login = new ScriptTemplateJavaWeb();
+                    let login = new currentTemplate;
                     questionArr.questions[selectedTab].data = login.LOGIN;
                     questionArr.questions[selectedTab].code = login.LOGIN.code;
                     break;
                 case 'Create':
-                    let create = new ScriptTemplateJavaWeb();
+                    let create = new currentTemplate;
                     questionArr.questions[selectedTab].data = create.CREATE;
                     questionArr.questions[selectedTab].code = create.CREATE.code;
                     break;
                 case 'Update':
-                    let update = new ScriptTemplateJavaWeb();
+                    let update = new currentTemplate;
                     questionArr.questions[selectedTab].data = update.UPDATE;
                     questionArr.questions[selectedTab].code = update.UPDATE.code;
                     break;
                 case 'Delete':
-                    let deleteTemplate = new ScriptTemplateJavaWeb();
+                    let deleteTemplate = new currentTemplate;
                     questionArr.questions[selectedTab].data = deleteTemplate.DELETE;
                     questionArr.questions[selectedTab].code = deleteTemplate.DELETE.code;
                     break;
                 default: 
-                questionArr.questions[selectedTab].data = new ScriptTemplateJavaWeb().DEFAULT;
-                questionArr.questions[selectedTab].code = new ScriptTemplateJavaWeb().DEFAULT.code;
+                questionArr.questions[selectedTab].data = new currentTemplate().DEFAULT;
+                questionArr.questions[selectedTab].code = new currentTemplate().DEFAULT.code;
             }
             this.setState({ questionArr });
         }
