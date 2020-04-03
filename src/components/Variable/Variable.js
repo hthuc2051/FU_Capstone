@@ -24,7 +24,6 @@ class Variable extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         let { paramObj, appType, parent, index, eventData } = nextProps;
-        console.log(eventData);
         if (nextProps.eventData === prevState.eventData) {
             return null;
         }
@@ -102,7 +101,6 @@ class Variable extends Component {
     render() {
         let { txtName, txtValue, paramObj } = this.state;
         let { label } = this.props;
-        console.log(paramObj);
         return (
             <div className="variable-item">
                 <label>{paramObj.label}</label>

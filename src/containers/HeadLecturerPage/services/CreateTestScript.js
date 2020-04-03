@@ -71,7 +71,6 @@ class CreateTestScript extends Component {
     }
 
     onSave = (question) => {
-        console.log(question);
         let { questionArr } = this.state;
         let isExisted = false;
         let testCaseName = question.testcase;

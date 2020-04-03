@@ -392,7 +392,6 @@ class TreeViewWeb extends Component {
   }
 
   createStep(step, index) {
-    console.log(step);
     let code = this.getChildCode(step, 1);
     return (
       <code key={index} className="codeLine" id="temp">
@@ -425,8 +424,6 @@ class TreeViewWeb extends Component {
 
   render() {
     let { selectTemplate, question, data, global_variable } = this.state;
-    console.log(global_variable);
-    console.log(data.params);
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">

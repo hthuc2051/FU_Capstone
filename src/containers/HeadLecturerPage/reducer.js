@@ -60,7 +60,6 @@ const initStage = {
 };
 
 const headerLecturerPage = (state = initStage, action) => {
-    console.log(action);
     state.action = action.type;
     switch (action.type) {
         // [NOTE] - Reset global action state after finish call api
@@ -141,31 +140,8 @@ const headerLecturerPage = (state = initStage, action) => {
                 statusCode: action.statusCode,
                 message: action.error.message,
             });
-        // Fetch TestScripts
-        case Actions.FETCH_TEST_SCRIPT:
-            return Object.assign({}, state, {
-                isLoading: true,
-            });
-        case Actions.FETCH_TEST_SCRIPT_OK:
-            return Object.assign({}, state, {
-                isLoading: false,
-                statusCode: 200,
-                listScripts: action.data,
-            });
-        case Actions.FETCH_TEST_SCRIPT_FAILED:
-            return Object.assign({}, state, {
-                isLoading: false,
-                statusCode: action.statusCode,
-                error: action.action,
-                message: Messages.MSG_FAILED,
-            });
-        case Actions.FETCH_TEST_SCRIPT_TIME_OUT:
-            return Object.assign({}, state, {
-                isLoading: false,
-                statusCode: action.statusCode,
-                error: action.action,
-                message: Messages.MSG_TIMEOUT,
-            });
+
+
         // Answer EVENTS
         // DELETE practical exam
         case Actions.DELETE_PRACTICAL_EXAMS:
@@ -190,6 +166,59 @@ const headerLecturerPage = (state = initStage, action) => {
                 statusCode: action.statusCode,
                 message: action.error.message,
             });
+        // Fetch TestScripts
+        case Actions.FETCH_TEST_SCRIPT:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.FETCH_TEST_SCRIPT_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                listScripts: action.data,
+                action:'',
+            });
+        case Actions.FETCH_TEST_SCRIPT_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_FAILED,
+                action:'',
+            });
+        case Actions.FETCH_TEST_SCRIPT_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_TIMEOUT,
+                action:'',
+            });
+
+        // DELETE test script
+        case Actions.DELETE_TEST_SCRIPT:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.DELETE_TEST_SCRIPT_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.DELETE_TEST_SCRIPT_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error,
+            });
+        case Actions.DELETE_TEST_SCRIPT_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error,
+            });
+
         default:
             return state;
     }

@@ -10,14 +10,32 @@ export const fetchEventsData = async (subjectId, dispatch) => {
 }
 
 export const createTestScript = async (formData, dispatch) => {
-    console.log(formData);
     let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
     if (res != null) {
         handleResponse(res, Constants.END_POINT_POST_TESTSCRIPT, dispatch);
     }
-    console.log(res);
 }
 
+// same end point with END_POINT_EVENTS to url: `${Constant.API_URL}/${endpoint}/${body}`
+export const fetchTestScripts = async (subjectId, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_POST_TESTSCRIPT,
+        subjectId);
+    let res = await callApi(endPoint,"GET",subjectId);
+    if(res != null){
+        handleResponse(res,Constants.FETCH_TEST_SCRIPT,dispatch);
+    }
+}
+
+export const deleteTestScript = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_POST_TESTSCRIPT,
+        id);
+    let res = await callApi(endPoint,Constants.PREFIX_DELETE);
+    if (res != null) {
+        handleResponse(res, Constants.DELETE_TEST_SCRIPT, dispatch);
+    }
+}
 
 // Practical exam
 export const fetchPracticalExams = async (subjectId, dispatch) => {
@@ -31,12 +49,7 @@ export const fetchPracticalExams = async (subjectId, dispatch) => {
     }
 }
 
-export const fetchTestScripts = async (subjectId, dispatch) => {
-    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT,"GET",subjectId);
-    if(res != null){
-        handleResponse(res,Constants.FETCH_TEST_SCRIPT,dispatch);
-    }
-}
+
 
 export const createPracticalExams = async (practicalExam, dispatch) => {
     let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);

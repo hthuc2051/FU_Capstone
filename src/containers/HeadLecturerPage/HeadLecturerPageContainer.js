@@ -47,7 +47,6 @@ class HeadLecturerPageContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(nextProps);
         if (nextProps === prevState) {
             return null;
         }
@@ -55,13 +54,12 @@ class HeadLecturerPageContainer extends Component {
             eventData: nextProps.eventData,
             isLoading: nextProps.isLoading,
             pageType: nextProps.pageType,
+            subjectId: nextProps.subjectId
         }
     }
 
     getDataBeforeSaveTestScript = (questionArr, scriptName, file, originalArr) => {
         let { subjectId } = this.state;
-        console.log(questionArr);
-        console.log(file);
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
         let tempQuestionPointStr = this.createQuestionPointString(questionArr.questions);
@@ -69,9 +67,7 @@ class HeadLecturerPageContainer extends Component {
         let question = this.createQuestionString(questionArr.questions);
         let questionStr = JSON.stringify(question);
         let questionData = JSON.stringify(originalArr);
-        console.log(questionData);
         let temp = JSON.parse(questionData);
-        console.log(temp);
         let formData = new FormData();
         formData.append("name", scriptName);
         formData.append("questionPointStr", tempQuestionPointStr);
@@ -80,7 +76,6 @@ class HeadLecturerPageContainer extends Component {
         formData.append("subjectId", subjectId);
         formData.append("docsFile", file);
         formData.append("scriptData", questionData);
-        console.log(questionStr);
         this.props.saveTestScript(formData);
     }
 
@@ -91,7 +86,6 @@ class HeadLecturerPageContainer extends Component {
             let code = Constants.ANOTATION_TEST + " \n" + element.code;
             delete element.point;
         });
-        console.log(questionArr)
         return questionArr;
 
     }
@@ -104,13 +98,11 @@ class HeadLecturerPageContainer extends Component {
         if (questionStr.length > 0) {
             questionStr = questionStr.substring(0, questionStr.length - 1);
         }
-        console.log(questionStr);
         return questionStr;
     }
 
     render() {
         let { isLoading, eventData, pageType, subjectId,currentTemplate } = this.state;
-        console.log(eventData)
         return (
 
             <div className="page-wrapper" >
