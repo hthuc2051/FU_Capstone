@@ -6,6 +6,7 @@ import NotFoundPage from './NotFoundPage';
 import ListScriptsPage from './ListScriptsPage';
 import CreateScriptPage from './CreateScriptPage';
 import ListPracticalExamsPage from './ListPracticalExamsPage';
+import CreateActionPage from './CreateActionPage';
 
 export {
     LoginPage,
@@ -16,4 +17,5 @@ export {
     ListScriptsPage,
     CreateScriptPage,
     ListPracticalExamsPage,
+    CreateActionPage,
 }

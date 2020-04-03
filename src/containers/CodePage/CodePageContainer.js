@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './style.css';
+
 class CodePageContainer extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
             param: [],
             action: {
@@ -11,15 +14,16 @@ class CodePageContainer extends Component {
                 param: [],
                 subject: ''
             }
-
         };
+
         this.addMoreParam = this.addMoreParam.bind(this);
         this.onChangeHandle = this.onChangeHandle.bind(this);
         this.saveAction = this.saveAction.bind(this);
-
     }
+
     leftBracket = '{';
     rightBracket = '}';
+
     addMoreParam(e) {
         // var getDocument = document.getElementById('multiParam');
         //var createInput = document.createElement();
@@ -55,7 +59,7 @@ class CodePageContainer extends Component {
         });
         console.log(action);
     }
-    
+
     renderInputElement() {
         var getDOMroot = document.getElementById('paramRoot');
         getDOMroot.innerHTML = "";
@@ -114,28 +118,25 @@ class CodePageContainer extends Component {
         return (
             <div id="content-wrapper" >
                 <div className="card content">
-                    <div className="card-header">
-                        Action Design
-                                </div>
                     <div className="card-body">
                         <div className="row">
                             <div className="col-xs-6">
-                                <form style={{padding:'0 15px 0 0'}}>
+                                <form style={{ padding: '0 15px 0 0' }}>
                                     <div className="form-group">
-                                        <label >Action</label>
-                                        <input type="text" ref="txtInput" onChange={this.onChangeHandle} value="findElementById" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
+                                        <label >Action name:</label>
+                                        <input type="text" ref="txtInput" onChange={this.onChangeHandle} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
 
                                     </div>
                                     <div className="form-group">
                                         <label >Code Generator</label>
-                                        <textarea className="form-control" ref="txtCode" style={{ width: '500px'}} onChange={this.onChangeHandle} />
+                                        <textarea className="form-control" ref="txtCode" style={{ width: '500px' }} onChange={this.onChangeHandle} />
                                     </div>
                                     <div className="form-group">
-                                        <label style={{paddingTop:'5px'}} >Type Parameter</label>
+                                        <label style={{ paddingTop: '5px' }} >Type Parameter</label>
 
-                                        <button className="btn btn-success" style={{float:'right'}} onClick={this.addMoreParam}>
+                                        <button className="btn btn-success" style={{ float: 'right' }} onClick={this.addMoreParam}>
                                             <i className="fa fa-plus">
-                                            &nbsp;
+                                                &nbsp;
                                             </i>Add Parameter</button>
                                     </div>
                                     <div className="form-group" id="paramRoot" style={{ marginLeft: '3px' }}>
@@ -156,7 +157,9 @@ class CodePageContainer extends Component {
 
                                 </form>
                             </div>
-                            <div className="vl" style ={{marginRight:'15px'}} ></div>
+
+                            <div className="vl" style={{ marginRight: '15px' }} ></div>
+
                             <div className="col-xs-6">
                                 <div className="code-block">
                                     <div className="code-container">
@@ -167,22 +170,16 @@ class CodePageContainer extends Component {
                                                         <td className="code">
                                                             <div className="container">
                                                                 <div className="line number4 index3 alt1">
-                                                                    <code className="keyword">class</code>
-                                                                    <code className="plain"> example {this.leftBracket}  </code>
-
-
+                                                                    <code className="keyword">function()</code>
+                                                                    <code className="plain"> {this.leftBracket}  </code>
                                                                 </div>
+
                                                                 <div className="line number4 index3 alt1">
-
-                                                                    <code className="plain"> {this.state.action.code} </code>
-
-
+                                                                    <p className="plain"> {this.state.action.code} </p>
                                                                 </div>
-                                                                <div className="line number4 index3 alt1">
 
+                                                                <div className="line number4 index3 alt1">
                                                                     <code className="plain">  {this.rightBracket}  </code>
-
-
                                                                 </div>
                                                             </div>
                                                         </td>

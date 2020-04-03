@@ -1,5 +1,6 @@
 import { LoginPage, HeadLecturerPage, AdminPage, 
-    LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage } from './pages/index';
+    LecturerPage, NotFoundPage, ListScriptsPage, 
+    CreateScriptPage,ListPracticalExamsPage, CreateActionPage } from './pages/index';
 
 const routes = [
     {
@@ -46,8 +47,13 @@ const routes = [
     },
     {
         path: '/admin/action',
-        exact: false,
+        exact: true,
         main: AdminPage
+    },
+    {
+        path: '/admin/action/create',
+        exact: false,
+        main: CreateActionPage
     },
     {
         path: '/not-found',
