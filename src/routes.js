@@ -1,5 +1,5 @@
-import { LoginPage, HeadLecturerPage, AdminPage, 
-    LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage } from './pages/index';
+import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage } from './pages/index';
+
 
 const routes = [
     {
@@ -51,8 +51,13 @@ const routes = [
     },
     {
         path: '/admin/action',
-        exact: false,
+        exact: true,
         main: AdminPage
+    },
+    {
+        path: '/admin/action/create',
+        exact: false,
+        main: CreateActionPage
     },
     {
         path: '/not-found',
