@@ -6,8 +6,10 @@ import { fetchTestScripts, deleteTestScript } from '../axios';
 import { onLoading, onFinishing } from '../actions';
 import ModalEditPracticalExam from '../modals/ModalEditPracticalExam';
 import * as Constants from '../../constants';
+import { withRouter } from 'react-router-dom';
 const TYPE_CREATE = 'CREATE';
 const TYPE_EDIT = 'EDIT';
+
 class ListScripts extends Component {
     constructor(props) {
         super(props);
@@ -48,8 +50,7 @@ class ListScripts extends Component {
         }
     }
     viewScriptDetails = () => {
-
-        // Open modal
+        
     }
 
     onToggleModal = (isOpenForm) => {
@@ -73,20 +74,21 @@ class ListScripts extends Component {
         }
     }
     onUpdate = (id) => {
-        // Open modal
+    let {subjectId} = this.state;
+     this.props.history.push('/subjects/'+subjectId+'/scripts/'+id);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps === prevState) {
             return null;
         }
-        let { action, message } = nextProps;
         return {
             listScripts: nextProps.listScripts,
             isLoading: nextProps.isLoading,
             statusCode: nextProps.statusCode,
             action: nextProps.action,
             message: nextProps.message,
+            subjectId:nextProps.subjectId
         }
     }
 
@@ -102,7 +104,7 @@ class ListScripts extends Component {
                             <td>{item.timeCreated}</td>
                             <td><a onClick={() => this.viewScriptDetails(item)} href="#">Details</a></td>
                             <td><a onClick={() => this.onDelete(item.id, item.code)} href="#">Delete</a></td>
-                            <td><a onClick={() => this.onUpdate(item)} href="#">Update</a></td>
+                            <td><a href="#" onClick={(e) => {e.preventDefault(); this.onUpdate(item.id)}}>Update</a></td>
                         </tr>
                     );
                 })
@@ -211,5 +213,5 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListScripts);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ListScripts));
 

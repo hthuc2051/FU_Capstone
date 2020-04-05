@@ -1,5 +1,5 @@
 import { LoginPage, HeadLecturerPage, AdminPage, 
-    LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage } from './pages/index';
+    LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage } from './pages/index';
 
 const routes = [
     {
@@ -17,6 +17,11 @@ const routes = [
         path: '/subjects/:subjectId/scripts/create',
         exact: false,
         main: CreateScriptPage
+    },
+    {
+        path: '/subjects/:subjectId/scripts/:scriptId',
+        exact: false,
+        main: UpdateScripPage
     },
     {
         path: '/subjects/:subjectId/practical-exams',

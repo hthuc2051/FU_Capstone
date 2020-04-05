@@ -56,6 +56,7 @@ class LeftSideBar extends Component {
         let result = [];
         if (arr !== null && arr.length > 0) {
             result = arr.map((item, index) => {
+                console.log(item)
                 return (
                     <a key={index} className="dropdown-item" href={item.link}>{item.title}</a>
                 )

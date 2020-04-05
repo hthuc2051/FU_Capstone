@@ -12,14 +12,30 @@ export const fetchEventsData = async (subjectId, dispatch) => {
 export const createTestScript = async (formData, dispatch) => {
     let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
     if (res != null) {
-        handleResponse(res, Constants.END_POINT_POST_TESTSCRIPT, dispatch);
+        handleResponse(res, Constants.CREATE_TEST_SCRIPT, dispatch);
     }
 }
 
-// same end point with END_POINT_EVENTS to url: `${Constant.API_URL}/${endpoint}/${body}`
-export const fetchTestScripts = async (subjectId, dispatch) => {
+export const updateTestScript = async (formData, dispatch) => {
+    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_PUT, formData, null);
+    if (res != null) {
+        handleResponse(res, Constants.UPDATE_TEST_SCRIPT, dispatch);
+    }
+}
+
+export const getTestScriptById = async (scriptId, dispatch) => {
     let endPoint = Constants.generateEndPoint(
         Constants.END_POINT_POST_TESTSCRIPT,
+        scriptId);
+    let res = await callApi(endPoint,"GET",scriptId);
+    if(res != null){
+        handleResponse(res,Constants.GET_TEST_SCRIPT,dispatch);
+    }
+}
+
+export const fetchTestScripts = async (subjectId, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_GET_TESTSCRIPT_BY_SUBJECTID,
         subjectId);
     let res = await callApi(endPoint,"GET",subjectId);
     if(res != null){
@@ -48,8 +64,6 @@ export const fetchPracticalExams = async (subjectId, dispatch) => {
         handleResponse(res, Constants.FETCH_PRACTICAL_EXAMS, dispatch);
     }
 }
-
-
 
 export const createPracticalExams = async (practicalExam, dispatch) => {
     let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);

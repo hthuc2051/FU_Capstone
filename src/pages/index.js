@@ -5,6 +5,7 @@ import LecturerPage from './LecturerPage';
 import NotFoundPage from './NotFoundPage';
 import ListScriptsPage from './ListScriptsPage';
 import CreateScriptPage from './CreateScriptPage';
+import UpdateScripPage from './UpdateScriptPage';
 import ListPracticalExamsPage from './ListPracticalExamsPage';
 
 export {
@@ -16,4 +17,5 @@ export {
     ListScriptsPage,
     CreateScriptPage,
     ListPracticalExamsPage,
+    UpdateScripPage,
 }
