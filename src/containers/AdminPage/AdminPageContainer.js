@@ -135,9 +135,9 @@ class AdminPageContainer extends Component {
 
     renderParam = (params) => {
         let result = [];
-        result = params.map((item, index) => {
+        result = params.map((param, index) => {
             return (
-                <p key={index}>{item.name} - {item.type}</p>
+                <p key={index}>{param.name} - {param.type.name}</p>
             );
         });
         return result;
