@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { LeftSideBar, TopNavBar } from '../components/index';
 import DuplicatedCodePageContainner from '../containers/DuplicatedCodePage/DuplicatedCodePageContainer'
-import DuplicatedCodeDetailContainner from '../containers/DuplicatedCodePage/DuplicatedCodeDetailContainer'
 import './style.css';
 
 
@@ -12,14 +11,17 @@ class DuplicatedCodePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isViewDetail : false
+            isViewDetail : false,
+            duplicatedCodeDetails:[],
         }
     }
 
-    viewDetail = (id) => {
-        let {isViewDetail} = this.state;
+    viewDetail = (detail) => {
+        let {isViewDetail,duplicatedCodeDetails} = this.state;
         isViewDetail = true;
-        this.setState({isViewDetail});
+        duplicatedCodeDetails = detail;
+        console.log(detail);
+        this.setState({isViewDetail,duplicatedCodeDetails});
     }
 
     render() {
@@ -34,7 +36,7 @@ class DuplicatedCodePage extends Component {
                     <div id="wrapper" className="admin-page">
                         {/* Container */}
                         {
-                            isViewDetail ? <DuplicatedCodeDetailContainner/> :
+                            isViewDetail ? '' :
                                 <DuplicatedCodePageContainner practicalExamCode={practicalExamCode} studentCode={studentCode} viewDetail={this.viewDetail} />
                         }
 

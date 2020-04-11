@@ -90,8 +90,6 @@ export const GET_DUPLICATED_STUDENT_LIST_TIME_OUT = 'GET_DUPLICATED_STUDENT_LIST
 
 
 
-
-
 // End point 
 export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
@@ -109,7 +107,7 @@ export const END_POINT_GET_TESTSCRIPT_BY_SUBJECTID = "scripts/subject";
 export const END_POINT_TESTSCRIPTS = "testScript";
 export const END_POINT_LIST_ACTION = "actions";
 export const END_POINT_ACTION = "actions";
-export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "duplicatedCode";
+export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "practical-exam/check-code/result";
 
 
 // API Method

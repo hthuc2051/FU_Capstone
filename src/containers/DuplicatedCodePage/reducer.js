@@ -9,7 +9,7 @@ const initStage = {
     action: null,
 };
 
-const adminPage = (state = initStage, action) => {
+const duplicatedCodePage = (state = initStage, action) => {
     console.log(action);
     state.action = action.type;
     switch (action.type) {
@@ -28,7 +28,7 @@ const adminPage = (state = initStage, action) => {
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: 200,
-                listActions: action.data,
+                duplicatedCodeList: action.data,
             });
         case Actions.GET_DUPLICATED_STUDENT_LIST_FAILED:
             return Object.assign({}, state, {
@@ -51,4 +51,4 @@ const adminPage = (state = initStage, action) => {
     }
 };
 
-export default adminPage;
+export default duplicatedCodePage;

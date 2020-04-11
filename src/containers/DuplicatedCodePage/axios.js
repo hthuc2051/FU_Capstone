@@ -2,10 +2,10 @@ import callApi from '../api/ApiCaller';
 import * as Actions from './actions';
 import * as Constants from '../constants';
 
-export const getDuplicatedCodeStudentList = async (practicalExamCode,studentCode,dispatch) => {
-    let res = await callApi(Constants.END_POINT_DUPLICATEDCODE_STUDENT_LIST);
+export const getDuplicatedCodeStudentList = async (data,dispatch) => {
+    let res = await callApi(Constants.END_POINT_DUPLICATEDCODE_STUDENT_LIST,Constants.METHOD_POST,data);
     if (res != null) {
-        handleResponse(res, Constants.GET_DUPLICATED_STUDENT_LIST, dispatch);
+        handleResponse(res, Constants.GET_DUPLICATED_STUDENT_LIST , dispatch);
     }
 }
 

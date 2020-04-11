@@ -12,20 +12,31 @@ class DuplicatedCodePageContainer extends Component {
         this.state = {
             practicalExamCode: '',
             studentID: '',
-            listStudent: [
-                {
-                    id: '1',
-                    baseStudent: 'SE63146',
-                    student: 'SE63155',
-                    percent: '70',
-                }
-            ],
+            duplicatedCodeList: [],
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log(nextProps);
+        if (nextProps === prevState) {
+            return null;
+        }
+        return {
+            isLoading: nextProps.isLoading,
+            message: nextProps.message,
+            action: nextProps.action,
+            statusCode: nextProps.statusCode,
+            duplicatedCodeList: nextProps.duplicatedCodeList
         }
     }
 
     componentDidMount = () => {
         let { practicalExamCode, studentCode } = this.props;
-        this.props.getDuplicatedCodeStudentList(practicalExamCode, studentCode);
+        let data = {
+            practicalExamCode: practicalExamCode,
+            studentCode: studentCode
+        }
+        this.props.getDuplicatedCodeStudentList(data);
     }
 
     viewDetail = (id) => {
@@ -46,18 +57,20 @@ class DuplicatedCodePageContainer extends Component {
         return result;
     }
 
-    renderListStudent = (listStudent) => {
+    renderListStudent = (duplicatedCodeList) => {
         let result = null;
-        if (listStudent !== null && typeof (listStudent) !== 'undefined') {
-            if (listStudent.length > 0) {
-                result = listStudent.map((item, index) => {
+        if (duplicatedCodeList !== null && typeof (duplicatedCodeList) !== 'undefined') {
+            if (duplicatedCodeList.length > 0) {
+                result = duplicatedCodeList.map((item, index) => {
+                    if (item.studentsToken === null || typeof (item.studentsToken) === 'undefined') return;
+                    let students = item.studentsToken.split('_');
                     return (
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
-                            <td>{item.baseStudent}</td>
-                            <td>{item.student}</td>
-                            <td><h5><span class={this.colorPercent(item.percent)}>{item.percent}%</span></h5></td>
-                            <td><button type="button" className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewDetail(item.id) }}>Detail</button></td>
+                            <td>{students[0]}</td>
+                            <td>{students[1]}</td>
+                            <td><h5><span className={this.colorPercent(item.similarityPercent)}>{item.similarityPercent.toFixed(0)}%</span></h5></td>
+                            <td><button type="button" className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewDetail(item.duplicatedCodeDetails) }}>Detail</button></td>
                         </tr>
                     );
                 })
@@ -68,8 +81,8 @@ class DuplicatedCodePageContainer extends Component {
     }
 
     searchText = (e) => {
-        let { listStudent } = this.state;
-        if (listStudent.length === 0) return;
+        let { duplicatedCodeList } = this.state;
+        if (duplicatedCodeList.length === 0) return;
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
@@ -98,7 +111,7 @@ class DuplicatedCodePageContainer extends Component {
     }
 
     render() {
-        let { listStudent } = this.state;
+        let { duplicatedCodeList } = this.state;
         return (<div id="content-wrapper">
             <nav className="question-nav">
                 <div className="input-field">
@@ -123,7 +136,7 @@ class DuplicatedCodePageContainer extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.renderListStudent(listStudent)}
+                        {this.renderListStudent(duplicatedCodeList)}
                     </tbody>
                 </table>
             </div>
@@ -132,19 +145,19 @@ class DuplicatedCodePageContainer extends Component {
 }
 const mapStateToProps = state => {
     return {
-        listActions: state.listActionsPage.listActions,
-        isLoading: state.listActionsPage.isLoading,
-        statusCode: state.listActionsPage.statusCode,
-        message: state.listActionsPage.message,
-        error: state.listActionsPage.error,
-        action: state.listActionsPage.action,
+        duplicatedCodeList: state.duplicatedCodePage.duplicatedCodeList,
+        isLoading: state.duplicatedCodePage.isLoading,
+        statusCode: state.duplicatedCodePage.statusCode,
+        message: state.duplicatedCodePage.message,
+        error: state.duplicatedCodePage.error,
+        action: state.duplicatedCodePage.action,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        getDuplicatedCodeStudentList: (practicalExamCode, studentCode) => {
-            getDuplicatedCodeStudentList(practicalExamCode, studentCode, dispatch);
+        getDuplicatedCodeStudentList: (data) => {
+            getDuplicatedCodeStudentList(data, dispatch);
         },
     }
 }
