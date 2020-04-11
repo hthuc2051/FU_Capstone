@@ -48,7 +48,6 @@ class CreateTestScript extends Component {
     }
 
     onSave = (question) => {
-        console.log(question);
         let { questionArr } = this.state;
         let isExisted = false;
         let testCaseName = question.testcase;
@@ -72,9 +71,7 @@ class CreateTestScript extends Component {
             newQuestionArr.questions.push(question);
         }
         // Save here
-        console.log(questionArr);
         //todo: add file document herer
-        console.log(this.state);
          this.props.saveTestScript(newQuestionArr,txtScriptName,selectedFile);
     }
 

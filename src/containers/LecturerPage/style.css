@@ -1,0 +1,8 @@
+
+.practical-exam-result {
+    min-width: 1000px;
+}
+.practical-exam-result .col-sm{
+    min-width: 500px;
+    overflow-x:scroll;
+}

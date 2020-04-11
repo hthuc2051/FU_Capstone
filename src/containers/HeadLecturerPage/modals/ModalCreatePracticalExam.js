@@ -24,53 +24,49 @@ class ModalEditPracticalExam extends Component {
             checkedClasses: new Map(),
             checkedScripts: new Map(),
             subjectSelected: '',
-            subjectId: 0,
+            subjectId: '',
         };
     }
 
+    componentDidMount(){
+        console.log(this.props);
+    }
+
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(nextProps);
         if (nextProps === prevState) {
             return null;
         }
+        console.log(nextProps);
         if (nextProps.statusCode === 200) {
         }
-        let { subjectId } = prevState;
-        let { editObj, subjects } = nextProps;
+        let { formType, editObj, subjects } = nextProps;
         let checkedClasses = new Map();
         let checkedScripts = new Map();
-        if (editObj != null && typeof (editObj) !== 'undefined') {
-            checkedClasses.set(editObj.subjectClass.id, true);
-            if (editObj.scripts !== null) {
-                editObj.scripts.forEach(element => {
-                    checkedScripts.set(element.id, true);
-                });
+        if (formType === 'EDIT') {
+            if (editObj != null && typeof (editObj) !== 'undefined') {
+                checkedClasses.set(editObj.subjectClass.id, true);
+                if (editObj.scripts !== null) {
+                    editObj.scripts.forEach(element => {
+                        checkedScripts.set(element.id, true);
+                    });
+                }
             }
         }
-        let idSelected = subjectId;
-        if (subjectId === 0) {
-            idSelected = editObj.subjectId
-        }
-
-        let subjectSelected = null;
-
-        if (subjects != null && typeof (subjects) !== 'undefined') {
-            subjectSelected = subjects.find(item => item.id === idSelected);
-        }
-
         return {
             subjects: nextProps.subjects,
             statusCode: nextProps.statusCode,
             classes: nextProps.classes,
             scripts: nextProps.scripts,
             practicalExam: nextProps.editObj,
-            subjectSelected: subjectSelected,
             isOpenForm: nextProps.isOpenForm,
+            formType: nextProps.formType,
             checkedClasses: checkedClasses,
             checkedScripts: checkedScripts,
         }
     }
+    shouldComponentUpdate(){
 
+    }
     onChangeCombobox = (value, index) => {
 
     }
@@ -108,6 +104,7 @@ class ModalEditPracticalExam extends Component {
         var target = e.target;
         let value = target.value;
         let subjectSelected = subjects.find(item => item.id === parseInt(value));
+        console.log(subjectSelected);
         this.setState({
             subjectSelected: subjectSelected,
             subjectId: subjectSelected.id,
@@ -122,20 +119,35 @@ class ModalEditPracticalExam extends Component {
     }
 
     onSave = () => {
-        let { checkedClasses, checkedScripts, practicalDate, practicalExam } = this.state;
+        let { formType, checkedClasses, checkedScripts, practicalDate, practicalExam } = this.state;
         let listScripts = Array.from(checkedScripts.keys());
         let subjectClasses = Array.from(checkedClasses.keys());
-        let obj = {
-            id: practicalExam.id,
-            listScripts: listScripts,
-            subjectClasses: subjectClasses,
-            date: practicalDate,
+        let obj = null;
+        switch (formType) {
+            case TYPE_CREATE:
+                obj = {
+                    listScripts: listScripts,
+                    subjectClasses: subjectClasses,
+                    date: practicalDate,
+                }
+                this.props.onCreatePracticalExams(obj);
+
+                break;
+            default:
+                obj = {
+                    id: practicalExam.id,
+                    listScripts: listScripts,
+                    subjectClasses: subjectClasses,
+                    date: practicalDate,
+                }
+                this.props.onCreatePracticalExams(obj);
         }
-        this.props.onCreatePracticalExams(obj);
     }
 
     render() {
-        let { practicalExam, checkedScripts, checkedClasses, isOpenForm, subjectSelected, subjectId } = this.state;
+        let { practicalExam, checkedScripts, checkedClasses, isOpenForm, formType, subjectSelected, subjectId } = this.state;
+        console.log(subjectSelected);
+        let lecturers = practicalExam ? practicalExam.lecturers : [];
         let modalClass = isOpenForm ? "modal" : "modal fade";
         let modalStyle = isOpenForm ? "block" : "";
         return (
@@ -144,7 +156,7 @@ class ModalEditPracticalExam extends Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">
-                                Edit practical exam
+                                {formType === TYPE_EDIT ? 'Edit' : 'Create'} practical exam
                             </h5>
                             <button onClick={this.onCloseDetails} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -169,24 +181,20 @@ class ModalEditPracticalExam extends Component {
                                 {
                                     !subjectSelected ? '' : subjectSelected.classes.map((item, index) => (
                                         <label key={index}>
-                                            <Checkbox name={item.subjectClassId}
-                                                checked={checkedClasses ? checkedClasses.get(item.subjectClassId) : null}
-                                                onChange={this.handleCheckedClasses} />
+                                            <Checkbox name={item.subjectClassId} checked={checkedClasses.get(item.subjectClassId)} onChange={this.handleCheckedClasses} />
                                             {item.classCode}
                                         </label>
                                     ))
-                                }
+                                };
                             </div>
                         </div>
                         <div className="check-box ">
                             <div>Script availables</div>
                             <div className="scripts-box" >
                                 {
-                                    !subjectSelected ? '' : subjectSelected.scripts.map((item, index) => (
+                                    !subjectSelected.scripts ? '' : subjectSelected.scripts.map((item, index) => (
                                         <label key={index}>
-                                            <Checkbox name={item.id}
-                                                checked={checkedScripts ? checkedScripts.get(item.id) : null}
-                                                onChange={this.handleCheckedScripts} />
+                                            <Checkbox name={item.id} checked={checkedScripts.get(item.id)} onChange={this.handleCheckedScripts} />
                                             {item.name}
                                         </label>
                                     ))
@@ -196,10 +204,13 @@ class ModalEditPracticalExam extends Component {
 
                         <div className="modal-body">
                             <form>
-                                <div className="form-group">
-                                    <label htmlFor="txtPracticalExamCode">Exam code</label>
-                                    <input readOnly={true} type="text" name="txtPracticalExamCode" className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
-                                </div>
+                                {formType === TYPE_EDIT ?
+                                    <div className="form-group">
+                                        <label htmlFor="txtPracticalExamCode">Exam code</label>
+                                        <input readOnly={true} type="text" name="txtPracticalExamCode" className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
+                                    </div> : ''
+                                }
+
                                 <div className="form-group">
                                     <label htmlFor="date">Date</label>
                                     <input onChange={this.onChange} type="date" name="practicalDate" className="form-control" id="date" placeholder="Date" />
@@ -220,7 +231,7 @@ class ModalEditPracticalExam extends Component {
 
 }
 
-const Checkbox = ({ type = 'checkbox', name = '', checked = 'checked', onChange }) => (
+const Checkbox = ({ type = 'checkbox', name, checked, onChange }) => (
     <input type={type} name={name} checked={checked} onChange={onChange} />
 );
 

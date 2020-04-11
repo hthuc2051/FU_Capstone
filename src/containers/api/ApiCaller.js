@@ -26,7 +26,6 @@ export default async function callApi(endpoint, method = "GET", body, headerType
                 headers: headers
             })
         } else if (Constant.END_POINT_POST_TESTSCRIPT === endpoint) {
-            console.log(body);
             headers = { 'Content-Type': 'multipart/form-data' }
             result = await axios({
                 method: method,
@@ -47,6 +46,5 @@ export default async function callApi(endpoint, method = "GET", body, headerType
     } catch (err) {
         result = err.response;
     }
-    console.log(result);
     return result;
 }

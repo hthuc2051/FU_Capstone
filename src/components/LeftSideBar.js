@@ -20,12 +20,10 @@ class LeftSideBar extends Component {
         );
     }
     renderNavArr = (navArr) => {
-        console.log(navArr.length);
         let result = [];
         if (navArr !== null && navArr.length > 0) {
             result = navArr.map((item, index) => {
                 if (item.type === "drop-down") {
-                console.log(item);
                     return (
                         <li key={index} className="nav-item dropdown show">
                             <a className="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown"

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 class TopNavBar extends Component {
 
     onLogOut = () => {
-        console.log('here');
         localStorage.removeItem('userInfo');
         window.location.replace("/login");
     }

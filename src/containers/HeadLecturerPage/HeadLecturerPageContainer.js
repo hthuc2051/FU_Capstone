@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Treeview, TreeViewWeb } from '../../components/index';
 import ListScripts from './services/ListScripts';
 import * as Constants from '../constants';
 import * as AppConstant from './../../constants/AppConstants';
 import { onLoading } from './actions';
-import { fetchEventsData, createTestScript } from './axios';
+import { fetchEventsData, createTestScript, fetchAllSubjects } from './axios';
 import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 import CreateTestScript from './services/CreateTestScript';
@@ -27,7 +26,8 @@ class HeadLecturerPageContainer extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchEvents(this.props.subjectId);
+        this.props.onFetchEvents(this.props.subjectId);
+        this.props.onFetchAllSubjects();
         this.setState({ subjectId: this.props.subjectId });
     }
 
@@ -43,8 +43,6 @@ class HeadLecturerPageContainer extends Component {
 
     getDataBeforeSaveTestScript = (questionArr, scriptName, file) => {
         let { subjectId } = this.state;
-        console.log(questionArr);
-        console.log(file);
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
         let tempQuestionPointStr = this.createQuestionPointString(questionArr.questions);
@@ -58,7 +56,6 @@ class HeadLecturerPageContainer extends Component {
         formData.append("headLecturerId", headLecturerId);
         formData.append("subjectId", subjectId);
         formData.append("docsFile", file);
-        console.log(questionStr);
         this.props.saveTestScript(formData);
     }
 
@@ -70,26 +67,23 @@ class HeadLecturerPageContainer extends Component {
             element.code = code;
             delete element.point;
         });
-        console.log(questionArr)
         return questionArr;
 
     }
 
-    createQuestionPointString(questionArr){
+    createQuestionPointString(questionArr) {
         let questionStr = '';
         questionArr.forEach(element => {
-            questionStr += element.testcase + ':' +element.point + '-';
+            questionStr += element.testcase + ':' + element.point + '-';
         });
-        if(questionStr.length > 0){
-            questionStr = questionStr.substring(0,questionStr.length - 1 );
+        if (questionStr.length > 0) {
+            questionStr = questionStr.substring(0, questionStr.length - 1);
         }
-        console.log(questionStr);
         return questionStr;
     }
 
     render() {
         let { isLoading, eventData, pageType } = this.state;
-        console.log(eventData)
         return (
             <div className="page-wrapper" >
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts /> : ''}
@@ -118,12 +112,15 @@ const mapDispatchToProps = (dispatch, props) => {
         onLoading: () => {
             dispatch(onLoading(Constants.FETCH_EVENTS + Constants.PREFIX_LOADING));
         },
-        fetchEvents: (subjectId) => {
+        onFetchEvents: (subjectId) => {
             fetchEventsData(subjectId, dispatch);
         },
         saveTestScript: (formData) => {
             createTestScript(formData, dispatch);
-        }
+        },
+        onFetchAllSubjects: () => {
+            fetchAllSubjects(dispatch);
+        },
     }
 }
 
