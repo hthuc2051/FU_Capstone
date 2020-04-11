@@ -1,10 +1,9 @@
-import { LoginPage, HeadLecturerPage, AdminPage, 
-    LecturerPage, NotFoundPage, ListScriptsPage, 
-    CreateScriptPage,ListPracticalExamsPage, CreateActionPage } from './pages/index';
+import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage, DuplicatedCodePage } from './pages/index';
+
 
 const routes = [
     {
-        path: '/login',
+        path: '/',
         exact: true,
         main: LoginPage
     },
@@ -18,6 +17,11 @@ const routes = [
         path: '/subjects/:subjectId/scripts/create',
         exact: false,
         main: CreateScriptPage
+    },
+    {
+        path: '/subjects/:subjectId/scripts/:scriptId',
+        exact: false,
+        main: UpdateScripPage
     },
     {
         path: '/subjects/:subjectId/practical-exams',
@@ -59,7 +63,12 @@ const routes = [
         path: '/not-found',
         exact: false,
         main: NotFoundPage,
-    }
+    },
+    {
+        path: '/practicalexam/:practicalExamCode/:studentCode',
+        exact: false,
+        main: DuplicatedCodePage
+    },
 ];
 
 export default routes;

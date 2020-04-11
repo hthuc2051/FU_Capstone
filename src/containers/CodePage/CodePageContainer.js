@@ -108,10 +108,6 @@ class CodePageContainer extends Component {
         if (removeIndex !== null && removeIndex >= 0) {
             params.splice(removeIndex, 1);
         }
-
-        this.setState({
-            params: params,
-        });
     }
 
     onCodeChangeHandler = (e, code) => {

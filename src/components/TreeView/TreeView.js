@@ -57,7 +57,6 @@ export default class Treeview extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
-    console.log(paramObj);
     if (paramObj.name !== '' && paramObj.exportValue !== '') {
       paramObj.type = this.state.editableNode.type;
       paramObj.name = this.state.editableNode.name;

@@ -4,15 +4,15 @@ import { HeadLecturerPageContainer } from '../containers/index';
 import './style.css';
 import {headLecturerNavArr} from './left-navigation';
 import * as AppConstant from './../constants/AppConstants';
+const PAGE_TITLE = 'Update scripts page';
 
-
-
-const PAGE_TITLE = 'Create scripts page';
-
-class CreateScriptPage extends Component {
+class UpdateScriptPage extends Component {
 
     render() {
         let {subjectId} = this.props.match.params;
+        let {scriptId} = this.props.match.params;
+        console.log(this.props);
+        console.log(subjectId);
         return (
             <div>
                 <div>
@@ -23,7 +23,7 @@ class CreateScriptPage extends Component {
                         <LeftSideBar navArr ={headLecturerNavArr} />
 
                         {/* Container */}
-                        <HeadLecturerPageContainer  pageType ={AppConstant.PAGE_TYPE_CREATE_SCRIPT} subjectId={subjectId} />
+                        <HeadLecturerPageContainer pageType ={AppConstant.PAGE_TYPE_UPDATE_SCRIPT} subjectId={subjectId} scriptId={scriptId}/>
                     </div>
                 </div>
             </div>
@@ -31,4 +31,4 @@ class CreateScriptPage extends Component {
     }
 }
 
-export default CreateScriptPage;
+export default UpdateScriptPage;
