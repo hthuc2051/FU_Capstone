@@ -13,7 +13,6 @@ class CreateScriptPage extends Component {
 
     render() {
         let {subjectId} = this.props.match.params;
-        console.log(subjectId);
         return (
             <div>
                 <div>

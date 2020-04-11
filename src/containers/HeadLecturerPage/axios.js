@@ -2,6 +2,27 @@ import callApi from '../api/ApiCaller';
 import * as Actions from './actions';
 import * as Constants from '../constants';
 
+// Common 
+
+export const fetchAllSubjects = async (dispatch) => {
+    let res = await callApi(Constants.END_POINT_SUBJECTS, Constants.METHOD_GET);
+    if (res != null) {
+        handleResponse(res, Constants.FETCH_SUBJECT_INIT, dispatch);
+    }
+}
+
+export const fetchClassAndScriptOfSubject = async (subjectId, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_SUBJECTS,
+        subjectId,
+        Constants.END_POINT_CLASSES_SCRIPTS);
+    let res = await callApi(endPoint, Constants.METHOD_GET, subjectId);
+    if (res != null) {
+        handleResponse(res, Constants.FETCH_SUBJECT_FULLINFO, dispatch);
+    }
+}
+
+//
 export const fetchEventsData = async (subjectId, dispatch) => {
     let res = await callApi(Constants.END_POINT_EVENTS, Constants.METHOD_GET, subjectId);
     if (res != null) {
@@ -67,6 +88,13 @@ export const fetchPracticalExams = async (subjectId, dispatch) => {
 
 export const createPracticalExams = async (practicalExam, dispatch) => {
     let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_POST, practicalExam, null);
+    if (res != null) {
+        handleResponse(res, Constants.CREATE_PRACTICAL_EXAMS, dispatch);
+    }
+}
+
+export const updatePracticalExam = async (practicalExam, dispatch) => {
+    let res = await callApi(Constants.END_POINT_PRACTICAL_EXAMS, Constants.PREFIX_PUT, practicalExam, null);
     if (res != null) {
         handleResponse(res, Constants.CREATE_PRACTICAL_EXAMS, dispatch);
     }

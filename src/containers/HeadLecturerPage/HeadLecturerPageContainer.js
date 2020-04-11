@@ -4,7 +4,7 @@ import ListScripts from './services/ListScripts';
 import * as Constants from '../constants';
 import * as AppConstant from './../../constants/AppConstants';
 import { onLoading } from './actions';
-import { fetchEventsData, createTestScript, getTestScriptById, updateTestScript } from './axios';
+import { fetchEventsData, createTestScript, getTestScriptById, updateTestScript, fetchAllSubjects } from './axios';
 import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 import CreateTestScript from './services/CreateTestScript';
@@ -36,7 +36,7 @@ class HeadLecturerPageContainer extends Component {
 
     componentDidMount() {
         let { subjectId, scriptId, pageType } = this.props;
-        this.props.fetchEvents(subjectId);
+        this.props.onFetchEvents(subjectId);
         this.setState({ subjectId: subjectId });
         if (subjectId !== null) {
             let template = this.getTemplateBySubjectID(subjectId);
@@ -53,6 +53,8 @@ class HeadLecturerPageContainer extends Component {
             case '3': return ScriptTemplateJavaWeb;
             default: return ScriptTemplateJavaWeb;
         }
+        this.props.onFetchAllSubjects();
+        this.setState({ subjectId: this.props.subjectId });
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -187,7 +189,7 @@ const mapDispatchToProps = (dispatch, props) => {
         onLoading: () => {
             dispatch(onLoading(Constants.FETCH_EVENTS + Constants.PREFIX_LOADING));
         },
-        fetchEvents: (subjectId) => {
+        onFetchEvents: (subjectId) => {
             fetchEventsData(subjectId, dispatch);
         },
         getScriptById: (scriptId) => {
@@ -198,7 +200,10 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         UpdateTestScript: (formData, scriptId) => {
             updateTestScript(formData, dispatch);
-        }
+        },
+        onFetchAllSubjects: () => {
+            fetchAllSubjects(dispatch);
+        },
     }
 }
 

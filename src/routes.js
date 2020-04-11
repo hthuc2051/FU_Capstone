@@ -3,7 +3,7 @@ import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, Crea
 
 const routes = [
     {
-        path: '/login',
+        path: '/',
         exact: true,
         main: LoginPage
     },

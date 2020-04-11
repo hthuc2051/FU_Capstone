@@ -60,6 +60,7 @@ class ListPracticalExams extends Component {
     onCloseDetails = (isOpenForm) => {
         this.setState({
             isOpenForm: isOpenForm,
+            editObj: null,
         })
     }
 
@@ -85,20 +86,19 @@ class ListPracticalExams extends Component {
         // Render giao diện sau khi call api
         let { action, statusCode, message } = this.state;
         if (prevProps.action !== action && message !== '') {
+            this.props.onFinishing();
             switch (statusCode) {
                 case 200:
-                    swal("Successfully !", message, "success");
+                    swal("Successfully !", message, "success").then((value) => {
+                        window.location.reload();
+                      });
+                   
                     break;
                 case 500:
                 case 409:
                     swal("Failed !", message, "error");
                     break;
             }
-
-            this.setState({
-                action: '',
-            })
-            this.props.onFinishing();
         }
     }
 

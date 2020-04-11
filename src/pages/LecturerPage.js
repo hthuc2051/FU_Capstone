@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LeftSideBar, TopNavBar } from './../components/index';
 import { LecturerPageContainer } from './../containers/index';
 import './style.css';
+import PracticalExamResult from '../containers/LecturerPage/services/PracticalExamResult';
 const CODE_PAGE_TITLE = 'Lecturer page';
 
 let navArr = [
@@ -59,7 +60,8 @@ class LecturerPage extends Component {
                         <LeftSideBar navArr={navArr} />
 
                         {/* Container */}
-                        <LecturerPageContainer subjectCode={subjectCode ? "" : subjectCode} />
+                        {/* <LecturerPageContainer subjectCode={subjectCode ? "" : subjectCode} /> */}
+                        <PracticalExamResult/>
                     </div>
                 </div>
             </div>

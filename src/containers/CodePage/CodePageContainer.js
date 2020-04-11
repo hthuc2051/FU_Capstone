@@ -37,12 +37,10 @@ class CodePageContainer extends Component {
         this.setState({
             param: param
         });
-        console.log(this.state.param);
         this.renderInputElement();
 
     }
     saveAction() {
-        console.log(this.state.action);
     }
 
     onChangeHandle() {
@@ -57,7 +55,6 @@ class CodePageContainer extends Component {
         this.setState({
             action: action
         });
-        console.log(action);
     }
 
     renderInputElement() {
@@ -73,12 +70,8 @@ class CodePageContainer extends Component {
             inputTextName.style = 'width:200px';
             inputTextName.value = element.name;
             inputTextName.onchange = (e) => {
-                console.log(e.target.value);
-                console.log(this.state);
                 let { param } = this.state;
                 param[index].name = e.target.value;
-                console.log(param[index]);
-                console.log(element);
                 this.setState({
                     param: param
                 })
@@ -92,7 +85,6 @@ class CodePageContainer extends Component {
             inputTextParam.onchange = (e) => {
                 let { param } = this.state;
                 param[index].type = e.target.value
-                console.log(param[index]);
 
                 this.setState({
                     param: param

@@ -17,7 +17,7 @@ class DuplicatedCodePageContainer extends Component {
                     id: '1',
                     baseStudent: 'SE63146',
                     student: 'SE63155',
-                    percent: '10',
+                    percent: '70',
                 }
             ],
         }
@@ -118,7 +118,7 @@ class DuplicatedCodePageContainer extends Component {
                             <th scope="col">No</th>
                             <th scope="col">Student Code</th>
                             <th scope="col">Student Code</th>
-                            <th scope="col">Duplicated</th>
+                            <th scope="col">Similarity Percent</th>
                             <th scope="col">View Detail</th>
                         </tr>
                     </thead>
