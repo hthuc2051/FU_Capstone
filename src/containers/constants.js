@@ -71,6 +71,11 @@ export const DELETE_TEST_SCRIPT_OK = 'DELETE_TEST_SCRIPT_OK';
 export const DELETE_TEST_SCRIPT_FAILED = 'DELETE_TEST_SCRIPT_FAILED';
 export const DELETE_TEST_SCRIPT_TIME_OUT = 'DELETE_TEST_SCRIPT_TIME_OUT';
 
+export const GET_DUPLICATED_STUDENT_LIST = 'GET_DUPLICATED_STUDENT_LIST';
+export const GET_DUPLICATED_STUDENT_LIST_OK = 'GET_DUPLICATED_STUDENT_LIST_OK';
+export const GET_DUPLICATED_STUDENT_LIST_FAILED = 'GET_DUPLICATED_STUDENT_LIST_FAILED';
+export const GET_DUPLICATED_STUDENT_LIST_TIME_OUT = 'GET_DUPLICATED_STUDENT_LIST_TIME_OUT';
+
 // End point 
 export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
@@ -84,8 +89,8 @@ export const END_POINT_DOWNLOAD_DOCUMENT = "documents/download";
 export const END_POINT_GET_TESTSCRIPT_BY_SUBJECTID = "scripts/subject";
 export const END_POINT_TESTSCRIPTS = "testScript";
 export const END_POINT_LIST_ACTION = "actions";
-
 export const END_POINT_ACTION = "actions";
+export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "duplicatedCode";
 
 
 // API Method

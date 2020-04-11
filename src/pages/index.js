@@ -8,6 +8,7 @@ import CreateScriptPage from './CreateScriptPage';
 import UpdateScripPage from './UpdateScriptPage';
 import ListPracticalExamsPage from './ListPracticalExamsPage';
 import CreateActionPage from './CreateActionPage';
+import DuplicatedCodePage from './DuplicatedCodePage';
 
 export {
     LoginPage,
@@ -20,4 +21,5 @@ export {
     ListPracticalExamsPage,
     UpdateScripPage,
     CreateActionPage,
+    DuplicatedCodePage
 }

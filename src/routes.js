@@ -1,4 +1,4 @@
-import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage } from './pages/index';
+import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage, DuplicatedCodePage } from './pages/index';
 
 
 const routes = [
@@ -63,7 +63,12 @@ const routes = [
         path: '/not-found',
         exact: false,
         main: NotFoundPage,
-    }
+    },
+    {
+        path: '/practicalexam/:practicalExamCode/:studentCode',
+        exact: false,
+        main: DuplicatedCodePage
+    },
 ];
 
 export default routes;
