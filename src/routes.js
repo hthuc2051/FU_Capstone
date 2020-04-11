@@ -1,6 +1,6 @@
 import { LoginPage, HeadLecturerPage, AdminPage, CodePage, 
     LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage } from './pages/index';
-
+import DuplicatedCodeResultPage from './containers/LecturerPage/DuplicatedCodeResultPage';
 const routes = [
     {
         path: '/',
@@ -58,7 +58,13 @@ const routes = [
         path: '/not-found',
         exact: false,
         main: NotFoundPage,
-    }
+    },
+    {
+        path: '/test',
+        exact: true,
+        main: DuplicatedCodeResultPage,
+    },
+    
 ];
 
 export default routes;
