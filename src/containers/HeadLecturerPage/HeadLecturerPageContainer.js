@@ -4,7 +4,7 @@ import ListScripts from './services/ListScripts';
 import * as Constants from '../constants';
 import * as AppConstant from './../../constants/AppConstants';
 import { onLoading } from './actions';
-import { fetchEventsData, createTestScript, getTestScriptById,updateTestScript } from './axios';
+import { fetchEventsData, createTestScript, getTestScriptById, updateTestScript } from './axios';
 import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 import CreateTestScript from './services/CreateTestScript';
@@ -12,6 +12,8 @@ import UpdateTestScript from './services/UpdateTestScript';
 import ListPracticalExams from './services/ListPracticalExams';
 import ScriptTemplateJavaWeb from './services/template.Javaweb';
 import ScriptTemplateJava from './services/template.Java';
+import swal from 'sweetalert';
+import { withRouter } from 'react-router-dom';
 
 class HeadLecturerPageContainer extends Component {
 
@@ -28,6 +30,7 @@ class HeadLecturerPageContainer extends Component {
             currentTemplate: ScriptTemplateJavaWeb,
             currentScript: null,
             scriptId: null,
+            isShowMessage:false,
         };
     }
 
@@ -64,17 +67,38 @@ class HeadLecturerPageContainer extends Component {
             scriptId: nextProps.scriptId,
             currentScript: nextProps.currentScript,
             pageType: nextProps.pageType,
-            message: nextProps.message
+            message: nextProps.message,
+            action: nextProps.action,
+            statusCode: nextProps.statusCode,
         }
     }
 
-    getDataBeforeSaveTestScript = (questionArr, scriptName, file, originalArr, pageType,globalVariableCode) => {
-        let { subjectId,scriptId } = this.state;
+    componentDidUpdate(prevProps) {
+        let { statusCode, message,subjectId,isShowMessage } = this.state;
+        console.log(message)
+        console.log(isShowMessage);
+        if (isShowMessage && message !== '') {
+            switch (statusCode) {
+                case 200:
+                    swal("Successfully !", message, "success");
+                    break;
+                case 500:
+                case 409:
+                    swal("Failed !", message, "error");
+                    break;
+            }
+            this.setState({isShowMessage : false});
+            this.props.history.push('/subjects/'+subjectId+'/scripts');
+        }
+    }
+
+    getDataBeforeSaveTestScript = (questionArr, scriptName, file, originalArr, pageType, globalVariableCode) => {
+        let { subjectId, scriptId } = this.state;
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
         let tempQuestionPointStr = this.createQuestionPointString(questionArr.questions);
         let headLecturerId = 1;
-        let question = this.createQuestionString(questionArr.questions,globalVariableCode);
+        let question = this.createQuestionString(questionArr.questions, globalVariableCode);
         let questionStr = JSON.stringify(question);
         let questionData = JSON.stringify(originalArr);
         let formData = new FormData();
@@ -84,17 +108,23 @@ class HeadLecturerPageContainer extends Component {
         formData.append("questions", questionStr);
         formData.append("headLecturerId", headLecturerId);
         formData.append("subjectId", subjectId);
-        formData.append("docsFile", file);
+        if (file !== null) {
+            formData.append("docsFile", file);
+        }
         formData.append("scriptData", questionData);
+       
         switch (pageType) {
             case AppConstant.PAGE_TYPE_CREATE_SCRIPT:
                 this.props.saveTestScript(formData);
+                this.setState({isShowMessage:true});
                 break;
             case AppConstant.PAGE_TYPE_UPDATE_SCRIPT:
                 formData.append("id", scriptId);
                 this.props.UpdateTestScript(formData);
+                this.setState({isShowMessage:true});
                 break;
         }
+       
 
     }
 
@@ -102,7 +132,7 @@ class HeadLecturerPageContainer extends Component {
         // [{"testcase":"testcase1", "code":"ABC"}, {"testcase":"testcase2", "code":"AB2C"}]
         questionArr.forEach(element => {
             let code = Constants.ANOTATION_TEST + " \n" + element.code;
-            element.code = code.replace(AppConstant.BODY_POSITION,'');
+            element.code = code.replace(AppConstant.BODY_POSITION, '');
             delete element.point;
         });
         return questionArr;
@@ -122,7 +152,6 @@ class HeadLecturerPageContainer extends Component {
 
     render() {
         let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript } = this.state;
-        console.log(this.state);
         return (
 
             <div className="page-wrapper" >
@@ -144,10 +173,12 @@ const mapStateToProps = state => {
     return {
         statusCode: state.headerLecturerPage.statusCode,
         isLoading: state.headerLecturerPage.isLoading,
-        message: state.headerLecturerPage.message,
-        error: state.headerLecturerPage.error,
         eventData: state.headerLecturerPage.eventData,
         currentScript: state.headerLecturerPage.currentScript,
+        statusCode: state.headerLecturerPage.statusCode,
+        message: state.headerLecturerPage.message,
+        error: state.headerLecturerPage.error,
+        action: state.headerLecturerPage.action,
     }
 }
 
@@ -165,11 +196,11 @@ const mapDispatchToProps = (dispatch, props) => {
         saveTestScript: (formData) => {
             createTestScript(formData, dispatch);
         },
-        UpdateTestScript: (formData,scriptId) =>{
-            updateTestScript(formData,dispatch);
+        UpdateTestScript: (formData, scriptId) => {
+            updateTestScript(formData, dispatch);
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeadLecturerPageContainer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeadLecturerPageContainer));
 

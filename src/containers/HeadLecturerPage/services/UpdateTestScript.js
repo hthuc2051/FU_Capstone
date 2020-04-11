@@ -23,6 +23,7 @@ class UpdateTestScript extends Component {
                     testcase: 'question1',
                     code: template.DEFAULT.code,
                     point: 0,
+                    order:0,
                 }],
                 global_variable:
                 {
@@ -67,7 +68,7 @@ class UpdateTestScript extends Component {
             currentTemplate: nextProps.currentTemplate,
             questionArr: nextProps.script.scriptData,
             currentScript:nextProps.script,
-            txtScriptName:nextProps.script.name,
+            txtScriptName:nextProps.script.scriptData.name,
         }
     }
 
@@ -115,14 +116,30 @@ class UpdateTestScript extends Component {
         for (let i = 0; i < questionArr.questions.length; i++) {
             let code = questionArr.questions[i].code;
             let point = questionArr.questions[i].point;
+            let order = questionArr.questions[i].order;
+            let reg = /^\d+(.{1}\d+)?$/;
+            console.log(order)
             if (code === '') {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE + questionArr.questions[i].testcase);
                 return false;
             }
-            if (point === 0) {
+            if (point === 0 || point == ''  ) {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT + questionArr.questions[i].testcase);
                 return false;
             }
+            if(!reg.test(point)){
+                window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_POINT + questionArr.questions[i].testcase);
+                return false;
+            }
+            if (order === 0 || order === '') {
+                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
+                return false;
+            }
+            if(!reg.test(order)){
+                window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
+                return false;
+            }
+           
         }
         return true;
     }
@@ -134,7 +151,7 @@ class UpdateTestScript extends Component {
         let template = new currentTemplate;
         let index = questionArr.questions.length;
         if (index > 0) {
-            let item = { testcase: QUESTION + (index + 1), data: template.DEFAULT, point: 0, code: template.DEFAULT.code };
+            let item = { testcase: QUESTION + (index + 1), data: template.DEFAULT, point: 0, code: template.DEFAULT.code,order:0 };
             questionArr.questions.push(item);
             this.setState({ questionArr });
         }
@@ -260,7 +277,7 @@ class UpdateTestScript extends Component {
 
 
     render() {
-        let { isLoading, eventData, currentScript, questionArr } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -269,7 +286,7 @@ class UpdateTestScript extends Component {
                     </div>
                     <nav className="question-nav">
 
-                        <input type="text" name="txtScriptName" id="txtScriptName" value={currentScript.name}  onChange={(e)=> {e.preventDefault();this.onChange(e)}} className="form-control script-name" placeholder="Script's name" />
+                        <input type="text" name="txtScriptName" id="txtScriptName" value={txtScriptName}  onChange={(e)=> {e.preventDefault();this.onChange(e)}} className="form-control script-name" placeholder="Script's name" />
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
                                 {questionArr ? <div className="nav">{this.renderQuestionTab(questionArr)}</div> : ''}

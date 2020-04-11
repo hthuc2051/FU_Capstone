@@ -227,19 +227,19 @@ const headerLecturerPage = (state = initStage, action) => {
                 action: '',
             });
 
-            // Create || Update TestScripts
-        case Actions.CREATE_TEST_SCRIPT || Actions.UPDATE_TEST_SCRIPT :
+        // Create  Update TestScripts
+        case Actions.CREATE_TEST_SCRIPT:
             return Object.assign({}, state, {
                 isLoading: true,
             });
-        case Actions.CREATE_TEST_SCRIPT_OK || Actions.UPDATE_TEST_SCRIPT_OK:
+        case Actions.CREATE_TEST_SCRIPT_OK:
+            console.log(action);
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: 200,
                 message: action.data,
-                action: '',
             });
-        case Actions.CREATE_TEST_SCRIPT_FAILED || Actions.UPDATE_TEST_SCRIPT_FAILED:
+        case Actions.CREATE_TEST_SCRIPT_FAILED:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
@@ -247,7 +247,7 @@ const headerLecturerPage = (state = initStage, action) => {
                 message: Messages.MSG_FAILED,
                 action: '',
             });
-        case Actions.CREATE_TEST_SCRIPT_TIME_OUT || Actions.UPDATE_TEST_SCRIPT_TIME_OUT:
+        case Actions.CREATE_TEST_SCRIPT_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
@@ -255,7 +255,33 @@ const headerLecturerPage = (state = initStage, action) => {
                 message: Messages.MSG_TIMEOUT,
                 action: '',
             });
-
+        case Actions.UPDATE_TEST_SCRIPT:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.UPDATE_TEST_SCRIPT_OK:
+            console.log(action);
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.UPDATE_TEST_SCRIPT_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_FAILED,
+                action: '',
+            });
+        case Actions.UPDATE_TEST_SCRIPT_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_TIMEOUT,
+                action: '',
+            });
 
         // DELETE test script
         case Actions.DELETE_TEST_SCRIPT:

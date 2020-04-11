@@ -18,6 +18,9 @@ export const ARRAY_OPTIONS = ['Boolean', 'Char', 'Integer', 'Float', 'Double', '
 // Error messsage ;
 export const ERROR_MSG_EMPTY_SCRIPT_NAME = "Please set script name";
 export const ERROR_MSG_EMPTY_QUESTION_POINT = "Please set point for question: ";
+export const ERROR_MSG_WRONG_FORMAT_POINT = "Point must be number at question: ";
+export const ERROR_MSG_WRONG_FORMAT_ORDER = "Oder must be number at question: ";
+export const ERROR_MSG_EMPTY_QUESTION_ORDER = "Please set order for question: ";
 export const ERROR_MSG_EMPTY_QUESTION_CODE = "Please set test script for question: ";
 
 // method name

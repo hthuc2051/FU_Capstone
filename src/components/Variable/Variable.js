@@ -68,12 +68,8 @@ class Variable extends Component {
         let arr = paramObj.params;
         if (paramObj != null && typeof (paramObj) !== 'undefined') {
             if (arr != null && typeof (arr) !== 'undefined' && arr.length > 0) {
-                let count = 0;
                 arr.forEach(element => {
-                    do {
-                        code = code.replace(element.name, this.checkParameterType(element));
-                        count++;
-                    } while (count < 10);
+                    code = code.split(element.name).join(this.checkParameterType(element));
                 });
             }
 
@@ -99,8 +95,7 @@ class Variable extends Component {
         this.props.closeForm(paramObj, parent, index);
     }
     render() {
-        let { txtName, txtValue, paramObj } = this.state;
-        let { label } = this.props;
+        let { paramObj } = this.state;
         return (
             <div className="variable-item">
                 <label>{paramObj.label}</label>
@@ -112,7 +107,7 @@ class Variable extends Component {
                             this.renderInput(paramObj) : ''}
         
                         {paramObj.label === AppConstant.LABEL_PARAM ?
-                            <input name="name" className="form-control" placeholder="Name" value={paramObj.name} onChange={this.onChange} />
+                            <input name="name" className="form-control" placeholder="Name" value={paramObj.name} onChange={this.onChange}/>
                             : ''}
 
                         {paramObj.label === AppConstant.LABEL_PARAM ?
@@ -227,7 +222,7 @@ class Variable extends Component {
                 </option>
             );
             return (
-                <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.changeSelectType}>
+                <select name="selectedType" value={this.state.selectedType} className="custom-select" onChange={this.changeSelectType} autoFocus>
                     {options}
                     {/* Extends more later */}
                 </select>
@@ -242,7 +237,7 @@ class Variable extends Component {
                 </option>
             );
             return (
-                <select name="type" value={this.state.paramObj.type} className="custom-select" onChange={this.onChange}>
+                <select name="type" value={this.state.paramObj.type} className="custom-select" onChange={this.onChange} autoFocus>
                     {options}
                     {/* Extends more later */}
                 </select>

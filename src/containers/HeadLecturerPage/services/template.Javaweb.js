@@ -122,7 +122,7 @@ export default class ScriptTemplateJavaWeb {
                       value: 't01',
                     }
                   ],
-                  code: 'driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );',
+                  code: 'driver.findElement(By.name( "txtUsername" )).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );',
                   children: []
                 },
                 {
@@ -142,7 +142,7 @@ export default class ScriptTemplateJavaWeb {
                       value: 't01',
                     }
                   ],
-                  code: 'driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );',
+                  code: 'driver.findElement(By.name( "txtPassword" )).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );',
                   children: []
                 },
                 {

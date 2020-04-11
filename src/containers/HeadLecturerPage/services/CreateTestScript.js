@@ -23,6 +23,7 @@ class CreateTestScript extends Component {
                     testcase: 'question1',
                     code: template.DEFAULT.code,
                     point: 0,
+                    order:0,
                 }],
                 global_variable:
                 {
@@ -122,12 +123,26 @@ class CreateTestScript extends Component {
         for (let i = 0; i < questionArr.questions.length; i++) {
             let code = questionArr.questions[i].code;
             let point = questionArr.questions[i].point;
+            let order = questionArr.questions[i].order;
+            let reg = /^\d+(.{1}\d+)?$/;
             if (code === '') {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE + questionArr.questions[i].testcase);
                 return false;
             }
-            if (point === 0) {
+            if (point === 0 || point === '') {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT + questionArr.questions[i].testcase);
+                return false;
+            }
+            if(!reg.test(point)){
+                window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_POINT + questionArr.questions[i].testcase);
+                return false;
+            }
+            if (order === 0 || order === '') {
+                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
+                return false;
+            }
+            if(!reg.test(order)){
+                window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
                 return false;
             }
         }
@@ -136,35 +151,14 @@ class CreateTestScript extends Component {
 
     // click Add question button
     addQuestionTab = () => {
-        let { count } = this.state;
-        let tab = document.getElementById("question-tab");
-        if (tab === null) return;
-        let newTab = document.createElement("a");
-        newTab.setAttribute("class", "nav-item nav-link");
-        newTab.setAttribute("id", QUESTION + count);
-        newTab.setAttribute("data-toggle", "tab");
-        newTab.setAttribute("href", "#panel2");
-        newTab.setAttribute("role", "tab");
-        newTab.setAttribute("aria-controls", "nav-home");
-        newTab.setAttribute("aria-selected", "true");
-        newTab.innerHTML = QUESTION_UPPER + count + "&nbsp;";
-        let closeButton = document.createElement("button");
-        closeButton.setAttribute("class", "closeQuestionTab");
-        closeButton.addEventListener("click", (e) => { this.closeQuestionTab(QUESTION + count, count) });
-        let closeIcon = document.createElement("i");
-        closeIcon.setAttribute("class", "fa fa-close");
-        closeButton.appendChild(closeIcon);
-        newTab.appendChild(closeButton);
-        tab.appendChild(newTab);
-        newTab.addEventListener("click", (e) => { this.resetTreeView(newTab.id) });
-        this.setState({ count: count + 1 });
-        //add question into questionarr
-        let { questionArr,currentTemplate } = this.state;
+        let { questionArr, currentTemplate } = this.state;
         let template = new currentTemplate;
-        let item = { testcase: QUESTION + count, data: template.DEFAULT, point: 0, code:template.DEFAULT.code };
-        console.log(item);
-        questionArr.questions.push(item);
-        this.setState({ questionArr });
+        let index = questionArr.questions.length;
+        if (index > 0) {
+            let item = { testcase: QUESTION + (index + 1), data: template.DEFAULT, point: 0, code: template.DEFAULT.code,order:0 };
+            questionArr.questions.push(item);
+            this.setState({ questionArr });
+        }
     }
 
     resetTreeView = (tabId) => {
@@ -181,19 +175,20 @@ class CreateTestScript extends Component {
         }
     }
 
-    closeQuestionTab = (tabId) => {
+    closeQuestionTab = (name) => {
         let { questionArr } = this.state;
         if (questionArr.questions.length !== 1) {
-            let tab = document.getElementById(tabId);
-            tab.parentNode.removeChild(tab);
             for (let i = 0; i < questionArr.questions.length; i++) {
-                if (questionArr.questions[i].testcase === tabId) {
+                if (questionArr.questions[i].testcase === name) {
                     questionArr.questions.splice(i, 1);
                     if (this.state.selectedTab === i) {
                         this.setState({ selectedTab: 0 });
                         let element = questionArr.questions[0].testcase;
-                        document.getElementById(element).setAttribute("class", "nav-item nav-link active");
+                      //  document.getElementById(element).setAttribute("class", "nav-item nav-link active");
                     }
+                    i -= 1;
+                } else {
+                    questionArr.questions[i].testcase = QUESTION + (i + 1);
                 }
             }
             this.setState({ questionArr });
@@ -248,9 +243,41 @@ class CreateTestScript extends Component {
     handleFile = (e) => {
         this.setState({ selectedFile: e.target.files[0] });
     }
+    renderQuestionTab(questionArr) {
+        let question = questionArr.questions;
+        let result = null;
+        if (question !== null && typeof (question) !== 'undefined') {
+            if (question.length > 0) {
+                result = question.map((item, index) => {
+                    if (index == 0) {
+                        return (
+                            <a className="nav-item nav-link active" id={item.testcase} key={index}
+                                data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView(item.testcase) }} href="#panel2" role="tab" aria-controls="nav-home" aria-selected="true">
+                                {item.testcase}&nbsp;
+                                <button className="closeQuestionTab" onClick={(e) => { e.stopPropagation(); this.closeQuestionTab(item.testcase, index) }}>
+                                    <i className="fa fa-close" />
+                                </button>
+                            </a>
+                        )
+                    } else {
+                        return (
+                            <a className="nav-item nav-link" id={item.testcase} key={index}
+                                data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView(item.testcase) }} href="#panel2" role="tab" aria-controls="nav-home" aria-selected="true">
+                                {item.testcase}&nbsp;
+                                <button className="closeQuestionTab" onClick={(e) => { e.stopPropagation(); this.closeQuestionTab(item.testcase, index) }}>
+                                    <i className="fa fa-close" />
+                                </button>
+                            </a>
+                        )
+                    }
 
+                })
+            }
+        }
+        return result;
+    }
     render() {
-        let { isLoading, eventData, pageType } = this.state;
+        let { isLoading, eventData, questionArr } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -262,16 +289,8 @@ class CreateTestScript extends Component {
                         <input type="text" name="txtScriptName" id="txtScriptName" onChange={this.onChange} className="form-control script-name" placeholder="Script's name" />
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
-                                <div id="question-tab" className="nav">
-                                    <a className="nav-item nav-link active" id="question1"
-                                        data-toggle="tab" onClick={(e) => { e.stopPropagation(); this.resetTreeView("question1") }} href="#panel2" role="tab" aria-controls="nav-home" aria-selected="true">
-                                        Question 1&nbsp;
-                                <button className="closeQuestionTab" onClick={(e) => { e.stopPropagation(); this.closeQuestionTab(QUESTION + "1", "1") }}>
-                                            <i className="fa fa-close" />
-                                        </button>
-                                    </a>
-                                </div>
-                                <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab("question1") }}>
+                                {questionArr ? <div className="nav">{this.renderQuestionTab(questionArr)}</div> : ''}
+                                <button className="addQuestionButton" onClick={(e) => { e.stopPropagation(); this.addQuestionTab() }}>
                                     <i className="fa fa-plus" />
                                 </button>
                             </div>

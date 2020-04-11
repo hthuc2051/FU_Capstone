@@ -22,10 +22,12 @@ class TreeViewWeb extends Component {
       },
       selectTemplate: '',
       selectedTab: 0,
+      isCreate: false
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps)
     if (nextProps.question !== null) {
       if (document.getElementById('txtMethodName') !== null) {
         document.getElementById('txtMethodName').value = nextProps.question.data.methodName;
@@ -78,19 +80,15 @@ class TreeViewWeb extends Component {
   }
 
   closeForm = (paramObj, parent, index) => {
+    let { isCreate } = this.state;
+    console.log(paramObj);
     if (typeof (paramObj) === undefined) { return; }
-    if (paramObj.name !== '' && paramObj.exportValue !== '') {
-      paramObj.type = this.state.editableNode.type;
-      paramObj.name = this.state.editableNode.name;
-      paramObj.value = this.state.editableNode.value;
-
-      paramObj.editMode = false;
-      this.setState({ paramObj });
-    }
-    else {
+    paramObj.editMode = false;
+    if (isCreate) {
       parent.splice(index, 1);
-      this.setState({ parent });
     }
+    this.setState({ parent, isCreate: false });
+    // }
   }
 
   doneEdit = (paramObj) => {
@@ -106,7 +104,7 @@ class TreeViewWeb extends Component {
         window.alert("Please Insert All The Input Fields")
       } else {
         paramObj.editMode = false;
-        this.setState({ paramObj }, () => { this.saveTestCase(); });
+        this.setState({ paramObj, isCreate: false }, () => { this.saveTestCase(); });
       }
     }
     else if (paramObj.label === Constant.LABEL_PARAM) {
@@ -121,7 +119,7 @@ class TreeViewWeb extends Component {
         window.alert("Please Insert All The Input Fields")
       } else {
         paramObj.editMode = false;
-        this.setState({ paramObj }, () => { this.saveGlobalVariable(); });
+        this.setState({ paramObj, isCreate: false }, () => { this.saveGlobalVariable(); });
       }
     }
   }
@@ -174,7 +172,7 @@ class TreeViewWeb extends Component {
       }
     }
     parent.push(newChild);
-    this.setState({ parent });
+    this.setState({ parent, isCreate: true });
   }
 
 
@@ -228,7 +226,7 @@ class TreeViewWeb extends Component {
       }
     }
     node.children.push(newChild);
-    this.setState({ node });
+    this.setState({ node, isCreate: true });
   }
   makeChildren = (node) => {
     if (typeof node === 'undefined' || node.length === 0) return null;
@@ -266,25 +264,46 @@ class TreeViewWeb extends Component {
         );
       }
 
-      // A node has no children
+      // A node has no children 
       else if (paramObj.children.length === 0) {
-        let normalMode = (
-          <div className="node"><i className="fa fa-square-o"></i>
-            {paramObj.label === Constant.LABEL_STEP ?
-              //paramObj.type  +" - " + paramObj.params +" - " + paramObj.value
-              this.renderParam(paramObj)
-              :
-              paramObj.type + " - " + paramObj.name + " - " + paramObj.value
-            }
+        let normalMode = null;
+        if (paramObj.code !== null && typeof (paramObj.code) !== 'undefined') {
+          // Allow to add children
+          if (paramObj.code.indexOf(Constant.BODY_POSITION) > -1) {
+            normalMode = (
+              <div className="node"><i className="fa fa-square-o"></i>
+                {paramObj.label === Constant.LABEL_STEP ?
+                  //paramObj.type  +" - " + paramObj.params +" - " + paramObj.value
+                  this.renderParam(paramObj)
+                  :
+                  paramObj.type + " - " + paramObj.name + " - " + paramObj.value
+                }
+                <span className="actions">
+                  <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
+                  <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
+                  <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
+                </span>
+              </div>
+            );
+          } else { // NOT allow to add children
+            normalMode = (
+              <div className="node"><i className="fa fa-square-o"></i>
+                {paramObj.label === Constant.LABEL_STEP ?
+                  //paramObj.type  +" - " + paramObj.params +" - " + paramObj.value
+                  this.renderParam(paramObj)
+                  :
+                  paramObj.type + " - " + paramObj.name + " - " + paramObj.value
+                }
 
-            <span className="actions">
-              <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
-              <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
-              <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
-            </span>
-          </div>
-        );
+                <span className="actions">
+                  <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
+                  <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
+                </span>
+              </div>
+            );
+          }
 
+        }
         item = (
           <li key={index} onClick={(e) => e.stopPropagation()}>
             {(paramObj.editMode) ? this.nodeEditForm(Constant.LABEL_PARAM, paramObj, node, index) : normalMode}
@@ -308,7 +327,7 @@ class TreeViewWeb extends Component {
   }
 
 
-  getChildCode(step, spaceIndex) {
+  getChildCode(step, spaceIndex, indexCount) {
     let baseSpace = 20;
     let code = step.code;
     let child = step.children;
@@ -323,6 +342,7 @@ class TreeViewWeb extends Component {
         item = babies;
       }
       else {
+
         item = (<span key={index} style={{ marginLeft: baseSpace * (spaceIndex + 1) }} >{element.code}<br /></span>);
       }
       return item;
@@ -330,19 +350,23 @@ class TreeViewWeb extends Component {
     if (tempCode.indexOf(Constant.BODY_POSITION) > -1) {
       let temp = tempCode.split(Constant.BODY_POSITION);
       if (spaceIndex === 1) {
-        code = (<span key={spaceIndex} style={{ marginLeft: margin }}>
+        code = (<span key={indexCount} style={{ marginLeft: margin }}>
           {temp[0]}<br />
           {children}
           <span style={{ marginLeft: margin }}>{temp[1]}</span>
         </span>);
       } else {
-        code = (<span key={spaceIndex} style={{ marginLeft: margin }}>
+        code = (<span key={indexCount} style={{ marginLeft: margin }}>
           {temp[0]}<br />
           {children}
           <span style={{ marginLeft: margin }}>{temp[1]}</span><br />
         </span>);
       }
     }
+    else {
+      code = (<span key={indexCount} style={{ marginLeft: baseSpace * spaceIndex }} >{tempCode}</span>);
+    }
+
     if (code !== null && typeof (code) !== 'undefined') {
       return code;
     }
@@ -365,8 +389,8 @@ class TreeViewWeb extends Component {
     return children;
   }
 
-  editMethodName = () => {
-    let method = this.txtMethodName.current.value.replace(/\s/g, '').trim();
+  editMethodName = (e) => {
+    let method = e.target.value.replace(/\s/g, '').trim();
     let { data } = this.state;
     if (method !== '') {
       data.methodName = method;
@@ -399,7 +423,7 @@ class TreeViewWeb extends Component {
   }
 
   createStep(step, index) {
-    let code = this.getChildCode(step, 1);
+    let code = this.getChildCode(step, 1, index + 1);
     return (
       <code key={index} className="codeLine" id="temp">
         {code}<br />
@@ -415,6 +439,13 @@ class TreeViewWeb extends Component {
     this.setState({ question })
   }
 
+  handleOrder = (e) => {
+    let order = e.target.value;
+    let { question } = this.state;
+    question.order = order;
+    this.setState({ question })
+  }
+
   changeTemplate = (e) => {
     var target = e.target;
     var name = target.name;
@@ -427,6 +458,7 @@ class TreeViewWeb extends Component {
 
   render() {
     let { selectTemplate, question, data, global_variable } = this.state;
+    console.log(this.state.listStep);
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
@@ -436,8 +468,13 @@ class TreeViewWeb extends Component {
               :
               <p> Point <input type="text" name="txtPoint" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
             }
-
-            <input type="text" id="txtMethodName" ref={this.txtMethodName} className="form-control root" placeholder="Method's name" onKeyUp={(e) => { e.stopPropagation(); this.editMethodName() }} />
+            {question.order === 0 ?
+             <p> Order <input type="text" name="txtOrder" value='' onChange={(e) => this.handleOrder(e)} /></p>
+             :
+             <p> Order <input type="text" name="txtOrder" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
+          }
+           
+            <input type="text" id="txtMethodName" value={question.data.methodName} className="form-control root" placeholder="Method's name" onChange={(e) => { e.stopPropagation(); this.editMethodName(e) }} />
             <ul>
               <li onClick={(e) => { e.preventDefault(); this.toggleView(global_variable) }}>
                 <div className="node">{global_variable.showChildren ? <i className="fa fa-minus-square-o" /> : <i className="fa fa-plus-square-o" />}
@@ -458,8 +495,8 @@ class TreeViewWeb extends Component {
                 </div>
                 {data.params[0].showChildren ? this.makeChildren(data.params[0].children) : ''}
               </li>
-              
-              <li/>
+
+              <li />
             </ul>
           </div>
           <div className="codePage" id="code" name="code" >

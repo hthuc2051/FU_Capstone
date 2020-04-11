@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 import { connect } from 'react-redux';
 import { fetchTestScripts, deleteTestScript } from '../axios';
 import { onLoading, onFinishing } from '../actions';
-import ModalEditPracticalExam from '../modals/ModalEditPracticalExam';
+import ModalScriptDetail from '../modals/ModalScriptDetail';
 import * as Constants from '../../constants';
 import { withRouter } from 'react-router-dom';
 const TYPE_CREATE = 'CREATE';
@@ -25,14 +25,13 @@ class ListScripts extends Component {
 
 
     componentDidMount() {
-        //   this.props.onLoading();
         this.props.fetchTestScripts(this.props.subjectId);
     }
 
     componentDidUpdate(prevProps) {
         // Render giao diện sau khi call api
         let { action, statusCode, message, isReloadData } = this.state;
-        if (prevProps.action !== action && message !== '') {
+        if (isReloadData && message !== '') {
             switch (statusCode) {
                 case 200:
                     swal("Successfully !", message, "success");
@@ -49,11 +48,17 @@ class ListScripts extends Component {
             }
         }
     }
-    viewScriptDetails = () => {
-        
+    viewScriptDetails = (item) => {
+        this.setState({editObj:item,isOpenForm:true});
     }
 
     onToggleModal = (isOpenForm) => {
+        this.setState({
+            isOpenForm: isOpenForm,
+        })
+    }
+
+    onCloseDetails = (isOpenForm) => {
         this.setState({
             isOpenForm: isOpenForm,
         })
@@ -147,6 +152,7 @@ class ListScripts extends Component {
 
     render() {
         let { listScripts, isOpenForm, formType, editObj } = this.state;
+        console.log(listScripts);
         return (
             <div id="content-wrapper">
                 <nav className="question-nav">
@@ -180,7 +186,7 @@ class ListScripts extends Component {
                 }
 
                 </div>
-                {isOpenForm ? <ModalEditPracticalExam formType={formType} isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+                {isOpenForm ? <ModalScriptDetail isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
             </div>
         );
     }
