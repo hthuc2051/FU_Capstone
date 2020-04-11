@@ -7,112 +7,149 @@ class CodePageContainer extends Component {
         super(props);
 
         this.state = {
-            param: [],
+            params: [],
             action: {
                 name: '',
                 code: '',
-                param: [],
-                subject: ''
-            }
+                params: [],
+                subjects: []
+            },
+            subjects: [],
+            paramTypes: [],
         };
-
-        this.addMoreParam = this.addMoreParam.bind(this);
-        this.onChangeHandle = this.onChangeHandle.bind(this);
-        this.saveAction = this.saveAction.bind(this);
     }
 
     leftBracket = '{';
     rightBracket = '}';
 
-    addMoreParam(e) {
-        // var getDocument = document.getElementById('multiParam');
-        //var createInput = document.createElement();
-        e.preventDefault();
-        let { param } = this.state;
-        param.push({
-            name: 'param',
-            type: 'String'
-        })
+    saveAction = () => {
+        let { params, action } = this.state;
+        action.params = params;
+        let formatedCode = action.code.replace(/\r?\n|\r/g, '');
+        action.code = formatedCode;
 
-        this.setState({
-            param: param
-        });
-        console.log(this.state.param);
-        this.renderInputElement();
-
-    }
-    saveAction() {
+        this.setState({ action });
         console.log(this.state.action);
     }
 
-    onChangeHandle() {
-        var name = this.refs.txtInput.value;
-        var code = this.refs.txtCode.value;
-        var subject = this.refs.slProgram.value;
-        let action = this.state.action;
-        action.name = name;
-        action.code = code;
-        action.param = this.state.param;
-        action.subject = subject;
+    addMoreParam = (e) => {
+        e.preventDefault();
+        let { params } = this.state;
+        let randId = (+new Date).toString(36);
+
+        params.push({
+            id: randId,
+            name: '',
+            type: ''
+        });
+
         this.setState({
-            action: action
-        });
-        console.log(action);
-    }
-
-    renderInputElement() {
-        var getDOMroot = document.getElementById('paramRoot');
-        getDOMroot.innerHTML = "";
-        this.state.param.forEach((element, index) => {
-            var createDiv = document.createElement('div');
-            createDiv.className = "row";
-            createDiv.id = "multipleParam"
-            createDiv.style = 'margin-left:0px;'
-            var inputTextName = document.createElement("input");
-            inputTextName.className = 'form-control';
-            inputTextName.style = 'width:200px';
-            inputTextName.value = element.name;
-            inputTextName.onchange = (e) => {
-                console.log(e.target.value);
-                console.log(this.state);
-                let { param } = this.state;
-                param[index].name = e.target.value;
-                console.log(param[index]);
-                console.log(element);
-                this.setState({
-                    param: param
-                })
-            }
-            var spaceDiv = document.createElement("div");
-            spaceDiv.style = 'width:10px'
-            var inputTextParam = document.createElement("input");
-            inputTextParam.className = 'form-control';
-            inputTextParam.style = 'width:200px;';
-            inputTextParam.value = element.type;
-            inputTextParam.onchange = (e) => {
-                let { param } = this.state;
-                param[index].type = e.target.value
-                console.log(param[index]);
-
-                this.setState({
-                    param: param
-                })
-            }
-
-
-            createDiv.appendChild(inputTextName)
-            createDiv.appendChild(spaceDiv);
-            createDiv.appendChild(inputTextParam)
-
-
-            var space = document.createElement('br');
-            getDOMroot.appendChild(createDiv);
-            getDOMroot.appendChild(space);
-
+            params: params
         });
     }
 
+    onActionNameChangeHandler = (e, actionName) => {
+        e.preventDefault();
+        let { action } = this.state;
+        actionName = e.target.value;
+        action.name = actionName;
+        this.setState({
+            action
+        });
+    }
 
+    onParamChangeHandler = (e, index) => {
+        e.preventDefault();
+        let { params } = this.state;
+
+        let name = e.target.name;
+        if (name === 'param-type') {
+            params[index].type = e.target.value;
+        }
+        if (name === 'param-name') {
+            params[index].name = e.target.value;
+        }
+
+        this.setState({
+            params,
+        });
+    }
+
+    renderParameter = (params) => {
+        let result = [];
+        result = params.map((item, index) => {
+            return (
+                <div className='form-group row params' key={index}>
+                    <input className='form-control param-type'
+                        name='param-type'
+                        type='text'
+                        value={item.type}
+                        placeholder='Param type...'
+                        onChange={(e) => this.onParamChangeHandler(e, index)} />
+                    <input className='form-control param-value'
+                        name='param-name'
+                        type='text'
+                        value={item.name}
+                        placeholder='Param name...'
+                        onChange={(e) => this.onParamChangeHandler(e, index)} />
+                    <button className="btn btn-danger" onClick={() => this.removeParam(item.id)}>
+                        <i className="fa fa-plus" /> Remove
+                                            </button>
+                </div>
+            );
+        });
+        return result;
+    }
+
+    removeParam = (id) => {
+        let { params } = this.state;
+        var removeIndex = params.map(function (item) { return item.id; }).indexOf(id);
+
+        if (removeIndex !== null && removeIndex >= 0) {
+            params.splice(removeIndex, 1);
+        }
+
+        this.setState({
+            params: params,
+        });
+    }
+
+    onCodeChangeHandler = (e, code) => {
+        e.preventDefault();
+        let { action } = this.state;
+        code = e.target.value;
+        action.code = code;
+        this.setState({
+            action
+        });
+    }
+
+    renderCodeSnippet = (code) => {
+        return (
+            <div className="col-xl-5">
+                <div className="code-block">
+                    <div className="code-container">
+                        <div id="highlighter_548907" className="syntaxhighlighter nogutter">
+                            <div className="container">
+                                <div>
+                                    <code className="keyword" placeholder='actionName'>{this.state.action.name}() </code>
+                                    <code className="plain">{this.leftBracket}</code>
+                                </div>
+
+                                <div className="line code-snippet">
+                                    <span className="plain">{code}</span>
+                                </div>
+
+                                <div>
+                                    <code className="plain">{this.rightBracket}</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     render() {
         return (
@@ -120,76 +157,74 @@ class CodePageContainer extends Component {
                 <div className="card content">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-xs-6">
-                                <form style={{ padding: '0 15px 0 0' }}>
-                                    <div className="form-group">
-                                        <label >Action name:</label>
-                                        <input type="text" ref="txtInput" onChange={this.onChangeHandle} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Action name" style={{ width: '500px' }} />
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <label >Action name:</label>
+                                    <input type="text" className="form-control" onChange={(e) => this.onActionNameChangeHandler(e, this, this.state.action.name)} />
+                                </div>
 
-                                    </div>
-                                    <div className="form-group">
-                                        <label >Code Generator</label>
-                                        <textarea className="form-control" ref="txtCode" style={{ width: '500px' }} onChange={this.onChangeHandle} />
-                                    </div>
-                                    <div className="form-group">
-                                        <label style={{ paddingTop: '5px' }} >Type Parameter</label>
-
-                                        <button className="btn btn-success" style={{ float: 'right' }} onClick={this.addMoreParam}>
-                                            <i className="fa fa-plus">
-                                                &nbsp;
-                                            </i>Add Parameter</button>
-                                    </div>
-                                    <div className="form-group" id="paramRoot" style={{ marginLeft: '3px' }}>
-
+                                <div className='form-group'>
+                                    <div>
+                                        <label>Subject:</label>
                                     </div>
 
-                                    <label>Programming</label>
-                                    <select ref="slProgram" onChange={this.onChangeHandle} style={{ width: '100px' }} name="slProgram" id="inputslProgram" className="form-control" required="required">
-                                        <option value="C#">C#</option>
-                                        <option value="Java">Java</option>
-                                        <option value="Web">Web</option>
+                                    <div className="form-check-inline">
+                                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
+                                        <label className="form-check-label" htmlFor="defaultCheck1">
+                                            C
+                                            </label>
+                                    </div>
+                                    <div className="form-check-inline">
+                                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
+                                        <label className="form-check-label" htmlFor="defaultCheck2">
+                                            C#
+                                            </label>
+                                    </div>
+                                    <div className="form-check-inline">
+                                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck3" />
+                                        <label className="form-check-label" htmlFor="defaultCheck3">
+                                            Java Web
+                                            </label>
+                                    </div>
+                                    <div className="form-check-inline">
+                                        <input className="form-check-input" type="checkbox" value="" id="defaultCheck4" />
+                                        <label className="form-check-label" htmlFor="defaultCheck4">
+                                            Java
+                                            </label>
+                                    </div>
+                                </div>
 
-                                    </select>
-                                    <br />
+                                <div className="form-group">
+                                    <label >Code Snippet:</label>
+                                    <textarea className="form-control" onChange={(e) => this.onCodeChangeHandler(e, this.state.action.code)} />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Parameter:</label>
+                                    <div>
+                                        <button className="btn btn-success" onClick={this.addMoreParam}>
+                                            Add Parameter
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="form-group" id="paramRoot" >
+                                    {this.renderParameter(this.state.params)}
+                                </div>
+
+                                <br />
+                                <div className=''>
                                     <button type="button" onClick={this.saveAction} className="btn btn-success">Save</button>
-                                    &nbsp;
-                                                <button type="reset" className="btn btn-danger">Clear</button>
-
-                                </form>
+                                        &nbsp;
+                                        <button type="reset" className="btn btn-danger">Clear</button>
+                                </div>
                             </div>
 
                             <div className="vl" style={{ marginRight: '15px' }} ></div>
 
-                            <div className="col-xs-6">
-                                <div className="code-block">
-                                    <div className="code-container">
-                                        <div id="highlighter_548907" className="syntaxhighlighter nogutter">
-                                            <table border="0" cellPadding="0" cellSpacing="0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td className="code">
-                                                            <div className="container">
-                                                                <div className="line number4 index3 alt1">
-                                                                    <code className="keyword">function()</code>
-                                                                    <code className="plain"> {this.leftBracket}  </code>
-                                                                </div>
+                            {this.renderCodeSnippet(this.state.action.code)}
 
-                                                                <div className="line number4 index3 alt1">
-                                                                    <p className="plain"> {this.state.action.code} </p>
-                                                                </div>
 
-                                                                <div className="line number4 index3 alt1">
-                                                                    <code className="plain">  {this.rightBracket}  </code>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
