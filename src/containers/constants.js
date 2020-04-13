@@ -33,6 +33,12 @@ export const FETCH_PRACTICAL_EXAMS_OK = 'FETCH_PRACTICAL_EXAMS_OK';
 export const FETCH_PRACTICAL_EXAMS_FAILED = 'FETCH_PRACTICAL_EXAMS_FAILED';
 export const FETCH_PRACTICAL_EXAMS_TIME_OUT = 'FETCH_PRACTICAL_EXAMS_TIME_OUT';
 
+// View files
+export const VIEW_CODE_FILES = 'VIEW_CODE_FILES';
+export const VIEW_CODE_FILES_OK = 'VIEW_CODE_FILES_OK';
+export const VIEW_CODE_FILES_FAILED = 'VIEW_CODE_FILES_FAILED';
+export const VIEW_CODE_FILES_TIME_OUT = 'VIEW_CODE_FILES_TIME_OUT';
+
 // Subject init
 export const FETCH_SUBJECT_INIT = 'FETCH_SUBJECT_INIT';
 export const FETCH_SUBJECT_INIT_OK = 'FETCH_SUBJECT_INIT_OK';
@@ -98,6 +104,7 @@ export const END_POINT_SUBJECTS = "subjects";
 export const END_POINT_CLASSES = "classes";
 
 export const END_POINT_LECTURER = "lecturers";
+export const END_POINT_SUBMISSION_FILE = "submission/file";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_CLASSES_SCRIPTS = "classes-scripts";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
@@ -116,6 +123,7 @@ export const METHOD_POST = "POST";
 
 // Test Script
 export const ANOTATION_TEST = "@Test";
+export const ANOTATION_ORDER = "@Order";
 
 
 export const generateEndPoint = (...params) => {

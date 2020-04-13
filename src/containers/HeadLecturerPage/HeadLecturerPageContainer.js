@@ -133,9 +133,12 @@ class HeadLecturerPageContainer extends Component {
     createQuestionString(questionArr) {
         // [{"testcase":"testcase1", "code":"ABC"}, {"testcase":"testcase2", "code":"AB2C"}]
         questionArr.forEach(element => {
-            let code = Constants.ANOTATION_TEST + " \n" + element.code;
+            let orderAnotation = Constants.ANOTATION_ORDER + '(' + element.order + ')';
+            let code = Constants.ANOTATION_TEST + " \n" + orderAnotation + " \n"+ element.code;
             element.code = code.replace(AppConstant.BODY_POSITION, '');
+            console.log(element.code);
             delete element.point;
+            delete element.order;
         });
         return questionArr;
 

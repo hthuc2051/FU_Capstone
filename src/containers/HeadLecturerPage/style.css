@@ -55,6 +55,33 @@
 #content-wrapper::-webkit-scrollbar-thumb:active {
   background: linear-gradient(to left, #22add4, #1e98ba);
 }
+
+/**  STYLE 11 */
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #F5F5F5;
+} 
+.scroll::-webkit-scrollbar-track {
+border-radius: 10px;
+background: rgba(0,0,0,0.1);
+border: 1px solid #ccc;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+border-radius: 10px;
+background: linear-gradient(to left, #aaa, #e4e4e4);
+border: 1px solid #aaa;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+background: #fff;
+}
+
+.scroll::-webkit-scrollbar-thumb:active  {
+background: linear-gradient(to left, #22ADD4, #1E98BA);
+}
+
 .table-title {
   padding-bottom: 10px;
   margin: 0 0 10px;

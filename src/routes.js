@@ -1,6 +1,6 @@
+
 import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage, DuplicatedCodePage } from './pages/index';
-
-
+import DuplicatedCodeResultPage from './containers/LecturerPage/DuplicatedCodeResultPage';
 const routes = [
     {
         path: '/',
@@ -69,6 +69,12 @@ const routes = [
         exact: false,
         main: DuplicatedCodePage
     },
+    {
+        path: '/test',
+        exact: true,
+        main: DuplicatedCodeResultPage,
+    },
+
 ];
 
 export default routes;
