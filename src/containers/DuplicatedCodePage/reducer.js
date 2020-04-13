@@ -3,13 +3,14 @@ import * as Messages from '../messages';
 const initStage = {
     listActions: null,
     isLoading: false,
+    filesData:[],
     statusCode: 500,
     message: '',
     error: null,
     action: null,
 };
 
-const adminPage = (state = initStage, action) => {
+const duplicatedCodePage = (state = initStage, action) => {
     console.log(action);
     state.action = action.type;
     switch (action.type) {
@@ -20,24 +21,24 @@ const adminPage = (state = initStage, action) => {
             });
 
         // Fetch actions
-        case Actions.FETCH_ACTIONS:
+        case Actions.GET_DUPLICATED_STUDENT_LIST:
             return Object.assign({}, state, {
                 isLoading: true,
             });
-        case Actions.FETCH_ACTIONS_OK:
+        case Actions.GET_DUPLICATED_STUDENT_LIST_OK:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: 200,
-                listActions: action.data,
+                duplicatedCodeList: action.data,
             });
-        case Actions.FETCH_ACTIONS_FAILED:
+        case Actions.GET_DUPLICATED_STUDENT_LIST_FAILED:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
                 message: Messages.MSG_FAILED,
             });
-        case Actions.FETCH_ACTIONS_TIME_OUT:
+        case Actions.GET_DUPLICATED_STUDENT_LIST_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
@@ -45,31 +46,33 @@ const adminPage = (state = initStage, action) => {
                 message: Messages.MSG_TIMEOUT,
             });
 
-        // DELETE action
-        case Actions.DELETE_ACTION:
+            // View code
+        
+        case Actions.VIEW_CODE_FILES:
             return Object.assign({}, state, {
                 isLoading: true,
             });
-        case Actions.DELETE_ACTION_OK:
+        case Actions.VIEW_CODE_FILES_OK:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: 200,
-                message: action.data,
+                filesData: action.data,
             });
-        case Actions.DELETE_ACTION_FAILED:
+        case Actions.VIEW_CODE_FILES_FAILED:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
-                message: Messages.MSG_FAILED,
+                message: action.message,
             });
-        case Actions.DELETE_ACTION_TIME_OUT:
+        case Actions.VIEW_CODE_FILES_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,
                 error: action.action,
-                message: Messages.MSG_TIMEOUT,
+                message: action.message,
             });
+
 
         // Answer ACTIONS
         default:
@@ -77,4 +80,4 @@ const adminPage = (state = initStage, action) => {
     }
 };
 
-export default adminPage;
+export default duplicatedCodePage;

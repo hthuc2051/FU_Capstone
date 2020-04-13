@@ -2,18 +2,18 @@ import callApi from '../api/ApiCaller';
 import * as Actions from './actions';
 import * as Constants from '../constants';
 
-export const getListActions = async (dispatch) => {
-    let res = await callApi(Constants.END_POINT_ACTION);
+export const getDuplicatedCodeStudentList = async (data,dispatch) => {
+    let res = await callApi(Constants.END_POINT_DUPLICATEDCODE_STUDENT_LIST,Constants.METHOD_POST,data);
     if (res != null) {
-        handleResponse(res, Constants.FETCH_ACTIONS, dispatch);
+        handleResponse(res, Constants.GET_DUPLICATED_STUDENT_LIST , dispatch);
     }
 }
 
-export const deleteAction = async (id, dispatch) => {
-    let endPoint = Constants.generateEndPoint(Constants.END_POINT_ACTION, id);
-    let res = await callApi(endPoint, Constants.PREFIX_DELETE);
+export const viewCodeFiles = async (token, dispatch) => {
+    let res = await callApi(Constants.END_POINT_SUBMISSION_FILE,Constants.METHOD_POST,token);
+    console.log(res);
     if (res != null) {
-        handleResponse(res, Constants.DELETE_ACTION, dispatch);
+        handleResponse(res, Constants.VIEW_CODE_FILES, dispatch);
     }
 }
 

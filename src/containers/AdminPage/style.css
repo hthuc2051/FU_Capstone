@@ -1,2 +1,5 @@
-td:nth-child(3) { width: 33% ;}
-.action-page .code {overflow-x: scroll; padding: 0.75rem; text-align: left;}
+td:nth-child(3) { width: 35% ;}
+.action-page .code {overflow-x: scroll; padding: 0.7rem; text-align: left;}
+.action-page .code p{margin-bottom: 0rem;}
+.action-page .params p{margin-bottom: 0rem;}
+.action-page .subjects p{margin-bottom: 0rem;}

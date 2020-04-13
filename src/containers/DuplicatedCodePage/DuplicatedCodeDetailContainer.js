@@ -5,7 +5,7 @@ import { onLoading } from './actions';
 import { viewCodeFiles } from './axios';
 import './style.css';
 
-class DuplicatedCodeResultPage extends Component {
+class DuplicatedCodeDetailContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,22 +14,27 @@ class DuplicatedCodeResultPage extends Component {
             firstFiles: [],
             secondFiles: [],
             filesData: [],
+            examCode: '',
             lineFirstFile: -1,
             lineSecondFile: -1,
-            filesToken: "SE63157_Cabinet.java_149-154~SE63155_Jewelry.java_82-85",
+            filesTokenArr: [],
+            filesToken: "",
+            lecturerToken: ''
         };
     }
 
     componentDidMount() {
-        let obj = {
-            examCode: "Practical_Java_SE1269_20200902",
-            filesToken: "SE63157_Cabinet.java_149-154~SE63155_Jewelry.java_82-85",
-            lecturerToken: "1",
-        }
-        this.props.onViewSubmissionFiles(obj);
+        console.log(this.props);
+        let { filesTokenArr, examCode } = this.props;
+        this.setState({
+            filesTokenArr: filesTokenArr,
+            examCode: examCode,
+        })
+
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        console.log(nextProps);
         let { filesData } = nextProps;
         let firstFiles, secondFiles;
         let count = 0;
@@ -48,7 +53,6 @@ class DuplicatedCodeResultPage extends Component {
             }
             count++;
         }
-
         return {
             firstFiles: firstFiles,
             secondFiles: secondFiles,
@@ -56,21 +60,28 @@ class DuplicatedCodeResultPage extends Component {
     }
 
     onSelected = (selectedItem) => {
-        let token = selectedItem.split("~");
+        let { examCode } = this.state;
+        let obj = {
+            examCode: examCode,
+            filesToken: selectedItem,
+            lecturerToken: "1",
+        }
+        this.props.onViewSubmissionFiles(obj);
         this.setState({
-            fileToken: token,
+            filesToken: selectedItem,
         });
 
     }
     render() {
-        let { firstFiles, secondFiles } = this.state;
+        let { firstFiles, secondFiles, filesTokenArr } = this.state;
+        console.log(firstFiles,secondFiles,filesTokenArr);
         return (
             <div id="duplicated-code-page" className="scroll">
+                
                 <div className="form-group">
                     <label>Example multiple select</label>
                     <select multiple className="form-control" >
-                        <option onClick={() => this.onSelected("SE63157_Cabinet.java_149-154~SE63155_Jewelry.java_82-85")} value="SE63157_Cabinet.java_149-154~SE63155_Jewelry.java_82-85">
-                            SE63157 - Cabinet.java (line: 149-154) ~ SE63155 - Jewelry.java (line: 82-85)</option>
+                        {filesTokenArr ? this.renderFilesTokenArr(filesTokenArr) : ''}
                     </select>
                 </div>
                 <div className="card content">
@@ -159,16 +170,30 @@ class DuplicatedCodeResultPage extends Component {
         }
         return result;
     }
+    renderFilesTokenArr = (arr) => {
+        let result = [];
+        if (typeof (arr) !== 'undefined' && arr != null) {
+            result = arr.map((item, index) => {
+                return (
+                    <option key={index} onClick={() => this.onSelected(item)}
+                        value={item}>
+                        {item}</option>
+
+                )
+            })
+        }
+        return result;
+    }
 
 }
 
 const mapStateToProps = (state) => {
     return {
-        isLoading: state.lecturerPage.isLoading,
-        statusCode: state.lecturerPage.statusCode,
-        message: state.lecturerPage.message,
-        error: state.lecturerPage.error,
-        filesData: state.lecturerPage.filesData,
+        isLoading: state.duplicatedCodePage.isLoading,
+        statusCode: state.duplicatedCodePage.statusCode,
+        message: state.duplicatedCodePage.message,
+        error: state.duplicatedCodePage.error,
+        filesData: state.duplicatedCodePage.filesData,
     }
 }
 const mapDispatchToProps = (dispatch, props) => {
@@ -182,5 +207,5 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DuplicatedCodeResultPage);
+export default connect(mapStateToProps, mapDispatchToProps)(DuplicatedCodeDetailContainer);
 

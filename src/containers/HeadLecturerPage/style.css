@@ -1,43 +1,44 @@
-.page-wrapper{
+.page-wrapper {
   width: 100%;
   min-height: 500px;
 }
-#content-wrapper{
-    background: #f6f8fa;
-    overflow-y: scroll;
-    max-height: 500px;
+#content-wrapper {
+  background: #f6f8fa;
+  overflow-y: scroll;
+  max-height: 500px;
 }
-.script-name{
+.script-name {
   margin-bottom: 20px;
 }
 
-.tab-content, .tab-panel{
-    width: 100%;
-    height: 100%;
+.tab-content,
+.tab-panel {
+  width: 100%;
+  height: 100%;
 }
-.tab-content{
-    padding: 15px;
+.tab-content {
+  padding: 15px;
 }
-.tab-panel{
-    background: white;
+.tab-panel {
+  background: white;
 }
-.question-nav{
-    margin: 0 15px;
-    background: white;
-    padding: 15px;
+.question-nav {
+  margin: 0 15px;
+  background: white;
+  padding: 15px;
 }
 .nav-tabs .nav-link {
-    border-color: #e9ecef #e9ecef #dee2e6;
+  border-color: #e9ecef #e9ecef #dee2e6;
 }
 
 /**  STYLE 11 */
 #content-wrapper::-webkit-scrollbar {
-    width: 8px;
-    background-color: #F5F5F5;
-} 
+  width: 8px;
+  background-color: #f5f5f5;
+}
 #content-wrapper::-webkit-scrollbar-track {
   border-radius: 10px;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
 }
 
@@ -52,7 +53,7 @@
 }
 
 #content-wrapper::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(to left, #22ADD4, #1E98BA);
+  background: linear-gradient(to left, #22add4, #1e98ba);
 }
 
 /**  STYLE 11 */
@@ -94,7 +95,7 @@ background: linear-gradient(to left, #22ADD4, #1E98BA);
   min-width: 100px;
   line-height: 13px;
 }
-.input-field{
+.input-field {
   position: relative;
 }
 .input-field .icon-wrap {
@@ -127,22 +128,34 @@ background: linear-gradient(to left, #22ADD4, #1E98BA);
   height: 2rem;
   fill: #ccc;
 }
-.modal{
-  background-color: rgba(0,0,0,0.4);
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
 }
-.classes-box, .scripts-box{
+.classes-box,
+.scripts-box {
   max-height: 150px;
   overflow-y: scroll;
 }
-.check-box, .dropdown-box{
+.check-box,
+.dropdown-box {
   padding: 5px 15px;
 }
-.modal-content select{
+.modal-content select {
   width: 100%;
 }
-.check-box div, .dropdown-box div{
+.check-box div,
+.dropdown-box div {
   margin: 5px 0px;
 }
-.check-box label, .dropdown-box label{
+.check-box label,
+.dropdown-box label {
   margin: 0px 10px;
+}
+.btn_create {
+  margin-left: 150px;
+}
+.empty_script_message {
+  text-align: center;
+  font-size: 30px;
+  color: darkgreen;
 }

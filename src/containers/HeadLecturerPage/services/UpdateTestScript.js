@@ -7,7 +7,7 @@ import '../style.css';
 const QUESTION = "question";
 const QUESTION_UPPER = "Question";
 
-class CreateTestScript extends Component {
+class UpdateTestScript extends Component {
     // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
     constructor(props) {
         super(props);
@@ -41,7 +41,7 @@ class CreateTestScript extends Component {
                             value: 'value',
                             showChildren: false,
                             editMode: false,
-                            children: [],
+                            children: []
                         }
                     ],
                     code:'String String = "value";',
@@ -52,7 +52,8 @@ class CreateTestScript extends Component {
             selectedTab: 0,
             txtScriptName: '',
             selectedFile: null,
-            currentTemplate : ScriptTemplateJavaWeb,
+            currentTemplate: ScriptTemplateJavaWeb,
+            currentScript: null,
         };
     }
 
@@ -60,22 +61,14 @@ class CreateTestScript extends Component {
         if (nextProps === prevState) {
             return null;
         }
-        let questionArr = prevState.questionArr;
-        if(nextProps.currentTemplate !==  null && typeof(nextProps.currentTemplate) !== 'undefined' && nextProps.currentTemplate !== prevState.currentTemplate){
-            questionArr.questions[0].data = new nextProps.currentTemplate().DEFAULT;
-            return {
-                eventData: nextProps.eventData,
-                file: nextProps.file,
-                pageType: nextProps.pageType,
-                currentTemplate: nextProps.currentTemplate,
-                questionArr: questionArr
-            }
-        }
         return {
             eventData: nextProps.eventData,
             file: nextProps.file,
             pageType: nextProps.pageType,
             currentTemplate: nextProps.currentTemplate,
+            questionArr: nextProps.script.scriptData,
+            currentScript:nextProps.script,
+            txtScriptName:nextProps.script.scriptData.name,
         }
     }
 
@@ -103,7 +96,7 @@ class CreateTestScript extends Component {
         console.log(global_variable)
     }
 
-    createTestScript = () => {
+    updateTestScript = () => {
         let { questionArr, txtScriptName, selectedFile } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
         if (!isvalid) return;
@@ -112,7 +105,7 @@ class CreateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point };
             newQuestionArr.questions.push(question);
         }
-           this.props.saveTestScript(newQuestionArr,txtScriptName,selectedFile,questionArr,AppConstant.PAGE_TYPE_CREATE_SCRIPT,questionArr.global_variable.code);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, selectedFile, questionArr,AppConstant.PAGE_TYPE_UPDATE_SCRIPT,questionArr.global_variable.code);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -125,11 +118,12 @@ class CreateTestScript extends Component {
             let point = questionArr.questions[i].point;
             let order = questionArr.questions[i].order;
             let reg = /^\d+(.{1}\d+)?$/;
+            console.log(order)
             if (code === '') {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE + questionArr.questions[i].testcase);
                 return false;
             }
-            if (point === 0 || point === '') {
+            if (point === 0 || point == ''  ) {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT + questionArr.questions[i].testcase);
                 return false;
             }
@@ -145,12 +139,14 @@ class CreateTestScript extends Component {
                 window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
                 return false;
             }
+           
         }
         return true;
     }
 
     // click Add question button
     addQuestionTab = () => {
+        //add question into questionarr
         let { questionArr, currentTemplate } = this.state;
         let template = new currentTemplate;
         let index = questionArr.questions.length;
@@ -159,6 +155,7 @@ class CreateTestScript extends Component {
             questionArr.questions.push(item);
             this.setState({ questionArr });
         }
+
     }
 
     resetTreeView = (tabId) => {
@@ -184,7 +181,7 @@ class CreateTestScript extends Component {
                     if (this.state.selectedTab === i) {
                         this.setState({ selectedTab: 0 });
                         let element = questionArr.questions[0].testcase;
-                      //  document.getElementById(element).setAttribute("class", "nav-item nav-link active");
+                        document.getElementById(element).setAttribute("class", "nav-item nav-link active");
                     }
                     i -= 1;
                 } else {
@@ -196,7 +193,7 @@ class CreateTestScript extends Component {
     }
 
     onchangeTemplate = (selectedTempalate, selectedTab) => {
-        let { questionArr,currentTemplate } = this.state;
+        let { questionArr, currentTemplate } = this.state;
         if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
             switch (selectedTempalate) {
                 case 'Login':
@@ -219,9 +216,9 @@ class CreateTestScript extends Component {
                     questionArr.questions[selectedTab].data = deleteTemplate.DELETE;
                     questionArr.questions[selectedTab].code = deleteTemplate.DELETE.code;
                     break;
-                default: 
-                questionArr.questions[selectedTab].data = new currentTemplate().DEFAULT;
-                questionArr.questions[selectedTab].code = new currentTemplate().DEFAULT.code;
+                default:
+                    questionArr.questions[selectedTab].data = new currentTemplate().DEFAULT;
+                    questionArr.questions[selectedTab].code = new currentTemplate().DEFAULT.code;
             }
             this.setState({ questionArr });
         }
@@ -233,16 +230,17 @@ class CreateTestScript extends Component {
         this.setState({
             [name]: target.value
         });
-        if(name === 'txtScriptName'){
-            let {questionArr} = this.state;
+        if (name === 'txtScriptName') {
+            let { questionArr } = this.state;
             questionArr.name = target.value;
-            this.setState({questionArr});
+            this.setState({ questionArr });
         }
     }
 
     handleFile = (e) => {
         this.setState({ selectedFile: e.target.files[0] });
     }
+
     renderQuestionTab(questionArr) {
         let question = questionArr.questions;
         let result = null;
@@ -276,8 +274,10 @@ class CreateTestScript extends Component {
         }
         return result;
     }
+
+
     render() {
-        let { isLoading, eventData, questionArr } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -286,7 +286,7 @@ class CreateTestScript extends Component {
                     </div>
                     <nav className="question-nav">
 
-                        <input type="text" name="txtScriptName" id="txtScriptName" onChange={this.onChange} className="form-control script-name" placeholder="Script's name" />
+                        <input type="text" name="txtScriptName" id="txtScriptName" value={txtScriptName}  onChange={(e)=> {e.preventDefault();this.onChange(e)}} className="form-control script-name" placeholder="Script's name" />
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
                                 {questionArr ? <div className="nav">{this.renderQuestionTab(questionArr)}</div> : ''}
@@ -303,9 +303,9 @@ class CreateTestScript extends Component {
                                 global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
                             <div className="tab-create">
                                 <input type="file" name="file" onChange={(e) => { this.handleFile(e) }} />
-                                <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
+                                <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.updateTestScript() }}>
                                     <i className="fa fa-plus" />
-                                    &nbsp;CREATE TEST SCRIPT
+                                    &nbsp;UPDATE TEST SCRIPT
                          </button>
                             </div>
                         </div>
@@ -317,7 +317,5 @@ class CreateTestScript extends Component {
     }
 }
 
-
-
-export default CreateTestScript;
+export default UpdateTestScript;
 

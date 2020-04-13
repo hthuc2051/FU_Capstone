@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { LeftSideBar, TopNavBar } from '../components/index';
-import { AdminPageContainer, CodePageContainer } from '../containers/index';
+import { CodePageContainer } from '../containers/index';
 import './style.css';
-const ADMIN_PAGE_TITLE = 'Admin Page';
-class CodePage extends Component {
 
+const CREATE_ACTION_PAGE_TITLE = 'Create Action Page';
+
+class CreateActionPage extends Component {
     render() {
         return (
             <div>
                 <div>
                     {/* Top navigation */}
-                    <TopNavBar pageTitle={ADMIN_PAGE_TITLE} />
-                    <div id="wrapper" className="admin-page">
+                    <TopNavBar pageTitle={CREATE_ACTION_PAGE_TITLE} />
+                    <div id="wrapper">
                         <LeftSideBar />
 
                         {/* Container */}
-                        <AdminPageContainer />
+                        <CodePageContainer />
                     </div>
                 </div>
             </div>
@@ -23,4 +24,4 @@ class CodePage extends Component {
     }
 }
 
-export default CodePage;
+export default CreateActionPage;
