@@ -9,6 +9,13 @@ export const getDuplicatedCodeStudentList = async (data,dispatch) => {
     }
 }
 
+export const viewCodeFiles = async (token, dispatch) => {
+    let res = await callApi(Constants.END_POINT_SUBMISSION_FILE,Constants.METHOD_POST,token);
+    console.log(res);
+    if (res != null) {
+        handleResponse(res, Constants.VIEW_CODE_FILES, dispatch);
+    }
+}
 
 const handleResponse = async (response, action, dispatch) => {
     let status = response.status;

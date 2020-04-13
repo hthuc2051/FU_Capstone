@@ -1,6 +1,7 @@
-
 import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage, DuplicatedCodePage } from './pages/index';
 import DuplicatedCodeResultPage from './containers/LecturerPage/DuplicatedCodeResultPage';
+
+
 const routes = [
     {
         path: '/',
@@ -74,6 +75,7 @@ const routes = [
         exact: true,
         main: DuplicatedCodeResultPage,
     },
+
 
 ];
 

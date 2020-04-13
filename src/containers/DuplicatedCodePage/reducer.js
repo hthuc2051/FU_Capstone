@@ -3,6 +3,7 @@ import * as Messages from '../messages';
 const initStage = {
     listActions: null,
     isLoading: false,
+    filesData:[],
     statusCode: 500,
     message: '',
     error: null,
@@ -44,6 +45,34 @@ const duplicatedCodePage = (state = initStage, action) => {
                 error: action.action,
                 message: Messages.MSG_TIMEOUT,
             });
+
+            // View code
+        
+        case Actions.VIEW_CODE_FILES:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.VIEW_CODE_FILES_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                filesData: action.data,
+            });
+        case Actions.VIEW_CODE_FILES_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: action.message,
+            });
+        case Actions.VIEW_CODE_FILES_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: action.message,
+            });
+
 
         // Answer ACTIONS
         default:
