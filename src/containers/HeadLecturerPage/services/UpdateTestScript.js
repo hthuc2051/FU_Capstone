@@ -41,6 +41,7 @@ class UpdateTestScript extends Component {
                             value: 'value',
                             showChildren: false,
                             editMode: false,
+                            code:'',
                             children: []
                         }
                     ],
@@ -102,7 +103,7 @@ class UpdateTestScript extends Component {
         if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
         for (let i = 0; i < questionArr.questions.length; i++) {
-            let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point };
+            let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point,order:questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
         this.props.saveTestScript(newQuestionArr, txtScriptName, selectedFile, questionArr,AppConstant.PAGE_TYPE_UPDATE_SCRIPT,questionArr.global_variable.code);

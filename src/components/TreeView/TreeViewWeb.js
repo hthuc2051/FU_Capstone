@@ -27,7 +27,6 @@ class TreeViewWeb extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps)
     if (nextProps.question !== null) {
       if (document.getElementById('txtMethodName') !== null) {
         document.getElementById('txtMethodName').value = nextProps.question.data.methodName;
@@ -81,7 +80,6 @@ class TreeViewWeb extends Component {
 
   closeForm = (paramObj, parent, index) => {
     let { isCreate } = this.state;
-    console.log(paramObj);
     if (typeof (paramObj) === undefined) { return; }
     paramObj.editMode = false;
     if (isCreate) {
@@ -150,11 +148,9 @@ class TreeViewWeb extends Component {
         });
         newChild = {
           label: parent[0].label,
-          type: '',
           name: sampleData.name,
-          value: '',
           code: sampleData.code,
-          params: sampleData.params,
+          params: JSON.parse(JSON.stringify(sampleData.params)),
           showChildren: false,
           editMode: true,
           children: []
@@ -458,7 +454,6 @@ class TreeViewWeb extends Component {
 
   render() {
     let { selectTemplate, question, data, global_variable } = this.state;
-    console.log(this.state.listStep);
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">

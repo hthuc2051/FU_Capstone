@@ -58,6 +58,8 @@ class Variable extends Component {
                 });
     
             }
+        }else if(paramObj.label == AppConstant.LABEL_PARAM){
+            paramObj.code = paramObj.type + "-"+paramObj.name+"-"+ paramObj.value;
         }
        
         this.props.doneEdit(paramObj);

@@ -41,6 +41,7 @@ class CreateTestScript extends Component {
                             value: 'value',
                             showChildren: false,
                             editMode: false,
+                            code:'',
                             children: [],
                         }
                     ],
