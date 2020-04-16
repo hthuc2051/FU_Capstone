@@ -1,4 +1,6 @@
-import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage, CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage, DuplicatedCodePage } from './pages/index';
+import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage,
+     CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage,
+      DuplicatedCodePage ,GithubResultPage} from './pages/index';
 //import DuplicatedCodeResultPage from '';
 
 
@@ -70,6 +72,12 @@ const routes = [
         exact: false,
         main: DuplicatedCodePage
     },
+    {
+        path: '/githubResult/:practicalExamCode/:studentCode',
+        exact: true,
+        main: GithubResultPage
+    },
+
     // {
     //     path: '/test',
     //     exact: true,

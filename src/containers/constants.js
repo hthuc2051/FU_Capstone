@@ -94,7 +94,10 @@ export const GET_DUPLICATED_STUDENT_LIST_OK = 'GET_DUPLICATED_STUDENT_LIST_OK';
 export const GET_DUPLICATED_STUDENT_LIST_FAILED = 'GET_DUPLICATED_STUDENT_LIST_FAILED';
 export const GET_DUPLICATED_STUDENT_LIST_TIME_OUT = 'GET_DUPLICATED_STUDENT_LIST_TIME_OUT';
 
-
+export const GET_GITHUB_RESULT = 'GET_GITHUB_RESULT';
+export const GET_GITHUB_RESULT_OK = 'GET_GITHUB_RESULT_OK';
+export const GET_GITHUB_RESULT_FAILED = 'GET_GITHUB_RESULT_FAILED';
+export const GET_GITHUB_RESULT_TIME_OUT = 'GET_GITHUB_RESULT_TIME_OUT';
 
 // End point 
 export const API_URL = 'http://localhost:2021/api';
@@ -115,6 +118,7 @@ export const END_POINT_TESTSCRIPTS = "testScript";
 export const END_POINT_LIST_ACTION = "actions";
 export const END_POINT_ACTION = "actions";
 export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "practical-exam/check-code/result";
+export const END_POINT_GITHUB_RESULT = "practical-exam/check-code/resultOnline";
 
 
 // API Method

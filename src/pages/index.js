@@ -9,6 +9,7 @@ import UpdateScripPage from './UpdateScriptPage';
 import ListPracticalExamsPage from './ListPracticalExamsPage';
 import CreateActionPage from './CreateActionPage';
 import DuplicatedCodePage from './DuplicatedCodePage';
+import GithubResultPage from './GithubResultPage';
 
 export {
     LoginPage,
@@ -21,5 +22,6 @@ export {
     ListPracticalExamsPage,
     UpdateScripPage,
     CreateActionPage,
-    DuplicatedCodePage
+    DuplicatedCodePage,
+    GithubResultPage
 }

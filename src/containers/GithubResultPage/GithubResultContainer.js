@@ -4,15 +4,15 @@ import { onFinishing } from './actions';
 import swal from 'sweetalert';
 import * as Constants from '../constants.js';
 import { withRouter } from 'react-router-dom';
-import { getDuplicatedCodeStudentList } from './axios';
-class DuplicatedCodePageContainer extends Component {
+import { getGithubResult } from './axios';
+class GithubResultContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             practicalExamCode: '',
             studentCode: '',
-            duplicatedCodeList: [],
+            filesResult: [],
         }
     }
 
@@ -26,7 +26,7 @@ class DuplicatedCodePageContainer extends Component {
             message: nextProps.message,
             action: nextProps.action,
             statusCode: nextProps.statusCode,
-            duplicatedCodeList: nextProps.duplicatedCodeList
+            filesResult: nextProps.filesResult
         }
     }
 
@@ -37,11 +37,11 @@ class DuplicatedCodePageContainer extends Component {
             practicalExamCode: practicalExamCode,
             studentCode: studentCode
         }
-        this.props.getDuplicatedCodeStudentList(data);
+        this.props.getGithubResult(data);
     }
 
-    viewDetail = (id) => {
-        this.props.viewDetail(id);
+    viewDetail = (listFile) => {
+        this.props.viewDetail(listFile);
     }
 
     colorPercent(percent) {
@@ -58,32 +58,36 @@ class DuplicatedCodePageContainer extends Component {
         return result;
     }
 
-    renderListStudent = (duplicatedCodeList) => {
+    renderListFile = (filesResult) => {
+        console.log(filesResult);
         let result = null;
-        if (duplicatedCodeList !== null && typeof (duplicatedCodeList) !== 'undefined') {
-            if (duplicatedCodeList.length > 0) {
-                result = duplicatedCodeList.map((item, index) => {
-                    if (item.studentsToken === null || typeof (item.studentsToken) === 'undefined') return;
-                    let students = item.studentsToken.split('_');
+        if (filesResult !== null && typeof (filesResult) !== 'undefined') {
+           
+                result = filesResult.map((item, index) => {
+                    let listFile = item.listFile;
+                    let hightestPercent =  0 ;
+                    if(listFile.length > 0){
+                        hightestPercent = listFile[0].percent
+                    }
                     return (
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
-                            <td>{students[0]}</td>
-                            <td>{students[1]}</td>
-                            <td><h5><span className={this.colorPercent(item.similarityPercent)}>{item.similarityPercent.toFixed(0)}%</span></h5></td>
-                            <td><button type="button" className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewDetail(item.duplicatedCodeDetails) }}>Detail</button></td>
+                            <td>{item.studentFile}</td>
+                            <td><h5><span className={this.colorPercent(hightestPercent)}>{hightestPercent.toFixed(0)}%</span></h5></td>
+                            <td><button type="button" className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewDetail(item.listFile) }}>Detail</button></td>
                         </tr>
                     );
                 })
-            }
+            
         }
 
         return result;
     }
 
+
     searchText = (e) => {
-        let { duplicatedCodeList } = this.state;
-        if (duplicatedCodeList.length === 0) return;
+        let { filesResult } = this.state;
+        if (filesResult.length === 0) return;
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
@@ -113,14 +117,12 @@ class DuplicatedCodePageContainer extends Component {
 
     checkOnline = () => {
         let { practicalExamCode, studentCode } = this.state;
-        console.log(practicalExamCode);
-        console.log(studentCode);
-         this.props.history.push('/githubResult/' + practicalExamCode + '/' + studentCode);
-    //    this.props.history.push('/');
     }
 
     render() {
-        let { duplicatedCodeList } = this.state;
+        let { studentCode } = this.props;
+        let { filesResult } = this.state;
+        console.log(filesResult);
         return (<div id="content-wrapper">
             <nav className="question-nav">
                 <div className="input-field">
@@ -134,19 +136,18 @@ class DuplicatedCodePageContainer extends Component {
             </nav>
             <br />
             <div className="card content">
-                <p className="github-button"><button className="btn btn-dark" onClick={(e) => { e.preventDefault(); this.checkOnline() }}>Github Result</button></p>
+                <h2 className="github-button"><span className="badge badge-info">{studentCode}</span></h2>
                 <table className="table" id="myTable">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Student Code</th>
                             <th scope="col">Student Code</th>
                             <th scope="col">Similarity Percent</th>
                             <th scope="col">View Detail</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.renderListStudent(duplicatedCodeList)}
+                    {this.renderListFile(filesResult)}
                     </tbody>
                 </table>
             </div>
@@ -154,22 +155,23 @@ class DuplicatedCodePageContainer extends Component {
     }
 }
 const mapStateToProps = state => {
+    console.log(state);
     return {
-        duplicatedCodeList: state.duplicatedCodePage.duplicatedCodeList,
-        isLoading: state.duplicatedCodePage.isLoading,
-        statusCode: state.duplicatedCodePage.statusCode,
-        message: state.duplicatedCodePage.message,
-        error: state.duplicatedCodePage.error,
-        action: state.duplicatedCodePage.action,
+        filesResult: state.githubResultPage.filesResult,
+        isLoading: state.githubResultPage.isLoading,
+        statusCode: state.githubResultPage.statusCode,
+        message: state.githubResultPage.message,
+        error: state.githubResultPage.error,
+        action: state.githubResultPage.action,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        getDuplicatedCodeStudentList: (data) => {
-            getDuplicatedCodeStudentList(data, dispatch);
+        getGithubResult: (data) => {
+            getGithubResult(data, dispatch);
         },
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DuplicatedCodePageContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(GithubResultContainer);
