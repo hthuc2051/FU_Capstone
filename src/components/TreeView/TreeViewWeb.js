@@ -13,6 +13,7 @@ class TreeViewWeb extends Component {
       data: '',
       editableNode: '',
       eventData: null,
+      param_type: null,
       listInputParam: '',
       global_variable: null,
       listStep: '',
@@ -41,6 +42,7 @@ class TreeViewWeb extends Component {
         global_variable: nextProps.global_variable,
         listStep: nextProps.question.data.params[0].children,
         eventData: nextProps.eventData,
+        param_type: nextProps.param_type,
       }
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
@@ -175,7 +177,7 @@ class TreeViewWeb extends Component {
 
 
   nodeEditForm = (label, paramObj, parent, index) => {
-    let { eventData } = this.state;
+    let { eventData,param_type } = this.state;
     return (
       <div className="node node_edit" onClick={(e) => { e.stopPropagation() }}>
         <form className="node_edit_form">
@@ -186,6 +188,7 @@ class TreeViewWeb extends Component {
             parent={parent}
             index={index}
             eventData={eventData}
+            param_type={param_type}
             doneEdit={this.doneEdit}
             closeForm={this.closeForm}
           />
@@ -400,7 +403,7 @@ class TreeViewWeb extends Component {
     if (item !== null && typeof (item) !== 'undefined') {
       let param = item.value;
       // type = string
-      if (item.type === Constant.ARRAY_OPTIONS[5]) {
+      if (item.type. toLowerCase() === Constant.PARAM_TYPE_STRING) {
         param = '"' + param + '"';
       }
       return (
