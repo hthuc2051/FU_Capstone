@@ -66,7 +66,7 @@ class HeadLecturerPageContainer extends Component {
         let paramTypes = [];
         if(nextProps.param_type !== null && typeof(nextProps.param_type) !== 'undefined'){
             nextProps.param_type.forEach(element => {
-                if(element.name !== AppConstant.PARAM_TYPE_CODE){
+                if(element.name. toLowerCase() !== AppConstant.PARAM_TYPE_CODE){
                     paramTypes.push(element.name);
                 }
             });
@@ -194,7 +194,7 @@ class HeadLecturerPageContainer extends Component {
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
             </div>
         );
     }

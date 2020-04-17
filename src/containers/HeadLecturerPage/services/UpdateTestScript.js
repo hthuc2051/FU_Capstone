@@ -18,6 +18,7 @@ class UpdateTestScript extends Component {
             isLoading: false,
             pageType: '',
             eventData: null,
+            param_type:null,
             questionArr: {
                 name: 'test1',
                 questions: [{
@@ -82,6 +83,7 @@ class UpdateTestScript extends Component {
         }
         return {
             eventData: nextProps.eventData,
+            param_type:nextProps.param_type,
             file: nextProps.file,
             pageType: nextProps.pageType,
             currentTemplate: nextProps.currentTemplate,
@@ -319,7 +321,7 @@ class UpdateTestScript extends Component {
         })
     }
     render() {
-        let { isLoading, eventData, txtScriptName, questionArr,isOpenForm,isOpenFormFile } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr,isOpenForm,isOpenFormFile,param_type } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -348,7 +350,7 @@ class UpdateTestScript extends Component {
                     </nav>
                     <div className="tab-content" id="nav-tabContent">
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
-                            <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
+                            <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
                                 global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
                             <div className="tab-create">
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.updateTestScript() }}>
