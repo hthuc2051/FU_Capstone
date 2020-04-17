@@ -94,7 +94,7 @@ class HeadLecturerPageContainer extends Component {
         }
     }
 
-    getDataBeforeSaveTestScript = (questionArr, scriptName, file, originalArr, pageType, globalVariableCode) => {
+    getDataBeforeSaveTestScript = (questionArr, scriptName, originalArr, pageType, globalVariableCode,document,templateQuestion,database,connection) => {
         let { subjectId, scriptId } = this.state;
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
@@ -110,8 +110,26 @@ class HeadLecturerPageContainer extends Component {
         formData.append("questions", questionStr);
         formData.append("headLecturerId", headLecturerId);
         formData.append("subjectId", subjectId);
-        if (file !== null) {
-            formData.append("docsFile", file);
+        console.log(connection);
+        console.log(document);
+        console.log(templateQuestion);
+        console.log(database);
+        if (document !== null) {
+            formData.append("docsFile", document);
+        }
+        if (templateQuestion !== null) {
+            formData.append("templateQuestion", templateQuestion);
+        }
+        if(database !== null){
+            formData.append("database", database);
+        }
+        if(connection !== null && typeof (connection) !== 'undefined'){
+            if(connection.online !== null && typeof (connection.online) !== 'undefined' ){
+                formData.append("onlineConnection", connection.online);
+            }
+            if(connection.offline !== null && typeof (connection.offline) !== 'undefined'){
+                formData.append("offlineConnection", connection.offline);
+            }
         }
         formData.append("scriptData", questionData);
        

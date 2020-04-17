@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { TreeViewWeb } from './../../../components/index';
 import * as AppConstant from './../../../constants/AppConstants';
 import ScriptTemplateJavaWeb from './template.Javaweb';
+import ModalUploadFile from './../modals/ModalUploadFile';
+import ModalConnection from './../modals/ModalConnection';
 import '../style.css';
 
 const QUESTION = "question";
@@ -47,14 +49,30 @@ class UpdateTestScript extends Component {
                     ],
                     code:'String String = "value";',
                 },
+                connection:{
+                    online:{
+                      url:'',
+                      username:'',
+                      password:''
+                    },
+                    offline:{
+                      url:'',
+                      username:'',
+                      password:''
+                    },
+                  }
             },
             scriptName: '',
             count: 2,
             selectedTab: 0,
             txtScriptName: '',
-            selectedFile: null,
             currentTemplate: ScriptTemplateJavaWeb,
             currentScript: null,
+            isOpenForm:false,
+            isOpenFormFile: false,
+            document:null,
+            templateQuestion:null,
+            database:null
         };
     }
 
@@ -98,7 +116,7 @@ class UpdateTestScript extends Component {
     }
 
     updateTestScript = () => {
-        let { questionArr, txtScriptName, selectedFile } = this.state;
+        let { questionArr, txtScriptName,  document,templateQuestion,database } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
         if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
@@ -106,7 +124,7 @@ class UpdateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point,order:questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr, txtScriptName, selectedFile, questionArr,AppConstant.PAGE_TYPE_UPDATE_SCRIPT,questionArr.global_variable.code);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr,AppConstant.PAGE_TYPE_UPDATE_SCRIPT,questionArr.global_variable.code,document,templateQuestion,database,questionArr.connection);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -238,10 +256,6 @@ class UpdateTestScript extends Component {
         }
     }
 
-    handleFile = (e) => {
-        this.setState({ selectedFile: e.target.files[0] });
-    }
-
     renderQuestionTab(questionArr) {
         let question = questionArr.questions;
         let result = null;
@@ -276,9 +290,36 @@ class UpdateTestScript extends Component {
         return result;
     }
 
+    onToggleModal = (isOpenForm) => {
+        this.setState({
+            isOpenForm: isOpenForm,
+        })
+    }
+    onCloseFormFileDetails = (documentFile,templateQuestionFile,databaseFile) => {
+        this.setState({
+            document:documentFile,
+            templateQuestion: templateQuestionFile,
+            database:databaseFile,
+            isOpenFormFile:false
+        })
+    }
 
+    onCloseDetails = (editObj) => {
+        let { questionArr } = this.state;
+        questionArr.connection = editObj
+        this.setState({
+            questionArr,
+            isOpenForm: false,
+        })
+    }
+
+    onToggleFileModal = (isOpenFormFile) => {
+        this.setState({
+            isOpenFormFile: isOpenFormFile,
+        })
+    }
     render() {
-        let { isLoading, eventData, txtScriptName, questionArr } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr,isOpenForm,isOpenFormFile } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -288,6 +329,13 @@ class UpdateTestScript extends Component {
                     <nav className="question-nav">
 
                         <input type="text" name="txtScriptName" id="txtScriptName" value={txtScriptName}  onChange={(e)=> {e.preventDefault();this.onChange(e)}} className="form-control script-name" placeholder="Script's name" />
+                        <p>
+                            <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-primary"> Connection</button>
+                           
+
+                            <button onClick={(e) => { e.preventDefault(); this.onToggleFileModal(true) }} className="btn btn-primary"> Upload</button>
+                           
+                        </p>
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
                                 {questionArr ? <div className="nav">{this.renderQuestionTab(questionArr)}</div> : ''}
@@ -303,7 +351,6 @@ class UpdateTestScript extends Component {
                             <TreeViewWeb eventData={eventData} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
                                 global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
                             <div className="tab-create">
-                                <input type="file" name="file" onChange={(e) => { this.handleFile(e) }} />
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.updateTestScript() }}>
                                     <i className="fa fa-plus" />
                                     &nbsp;UPDATE TEST SCRIPT
@@ -313,6 +360,8 @@ class UpdateTestScript extends Component {
 
                     </div>
                 </div>
+                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails}editObj={questionArr.connection} /> : ''}
+                {isOpenForm ? <ModalConnection isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={questionArr.connection} /> : ''}
             </div>
         );
     }

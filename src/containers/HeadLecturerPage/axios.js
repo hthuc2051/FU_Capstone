@@ -31,10 +31,10 @@ export const fetchEventsData = async (subjectId, dispatch) => {
 }
 
 export const createTestScript = async (formData, dispatch) => {
-    let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
-    if (res != null) {
-        handleResponse(res, Constants.CREATE_TEST_SCRIPT, dispatch);
-    }
+    // let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
+    // if (res != null) {
+    //     handleResponse(res, Constants.CREATE_TEST_SCRIPT, dispatch);
+    // }
 }
 
 export const updateTestScript = async (formData, dispatch) => {

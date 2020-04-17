@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style.css';
 import { Variable } from '../index.js';
+import ModalConnection from './../../containers/HeadLecturerPage/modals/ModalConnection';
 import * as Constant from '../../constants/AppConstants';
 
 class TreeViewWeb extends Component {
@@ -22,7 +23,8 @@ class TreeViewWeb extends Component {
       },
       selectTemplate: '',
       selectedTab: 0,
-      isCreate: false
+      isCreate: false,
+      isOpenForm: false,
     }
   }
 
@@ -453,7 +455,7 @@ class TreeViewWeb extends Component {
   }
 
   render() {
-    let { selectTemplate, question, data, global_variable } = this.state;
+    let { selectTemplate, question, data, global_variable, connection,isOpenForm } = this.state;
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
@@ -464,11 +466,11 @@ class TreeViewWeb extends Component {
               <p> Point <input type="text" name="txtPoint" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
             }
             {question.order === 0 ?
-             <p> Order <input type="text" name="txtOrder" value='' onChange={(e) => this.handleOrder(e)} /></p>
-             :
-             <p> Order <input type="text" name="txtOrder" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
-          }
-           
+              <p> Order <input type="text" name="txtOrder" value='' onChange={(e) => this.handleOrder(e)} /></p>
+              :
+              <p> Order <input type="text" name="txtOrder" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
+            }
+
             <input type="text" id="txtMethodName" value={question.data.methodName} className="form-control root" placeholder="Method's name" onChange={(e) => { e.stopPropagation(); this.editMethodName(e) }} />
             <ul>
               <li onClick={(e) => { e.preventDefault(); this.toggleView(global_variable) }}>
@@ -516,9 +518,12 @@ class TreeViewWeb extends Component {
           </div>
 
         </div>
-
+     
       </div>
     );
   }
+
 }
+
+
 export default TreeViewWeb;

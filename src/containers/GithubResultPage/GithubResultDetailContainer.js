@@ -122,7 +122,7 @@ class GithubResultDetailContainer extends Component {
             <br />
             <div className="card content">
                 <h2 className="github-button"><span className="badge badge-info">{studentCode}</span></h2>
-                <table className="table" id="myTable">
+                <table className="table table-hover" id="myTable">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
