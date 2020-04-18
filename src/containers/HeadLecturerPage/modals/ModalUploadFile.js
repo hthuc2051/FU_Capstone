@@ -50,7 +50,7 @@ class ModalEditPracticalExam extends Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">
-                                DataBase Connection
+                                Upload File
                          </h5>
                             <button onClick={(e) => { e.preventDefault(); this.isOpenForm(false) }} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -60,16 +60,16 @@ class ModalEditPracticalExam extends Component {
                             <div className="modal-body">
                                 <form>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode">Document File</label>
-                                        <input type="file" name="document" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Document File</span></label>
+                                        <input type="file" name="document" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode">Template Question File</label>
-                                        <input type="file" name="templateQuestion" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Template Question File</span></label>
+                                        <input type="file" name="templateQuestion" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode">DataBase Script</label>
-                                        <input type="file" name="database" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">DataBase Script</span></label>
+                                        <input type="file" name="database" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                 </form>
                             </div>

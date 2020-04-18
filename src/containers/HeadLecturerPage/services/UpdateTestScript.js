@@ -18,15 +18,15 @@ class UpdateTestScript extends Component {
             isLoading: false,
             pageType: '',
             eventData: null,
-            param_type:null,
+            param_type: null,
             questionArr: {
                 name: 'test1',
                 questions: [{
                     data: template.DEFAULT,
-                    testcase: 'question1',
+                    testcase: 'Question1',
                     code: template.DEFAULT.code,
                     point: 0,
-                    order:0,
+                    order: 0,
                 }],
                 global_variable:
                 {
@@ -44,24 +44,24 @@ class UpdateTestScript extends Component {
                             value: 'value',
                             showChildren: false,
                             editMode: false,
-                            code:'',
+                            code: '',
                             children: []
                         }
                     ],
-                    code:'String String = "value";',
+                    code: 'String String = "value";',
                 },
-                connection:{
-                    online:{
-                      url:'',
-                      username:'',
-                      password:''
+                connection: {
+                    online: {
+                        url: '',
+                        username: '',
+                        password: ''
                     },
-                    offline:{
-                      url:'',
-                      username:'',
-                      password:''
+                    offline: {
+                        url: '',
+                        username: '',
+                        password: ''
                     },
-                  }
+                }
             },
             scriptName: '',
             count: 2,
@@ -69,11 +69,11 @@ class UpdateTestScript extends Component {
             txtScriptName: '',
             currentTemplate: ScriptTemplateJavaWeb,
             currentScript: null,
-            isOpenForm:false,
+            isOpenForm: false,
             isOpenFormFile: false,
-            document:null,
-            templateQuestion:null,
-            database:null
+            document: null,
+            templateQuestion: null,
+            database: null
         };
     }
 
@@ -83,13 +83,13 @@ class UpdateTestScript extends Component {
         }
         return {
             eventData: nextProps.eventData,
-            param_type:nextProps.param_type,
+            param_type: nextProps.param_type,
             file: nextProps.file,
             pageType: nextProps.pageType,
             currentTemplate: nextProps.currentTemplate,
             questionArr: nextProps.script.scriptData,
-            currentScript:nextProps.script,
-            txtScriptName:nextProps.script.scriptData.name,
+            currentScript: nextProps.script,
+            txtScriptName: nextProps.script.scriptData.name,
         }
     }
 
@@ -118,15 +118,15 @@ class UpdateTestScript extends Component {
     }
 
     updateTestScript = () => {
-        let { questionArr, txtScriptName,  document,templateQuestion,database } = this.state;
+        let { questionArr, txtScriptName, document, templateQuestion, database } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
         if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
         for (let i = 0; i < questionArr.questions.length; i++) {
-            let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point,order:questionArr.questions[i].order };
+            let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point, order: questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr,AppConstant.PAGE_TYPE_UPDATE_SCRIPT,questionArr.global_variable.code,document,templateQuestion,database,questionArr.connection);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_UPDATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database, questionArr.connection);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -144,11 +144,11 @@ class UpdateTestScript extends Component {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_CODE + questionArr.questions[i].testcase);
                 return false;
             }
-            if (point === 0 || point == ''  ) {
+            if (point === 0 || point == '') {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_POINT + questionArr.questions[i].testcase);
                 return false;
             }
-            if(!reg.test(point)){
+            if (!reg.test(point)) {
                 window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_POINT + questionArr.questions[i].testcase);
                 return false;
             }
@@ -156,11 +156,11 @@ class UpdateTestScript extends Component {
                 window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
                 return false;
             }
-            if(!reg.test(order)){
+            if (!reg.test(order)) {
                 window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
                 return false;
             }
-           
+
         }
         return true;
     }
@@ -172,7 +172,7 @@ class UpdateTestScript extends Component {
         let template = new currentTemplate;
         let index = questionArr.questions.length;
         if (index > 0) {
-            let item = { testcase: QUESTION + (index + 1), data: template.DEFAULT, point: 0, code: template.DEFAULT.code,order:0 };
+            let item = { testcase: QUESTION + (index + 1), data: template.DEFAULT, point: 0, code: template.DEFAULT.code, order: 0 };
             questionArr.questions.push(item);
             this.setState({ questionArr });
         }
@@ -297,12 +297,12 @@ class UpdateTestScript extends Component {
             isOpenForm: isOpenForm,
         })
     }
-    onCloseFormFileDetails = (documentFile,templateQuestionFile,databaseFile) => {
+    onCloseFormFileDetails = (documentFile, templateQuestionFile, databaseFile) => {
         this.setState({
-            document:documentFile,
+            document: documentFile,
             templateQuestion: templateQuestionFile,
-            database:databaseFile,
-            isOpenFormFile:false
+            database: databaseFile,
+            isOpenFormFile: false
         })
     }
 
@@ -321,23 +321,22 @@ class UpdateTestScript extends Component {
         })
     }
     render() {
-        let { isLoading, eventData, txtScriptName, questionArr,isOpenForm,isOpenFormFile,param_type } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr, isOpenForm, isOpenFormFile, param_type } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
                     <div className={isLoading ? 'loading' : 'none-loading'}>
                         <div className="loader"></div>
                     </div>
-                    <nav className="question-nav">
+                    <nav className="question-nav card_border">
 
-                        <input type="text" name="txtScriptName" id="txtScriptName" value={txtScriptName}  onChange={(e)=> {e.preventDefault();this.onChange(e)}} className="form-control script-name" placeholder="Script's name" />
-                        <p>
-                            <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-primary"> Connection</button>
-                           
+                        <input type="text" name="txtScriptName" id="txtScriptName" value={txtScriptName} onChange={(e) => { e.preventDefault(); this.onChange(e) }} className="form-control script-name" placeholder="Script's name" />
+                        <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-outline-secondary"> CONNECTION</button>
+                        <button onClick={(e) => { e.preventDefault(); this.onToggleFileModal(true) }} className="btn btn-primary btn-upload"> UPLOAD</button>
 
-                            <button onClick={(e) => { e.preventDefault(); this.onToggleFileModal(true) }} className="btn btn-primary"> Upload</button>
-                           
-                        </p>
+
+                    </nav>
+                    <div className="tab-content card_border" id="nav-tabContent">
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
                                 {questionArr ? <div className="nav">{this.renderQuestionTab(questionArr)}</div> : ''}
@@ -346,9 +345,6 @@ class UpdateTestScript extends Component {
                                 </button>
                             </div>
                         </div>
-
-                    </nav>
-                    <div className="tab-content" id="nav-tabContent">
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                             <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
                                 global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
@@ -362,7 +358,7 @@ class UpdateTestScript extends Component {
 
                     </div>
                 </div>
-                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails}editObj={questionArr.connection} /> : ''}
+                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails} editObj={questionArr.connection} /> : ''}
                 {isOpenForm ? <ModalConnection isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={questionArr.connection} /> : ''}
             </div>
         );

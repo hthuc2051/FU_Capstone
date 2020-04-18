@@ -63,18 +63,16 @@ class ModalEditPracticalExam extends Component {
                             <div className="modal-body">
 
                                 <form>
-                                    <h3>Online</h3>
+                                <h2><span className="badge badge-info">Online</span></h2>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode">URL String</label>
-                                        <input type="text" name="online_url" value={editObj.online.url} className="form-control" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} placeholder="Enter DataBase Url" />
+                                        <input type="text" name="online_url" value={editObj.online.url} className="form-control" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} placeholder="Database connection string..." />
                                     </div>
-                                    <label htmlFor="date">Authentication</label>
                                     <div className="form-row">
                                         <div className="col-7">
-                                            <input type="text" name="online_username" value={editObj.online.username} className="form-control" placeholder="username" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
+                                            <input type="text" name="online_username" value={editObj.online.username} className="form-control" placeholder="Username" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                         </div>
                                         <div className="col">
-                                            <input type="text" name="online_password" value={editObj.online.password} className="form-control" placeholder="password" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
+                                            <input type="password" name="online_password" value={editObj.online.password} className="form-control" placeholder="Password" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                         </div>
                                     </div>
                                 </form>
@@ -85,18 +83,16 @@ class ModalEditPracticalExam extends Component {
                         {editObj ?
                             <div className="modal-body">
                                 <form>
-                                    <h2><span className="badge badge-success">Offline</span></h2>
+                                    <h2><span className="badge badge-info">Offline</span></h2>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode">URL String</label>
-                                        <input type="text" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_url" value={editObj.offline.url} className="form-control" id="txtPracticalExamCode" placeholder="Enter DataBase Url" />
+                                        <input type="text" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_url" value={editObj.offline.url} className="form-control" id="txtPracticalExamCode" placeholder="Database connection string..." />
                                     </div>
-                                    <label htmlFor="date">Authentication</label>
                                     <div className="form-row">
                                         <div className="col-7">
-                                            <input type="text" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_username" value={editObj.offline.username} className="form-control" placeholder="username" />
+                                            <input type="text" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_username" value={editObj.offline.username} className="form-control" placeholder="Username" />
                                         </div>
                                         <div className="col">
-                                            <input type="text" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_password" value={editObj.offline.password} className="form-control" placeholder="password" />
+                                            <input type="password" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_password" value={editObj.offline.password} className="form-control" placeholder="Password" />
                                         </div>
                                     </div>
                                 </form>

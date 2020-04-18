@@ -7,7 +7,7 @@ import ModalConnection from './../modals/ModalConnection';
 
 import '../style.css';
 
-const QUESTION = "question";
+const QUESTION = "Question";
 class CreateTestScript extends Component {
     // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
     constructor(props) {
@@ -17,12 +17,12 @@ class CreateTestScript extends Component {
             isLoading: false,
             pageType: '',
             eventData: null,
-            param_type:null,
+            param_type: null,
             questionArr: {
                 name: 'test1',
                 questions: [{
                     data: template.DEFAULT,
-                    testcase: 'question1',
+                    testcase: 'Question1',
                     code: template.DEFAULT.code,
                     point: 0,
                     order: 0,
@@ -69,9 +69,9 @@ class CreateTestScript extends Component {
             currentTemplate: ScriptTemplateJavaWeb,
             isOpenForm: false,
             isOpenFormFile: false,
-            document:null,
-            templateQuestion:null,
-            database:null
+            document: null,
+            templateQuestion: null,
+            database: null
         };
     }
 
@@ -84,7 +84,7 @@ class CreateTestScript extends Component {
             questionArr.questions[0].data = new nextProps.currentTemplate().DEFAULT;
             return {
                 eventData: nextProps.eventData,
-                param_type:nextProps.param_type,
+                param_type: nextProps.param_type,
                 file: nextProps.file,
                 pageType: nextProps.pageType,
                 currentTemplate: nextProps.currentTemplate,
@@ -93,7 +93,7 @@ class CreateTestScript extends Component {
         }
         return {
             eventData: nextProps.eventData,
-            param_type:nextProps.param_type,
+            param_type: nextProps.param_type,
             file: nextProps.file,
             pageType: nextProps.pageType,
             currentTemplate: nextProps.currentTemplate,
@@ -125,7 +125,7 @@ class CreateTestScript extends Component {
     }
 
     createTestScript = () => {
-        let { questionArr, txtScriptName, document,templateQuestion,database } = this.state;
+        let { questionArr, txtScriptName, document, templateQuestion, database } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
         if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
@@ -133,7 +133,7 @@ class CreateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point, order: questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_CREATE_SCRIPT, questionArr.global_variable.code,document,templateQuestion,database,questionArr.connection);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_CREATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database, questionArr.connection);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -299,12 +299,12 @@ class CreateTestScript extends Component {
             isOpenForm: isOpenForm,
         })
     }
-    onCloseFormFileDetails = (documentFile,templateQuestionFile,databaseFile) => {
+    onCloseFormFileDetails = (documentFile, templateQuestionFile, databaseFile) => {
         this.setState({
-            document:documentFile,
+            document: documentFile,
             templateQuestion: templateQuestionFile,
-            database:databaseFile,
-            isOpenFormFile:false
+            database: databaseFile,
+            isOpenFormFile: false
         })
     }
 
@@ -323,23 +323,21 @@ class CreateTestScript extends Component {
         })
     }
     render() {
-        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile,param_type } = this.state;
+        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, param_type } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
                     <div className={isLoading ? 'loading' : 'none-loading'}>
                         <div className="loader"></div>
                     </div>
-                    <nav className="question-nav">
-
+                    <nav className="question-nav card_border">
                         <input type="text" name="txtScriptName" id="txtScriptName" onChange={this.onChange} className="form-control script-name" placeholder="Script's name" />
-                        <p>
-                            <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-primary"> Connection</button>
-                           
+                        <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-outline-secondary"> CONNECTION</button>
+                        <button onClick={(e) => { e.preventDefault(); this.onToggleFileModal(true) }} className="btn btn-primary btn-upload"> UPLOAD</button>
 
-                            <button onClick={(e) => { e.preventDefault(); this.onToggleFileModal(true) }} className="btn btn-primary"> Upload</button>
-                           
-                        </p>
+                    </nav>
+
+                    <div className="tab-content card_border" id="nav-tabContent">
                         <div id="nav-tab" role="tablist">
                             <div className="nav nav-tabs ">
                                 {questionArr ? <div className="nav">{this.renderQuestionTab(questionArr)}</div> : ''}
@@ -348,9 +346,6 @@ class CreateTestScript extends Component {
                                 </button>
                             </div>
                         </div>
-
-                    </nav>
-                    <div className="tab-content" id="nav-tabContent">
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                             <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
                                 global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
@@ -364,9 +359,9 @@ class CreateTestScript extends Component {
 
                     </div>
                 </div>
-                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails}editObj={questionArr.connection} /> : ''}
+                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails} editObj={questionArr.connection} /> : ''}
                 {isOpenForm ? <ModalConnection isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={questionArr.connection} /> : ''}
-              
+
             </div>
         );
     }

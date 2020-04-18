@@ -13,11 +13,15 @@
 
 .tab-content,
 .tab-panel {
-  width: 100%;
   height: 100%;
 }
 .tab-content {
-  padding: 15px;
+  float: left;
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background: white;
+  padding-bottom: 20px;
 }
 .tab-panel {
   background: white;
@@ -158,4 +162,18 @@ background: linear-gradient(to left, #22ADD4, #1E98BA);
   text-align: center;
   font-size: 30px;
   color: darkgreen;
+}
+.group_dropdown_content{
+  padding-top: 10px;
+}
+.card_border{
+  border: 0.4px solid lightgray;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 8px 6px -6px gray;
+	   -moz-box-shadow: 0 8px 6px -6px gray;
+	        box-shadow: 0 8px 6px -6px gray;
+}
+
+.btn-upload{
+  margin-left: 10px;
 }

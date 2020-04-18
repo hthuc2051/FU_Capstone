@@ -463,17 +463,18 @@ class TreeViewWeb extends Component {
       <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
-            {question.point === 0 ?
-              <p> Point <input type="text" name="txtPoint" value='' onChange={(e) => this.handlePoint(e)} /></p>
+          <form class="form-inline">
+          {question.point === 0 ?
+              <p> Point <input type="text" name="txtPoint" className="form-control" value='' onChange={(e) => this.handlePoint(e)} /></p>
               :
-              <p> Point <input type="text" name="txtPoint" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
+              <p> Point <input type="text" name="txtPoint"  className="form-control" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
             }
             {question.order === 0 ?
-              <p> Order <input type="text" name="txtOrder" value='' onChange={(e) => this.handleOrder(e)} /></p>
+              <p> Order <input type="text" name="txtOrder"  className="form-control" value='' onChange={(e) => this.handleOrder(e)} /></p>
               :
-              <p> Order <input type="text" name="txtOrder" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
+              <p> Order <input type="text" name="txtOrder"  className="form-control" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
             }
-
+          </form>
             <input type="text" id="txtMethodName" value={question.data.methodName} className="form-control root" placeholder="Method's name" onChange={(e) => { e.stopPropagation(); this.editMethodName(e) }} />
             <ul>
               <li onClick={(e) => { e.preventDefault(); this.toggleView(global_variable) }}>
