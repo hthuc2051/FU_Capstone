@@ -46,6 +46,7 @@ class HeadLecturerPageContainer extends Component {
             this.props.getScriptById(scriptId);
         }
     }
+    
     getTemplateBySubjectID = (subjectId) => {
         switch (subjectId) {
             case '1': return ScriptTemplateJava;

@@ -12,8 +12,8 @@ class LoginPage extends Component {
     componentDidMount() {
 
     }
-    onLogin = () => {
 
+    onLogin = () => {
         let userInfo = {
             id: "1",
             fullname: "Nguyen Huy Thuc",
@@ -31,7 +31,7 @@ class LoginPage extends Component {
         };
         console.log(JSON.stringify(userInfo));
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        history.push("/lecturer");
+        history.push("/subjects/1/practical-exams");
     }
     render() {
         return (

@@ -8,7 +8,7 @@ const TYPE_CREATE = 'CREATE';
 const TYPE_EDIT = 'EDIT';
 
 
-class ModalEditPracticalExam extends Component {
+class ModalCreatePracticalExam extends Component {
 
     constructor(props) {
         super(props);
@@ -42,16 +42,7 @@ class ModalEditPracticalExam extends Component {
         let { formType, editObj, subjects } = nextProps;
         let checkedClasses = new Map();
         let checkedScripts = new Map();
-        if (formType === 'EDIT') {
-            if (editObj != null && typeof (editObj) !== 'undefined') {
-                checkedClasses.set(editObj.subjectClass.id, true);
-                if (editObj.scripts !== null) {
-                    editObj.scripts.forEach(element => {
-                        checkedScripts.set(element.id, true);
-                    });
-                }
-            }
-        }
+      
         return {
             subjects: nextProps.subjects,
             statusCode: nextProps.statusCode,
@@ -64,9 +55,7 @@ class ModalEditPracticalExam extends Component {
             checkedScripts: checkedScripts,
         }
     }
-    shouldComponentUpdate(){
 
-    }
     onChangeCombobox = (value, index) => {
 
     }
@@ -259,5 +248,5 @@ const mapDispatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalEditPracticalExam);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalCreatePracticalExam);
 
