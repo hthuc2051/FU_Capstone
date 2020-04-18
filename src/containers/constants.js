@@ -94,7 +94,15 @@ export const GET_DUPLICATED_STUDENT_LIST_OK = 'GET_DUPLICATED_STUDENT_LIST_OK';
 export const GET_DUPLICATED_STUDENT_LIST_FAILED = 'GET_DUPLICATED_STUDENT_LIST_FAILED';
 export const GET_DUPLICATED_STUDENT_LIST_TIME_OUT = 'GET_DUPLICATED_STUDENT_LIST_TIME_OUT';
 
+export const GET_GITHUB_RESULT = 'GET_GITHUB_RESULT';
+export const GET_GITHUB_RESULT_OK = 'GET_GITHUB_RESULT_OK';
+export const GET_GITHUB_RESULT_FAILED = 'GET_GITHUB_RESULT_FAILED';
+export const GET_GITHUB_RESULT_TIME_OUT = 'GET_GITHUB_RESULT_TIME_OUT';
 
+export const GET_PARAM_TYPE = 'GET_PARAM_TYPE';
+export const GET_PARAM_TYPE_OK = 'GET_PARAM_TYPE_OK';
+export const GET_PARAM_TYPE_FAILED = 'GET_PARAM_TYPE_FAILED';
+export const GET_PARAM_TYPE_TIME_OUT = 'GET_PARAM_TYPE_TIME_OUT';
 
 // End point 
 export const API_URL = 'http://localhost:2021/api';
@@ -106,15 +114,19 @@ export const END_POINT_CLASSES = "classes";
 export const END_POINT_LECTURER = "lecturers";
 export const END_POINT_SUBMISSION_FILE = "submission/file";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
+export const END_POINT_PARAM_TYPE  = "param-type";
 export const END_POINT_CLASSES_SCRIPTS = "classes-scripts";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
 export const END_POINT_DOWNLOAD_TESTSCRIPT = "scripts/download";
 export const END_POINT_DOWNLOAD_DOCUMENT = "documents/download";
+export const END_POINT_DOWNLOAD_TEMPLATE_QUESTION = "templateQuestion/download";
+export const END_POINT_DOWNLOAD_DATABASE = "database/download";
 export const END_POINT_GET_TESTSCRIPT_BY_SUBJECTID = "scripts/subject";
 export const END_POINT_TESTSCRIPTS = "testScript";
 export const END_POINT_LIST_ACTION = "actions";
 export const END_POINT_ACTION = "actions";
 export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "practical-exam/check-code/result";
+export const END_POINT_GITHUB_RESULT = "practical-exam/check-code/resultOnline";
 
 
 // API Method
@@ -123,6 +135,7 @@ export const METHOD_POST = "POST";
 
 // Test Script
 export const ANOTATION_TEST = "@Test";
+export const ANOTATION_ORDER = "@Order";
 
 
 export const generateEndPoint = (...params) => {

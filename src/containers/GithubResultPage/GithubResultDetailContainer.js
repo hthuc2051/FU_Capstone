@@ -4,15 +4,15 @@ import { onFinishing } from './actions';
 import swal from 'sweetalert';
 import * as Constants from '../constants.js';
 import { withRouter } from 'react-router-dom';
-import { getDuplicatedCodeStudentList } from './axios';
-class DuplicatedCodePageContainer extends Component {
+import { getGithubResult } from './axios';
+class GithubResultDetailContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             practicalExamCode: '',
             studentCode: '',
-            duplicatedCodeList: [],
+            listFile: [],
         }
     }
 
@@ -26,22 +26,8 @@ class DuplicatedCodePageContainer extends Component {
             message: nextProps.message,
             action: nextProps.action,
             statusCode: nextProps.statusCode,
-            duplicatedCodeList: nextProps.duplicatedCodeList
+            listFile: nextProps.listFile
         }
-    }
-
-    componentDidMount = () => {
-        let { practicalExamCode, studentCode } = this.props;
-        this.setState({ practicalExamCode: practicalExamCode, studentCode: studentCode });
-        let data = {
-            practicalExamCode: practicalExamCode,
-            studentCode: studentCode
-        }
-        this.props.getDuplicatedCodeStudentList(data);
-    }
-
-    viewDetail = (id) => {
-        this.props.viewDetail(id);
     }
 
     colorPercent(percent) {
@@ -58,32 +44,33 @@ class DuplicatedCodePageContainer extends Component {
         return result;
     }
 
-    renderListStudent = (duplicatedCodeList) => {
+    goToGithub = (link) => {
+        window.open(link, '_blank');
+    }
+
+    renderListFile = (listFile) => {
         let result = null;
-        if (duplicatedCodeList !== null && typeof (duplicatedCodeList) !== 'undefined') {
-            if (duplicatedCodeList.length > 0) {
-                result = duplicatedCodeList.map((item, index) => {
-                    if (item.studentsToken === null || typeof (item.studentsToken) === 'undefined') return;
-                    let students = item.studentsToken.split('_');
+        if (listFile !== null && typeof (listFile) !== 'undefined') {
+           
+                result = listFile.map((item, index) => {
                     return (
-                        <tr key={index}>
+                        <tr key={index} onClick={(e) => {e.preventDefault(); this.goToGithub(item.html_url)}}>
                             <th scope="row">{index + 1}</th>
-                            <td>{students[0]}</td>
-                            <td>{students[1]}</td>
-                            <td><h5><span className={this.colorPercent(item.similarityPercent)}>{item.similarityPercent.toFixed(0)}%</span></h5></td>
-                            <td><button type="button" className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewDetail(item.duplicatedCodeDetails) }}>Detail</button></td>
+                            <td>{item.name}</td>
+                            <td><h5><span className={this.colorPercent(item.percent)}>{item.percent.toFixed(0)}%</span></h5></td>
                         </tr>
                     );
                 })
-            }
+            
         }
 
         return result;
     }
 
+
     searchText = (e) => {
-        let { duplicatedCodeList } = this.state;
-        if (duplicatedCodeList.length === 0) return;
+        let { listFile } = this.state;
+        if (listFile.length === 0) return;
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
@@ -111,17 +98,17 @@ class DuplicatedCodePageContainer extends Component {
         }
     }
 
-    checkOnline = () => {
-        let { practicalExamCode, studentCode } = this.state;
-        console.log(practicalExamCode);
-        console.log(studentCode);
-         this.props.history.push('/githubResult/' + practicalExamCode + '/' + studentCode);
-    //    this.props.history.push('/');
+    back = () => {
+       this.props.backToListFile();
     }
 
     render() {
-        let { duplicatedCodeList } = this.state;
+        let { studentCode } = this.props;
+        let { listFile } = this.state;
         return (<div id="content-wrapper">
+            <p>
+                <button className="btn btn-success" onClick={(e) =>{e.preventDefault();this.back()}}><i className="fa fa-chevron-left"/></button>
+            </p>
             <nav className="question-nav">
                 <div className="input-field">
                     <div className="icon-wrap">
@@ -134,42 +121,23 @@ class DuplicatedCodePageContainer extends Component {
             </nav>
             <br />
             <div className="card content">
-                <p className="github-button"><button className="btn btn-dark" onClick={(e) => { e.preventDefault(); this.checkOnline() }}>Github Result</button></p>
-                <table className="table" id="myTable">
+                <h2 className="github-button"><span className="badge badge-info">{studentCode}</span></h2>
+                <table className="table table-hover" id="myTable">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">Student Code</th>
-                            <th scope="col">Student Code</th>
+                            <th scope="col">Github File Name</th>
                             <th scope="col">Similarity Percent</th>
-                            <th scope="col">View Detail</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.renderListStudent(duplicatedCodeList)}
+                    {this.renderListFile(listFile)}
                     </tbody>
                 </table>
             </div>
         </div>)
     }
 }
-const mapStateToProps = state => {
-    return {
-        duplicatedCodeList: state.duplicatedCodePage.duplicatedCodeList,
-        isLoading: state.duplicatedCodePage.isLoading,
-        statusCode: state.duplicatedCodePage.statusCode,
-        message: state.duplicatedCodePage.message,
-        error: state.duplicatedCodePage.error,
-        action: state.duplicatedCodePage.action,
-    }
-}
 
-const mapDispatchToProps = (dispatch, props) => {
-    return {
-        getDuplicatedCodeStudentList: (data) => {
-            getDuplicatedCodeStudentList(data, dispatch);
-        },
-    }
-}
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DuplicatedCodePageContainer));
+export default GithubResultDetailContainer;

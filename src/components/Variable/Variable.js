@@ -17,18 +17,20 @@ class Variable extends Component {
             txtName: "",
             txtValue: "",
             eventData: null,
+            param_type: null,
             isCreate: false,
             backUpdParamObj: null,
         };
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        let { paramObj, appType, parent, index, eventData } = nextProps;
+        let { paramObj, parent, index, eventData,param_type } = nextProps;
         if (nextProps.eventData === prevState.eventData) {
             return null;
         }
         return {
             eventData: eventData,
+            param_type: param_type,
             paramObj: paramObj,
             parent: parent,
             index: index,
@@ -58,6 +60,8 @@ class Variable extends Component {
                 });
     
             }
+        }else if(paramObj.label == AppConstant.LABEL_PARAM){
+            paramObj.code = paramObj.type + "-"+paramObj.name+"-"+ paramObj.value;
         }
        
         this.props.doneEdit(paramObj);
@@ -81,10 +85,10 @@ class Variable extends Component {
         let type = param.type;
         let value = param.value;
         if (type !== null && type !== 'undefined' && value !== null && value !== 'undefined') {
-            switch (type) {
-                case AppConstant.ARRAY_OPTIONS[5]:
-                    return '"' + value + '"';
-                default: return value;
+            if(type. toLowerCase() === AppConstant.PARAM_TYPE_STRING){
+                return '"' + value + '"';
+            }else {
+                return value;
             }
         }
         return "";
@@ -207,8 +211,14 @@ class Variable extends Component {
     };
 
     renderOptions = (label) => {
-        let { eventData } = this.state;
+       
+        let { eventData,param_type } = this.state;
+        console.log(param_type)
         if (eventData === null) {
+            return;
+        }
+        if (param_type === null) {
+            console.log("NULL ParamType")
             return;
         }
         let options;
@@ -228,7 +238,7 @@ class Variable extends Component {
                 </select>
             )
         } else {
-            options = AppConstant.ARRAY_OPTIONS.map((data, index) =>
+            options = param_type.map((data, index) =>
                 <option
                     key={index}
                     value={data}

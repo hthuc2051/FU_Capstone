@@ -12,9 +12,6 @@ export const PAGE_TYPE_LIST_PRACTICAL_EXAM = "LIST_PRACTICAL_EXAM";
 // CODE
 export const BODY_POSITION = '//body';
 
-// list type
-export const ARRAY_OPTIONS = ['Boolean', 'Char', 'Integer', 'Float', 'Double', 'String'];
-
 // Error messsage ;
 export const ERROR_MSG_EMPTY_SCRIPT_NAME = "Please set script name";
 export const ERROR_MSG_EMPTY_QUESTION_POINT = "Please set point for question: ";
@@ -29,3 +26,7 @@ export const METHOD_NAME_LOGIN = 'checkLogin';
 export const METHOD_NAME_CREATE = 'checkCreate';
 export const METHOD_NAME_UPDATE = 'checkUpdate';
 export const METHOD_NAME_DELETE = 'checkDelete';
+
+// Param Type
+export const PARAM_TYPE_CODE = 'code';
+export const PARAM_TYPE_STRING = 'string';

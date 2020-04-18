@@ -123,6 +123,30 @@ const headerLecturerPage = (state = initStage, action) => {
                 message: action.error.message,
             });
 
+              // Fetch ParamType
+        case Actions.GET_PARAM_TYPE:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.GET_PARAM_TYPE_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                param_type: action.data,
+            });
+        case Actions.GET_PARAM_TYPE_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+            });
+        case Actions.GET_PARAM_TYPE_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+            });
+
         // Fetch practical exam
         case Actions.FETCH_PRACTICAL_EXAMS:
             return Object.assign({}, state, {

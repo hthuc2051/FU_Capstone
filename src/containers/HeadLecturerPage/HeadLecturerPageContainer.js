@@ -4,7 +4,7 @@ import ListScripts from './services/ListScripts';
 import * as Constants from '../constants';
 import * as AppConstant from './../../constants/AppConstants';
 import { onLoading } from './actions';
-import { fetchEventsData, createTestScript, getTestScriptById, updateTestScript, fetchAllSubjects } from './axios';
+import { fetchEventsData, createTestScript, getTestScriptById, updateTestScript, fetchAllSubjects, fetchParamType } from './axios';
 import scriptObj from '../../components/TreeView/sample.data';
 import './style.css';
 import CreateTestScript from './services/CreateTestScript';
@@ -30,7 +30,8 @@ class HeadLecturerPageContainer extends Component {
             currentTemplate: ScriptTemplateJavaWeb,
             currentScript: null,
             scriptId: null,
-            isShowMessage:false,
+            isShowMessage: false,
+            param_type:null,
         };
     }
 
@@ -63,6 +64,14 @@ class HeadLecturerPageContainer extends Component {
         if (nextProps === prevState) {
             return null;
         }
+        let paramTypes = [];
+        if(nextProps.param_type !== null && typeof(nextProps.param_type) !== 'undefined'){
+            nextProps.param_type.forEach(element => {
+                if(element.name. toLowerCase() !== AppConstant.PARAM_TYPE_CODE){
+                    paramTypes.push(element.name);
+                }
+            });
+        }
         return {
             eventData: nextProps.eventData,
             isLoading: nextProps.isLoading,
@@ -73,11 +82,12 @@ class HeadLecturerPageContainer extends Component {
             message: nextProps.message,
             action: nextProps.action,
             statusCode: nextProps.statusCode,
+            param_type:paramTypes
         }
     }
 
     componentDidUpdate(prevProps) {
-        let { statusCode, message,subjectId,isShowMessage } = this.state;
+        let { statusCode, message, subjectId, isShowMessage } = this.state;
         console.log(message)
         console.log(isShowMessage);
         if (isShowMessage && message !== '') {
@@ -90,12 +100,12 @@ class HeadLecturerPageContainer extends Component {
                     swal("Failed !", message, "error");
                     break;
             }
-            this.setState({isShowMessage : false});
-            this.props.history.push('/subjects/'+subjectId+'/scripts');
+            this.setState({ isShowMessage: false });
+            this.props.history.push('/subjects/' + subjectId + '/scripts');
         }
     }
 
-    getDataBeforeSaveTestScript = (questionArr, scriptName, file, originalArr, pageType, globalVariableCode) => {
+    getDataBeforeSaveTestScript = (questionArr, scriptName, originalArr, pageType, globalVariableCode, document, templateQuestion, database, connection) => {
         let { subjectId, scriptId } = this.state;
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
@@ -111,32 +121,53 @@ class HeadLecturerPageContainer extends Component {
         formData.append("questions", questionStr);
         formData.append("headLecturerId", headLecturerId);
         formData.append("subjectId", subjectId);
-        if (file !== null) {
-            formData.append("docsFile", file);
+        console.log(connection);
+        console.log(document);
+        console.log(templateQuestion);
+        console.log(database);
+        if (document !== null) {
+            formData.append("docsFile", document);
+        }
+        if (templateQuestion !== null) {
+            formData.append("templateQuestion", templateQuestion);
+        }
+        if (database !== null) {
+            formData.append("database", database);
+        }
+        if (connection !== null && typeof (connection) !== 'undefined') {
+            if (connection.online !== null && typeof (connection.online) !== 'undefined') {
+                formData.append("onlineConnection", connection.online);
+            }
+            if (connection.offline !== null && typeof (connection.offline) !== 'undefined') {
+                formData.append("offlineConnection", connection.offline);
+            }
         }
         formData.append("scriptData", questionData);
-       
+
         switch (pageType) {
             case AppConstant.PAGE_TYPE_CREATE_SCRIPT:
                 this.props.saveTestScript(formData);
-                this.setState({isShowMessage:true});
+                this.setState({ isShowMessage: true });
                 break;
             case AppConstant.PAGE_TYPE_UPDATE_SCRIPT:
                 formData.append("id", scriptId);
                 this.props.UpdateTestScript(formData);
-                this.setState({isShowMessage:true});
+                this.setState({ isShowMessage: true });
                 break;
         }
-       
+
 
     }
 
     createQuestionString(questionArr) {
         // [{"testcase":"testcase1", "code":"ABC"}, {"testcase":"testcase2", "code":"AB2C"}]
         questionArr.forEach(element => {
-            let code = Constants.ANOTATION_TEST + " \n" + element.code;
+            let orderAnotation = Constants.ANOTATION_ORDER + '(' + element.order + ')';
+            let code = Constants.ANOTATION_TEST + " \n" + orderAnotation + " \n" + element.code;
             element.code = code.replace(AppConstant.BODY_POSITION, '');
+            console.log(element.code);
             delete element.point;
+            delete element.order;
         });
         return questionArr;
 
@@ -154,7 +185,7 @@ class HeadLecturerPageContainer extends Component {
     }
 
     render() {
-        let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript } = this.state;
+        let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript,param_type } = this.state;
         return (
 
             <div className="page-wrapper" >
@@ -162,9 +193,9 @@ class HeadLecturerPageContainer extends Component {
                     <div className="loader"></div>
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
             </div>
         );
     }
@@ -182,6 +213,7 @@ const mapStateToProps = state => {
         message: state.headerLecturerPage.message,
         error: state.headerLecturerPage.error,
         action: state.headerLecturerPage.action,
+        param_type:state.headerLecturerPage.param_type,
     }
 }
 
@@ -192,6 +224,7 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onFetchEvents: (subjectId) => {
             fetchEventsData(subjectId, dispatch);
+            fetchParamType(subjectId, dispatch);
         },
         getScriptById: (scriptId) => {
             getTestScriptById(scriptId, dispatch);

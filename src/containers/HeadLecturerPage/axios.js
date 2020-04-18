@@ -30,6 +30,16 @@ export const fetchEventsData = async (subjectId, dispatch) => {
     }
 }
 
+export const fetchParamType = async (subjectId, dispatch) => {
+    let endPoint = Constants.generateEndPoint(
+        Constants.END_POINT_PARAM_TYPE,
+        subjectId);
+    let res = await callApi(endPoint, Constants.METHOD_GET, subjectId);
+    if (res != null) {
+        handleResponse(res, Constants.GET_PARAM_TYPE, dispatch);
+    }
+}
+
 export const createTestScript = async (formData, dispatch) => {
     let res = await callApi(Constants.END_POINT_POST_TESTSCRIPT, Constants.PREFIX_POST, formData, null);
     if (res != null) {

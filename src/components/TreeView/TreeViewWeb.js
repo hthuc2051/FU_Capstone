@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style.css';
 import { Variable } from '../index.js';
+import ModalConnection from './../../containers/HeadLecturerPage/modals/ModalConnection';
 import * as Constant from '../../constants/AppConstants';
 
 class TreeViewWeb extends Component {
@@ -12,6 +13,7 @@ class TreeViewWeb extends Component {
       data: '',
       editableNode: '',
       eventData: null,
+      param_type: null,
       listInputParam: '',
       global_variable: null,
       listStep: '',
@@ -22,12 +24,12 @@ class TreeViewWeb extends Component {
       },
       selectTemplate: '',
       selectedTab: 0,
-      isCreate: false
+      isCreate: false,
+      isOpenForm: false,
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps)
     if (nextProps.question !== null) {
       if (document.getElementById('txtMethodName') !== null) {
         document.getElementById('txtMethodName').value = nextProps.question.data.methodName;
@@ -40,6 +42,7 @@ class TreeViewWeb extends Component {
         global_variable: nextProps.global_variable,
         listStep: nextProps.question.data.params[0].children,
         eventData: nextProps.eventData,
+        param_type: nextProps.param_type,
       }
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
@@ -81,7 +84,6 @@ class TreeViewWeb extends Component {
 
   closeForm = (paramObj, parent, index) => {
     let { isCreate } = this.state;
-    console.log(paramObj);
     if (typeof (paramObj) === undefined) { return; }
     paramObj.editMode = false;
     if (isCreate) {
@@ -150,11 +152,9 @@ class TreeViewWeb extends Component {
         });
         newChild = {
           label: parent[0].label,
-          type: '',
           name: sampleData.name,
-          value: '',
           code: sampleData.code,
-          params: sampleData.params,
+          params: JSON.parse(JSON.stringify(sampleData.params)),
           showChildren: false,
           editMode: true,
           children: []
@@ -177,7 +177,7 @@ class TreeViewWeb extends Component {
 
 
   nodeEditForm = (label, paramObj, parent, index) => {
-    let { eventData } = this.state;
+    let { eventData,param_type } = this.state;
     return (
       <div className="node node_edit" onClick={(e) => { e.stopPropagation() }}>
         <form className="node_edit_form">
@@ -188,6 +188,7 @@ class TreeViewWeb extends Component {
             parent={parent}
             index={index}
             eventData={eventData}
+            param_type={param_type}
             doneEdit={this.doneEdit}
             closeForm={this.closeForm}
           />
@@ -402,7 +403,7 @@ class TreeViewWeb extends Component {
     if (item !== null && typeof (item) !== 'undefined') {
       let param = item.value;
       // type = string
-      if (item.type === Constant.ARRAY_OPTIONS[5]) {
+      if (item.type. toLowerCase() === Constant.PARAM_TYPE_STRING) {
         param = '"' + param + '"';
       }
       return (
@@ -457,23 +458,23 @@ class TreeViewWeb extends Component {
   }
 
   render() {
-    let { selectTemplate, question, data, global_variable } = this.state;
-    console.log(this.state.listStep);
+    let { selectTemplate, question, data, global_variable, connection,isOpenForm } = this.state;
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
-            {question.point === 0 ?
-              <p> Point <input type="text" name="txtPoint" value='' onChange={(e) => this.handlePoint(e)} /></p>
+          <form class="form-inline">
+          {question.point === 0 ?
+              <p> Point <input type="text" name="txtPoint" className="form-control" value='' onChange={(e) => this.handlePoint(e)} /></p>
               :
-              <p> Point <input type="text" name="txtPoint" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
+              <p> Point <input type="text" name="txtPoint"  className="form-control" value={question.point} onChange={(e) => this.handlePoint(e)} /></p>
             }
             {question.order === 0 ?
-             <p> Order <input type="text" name="txtOrder" value='' onChange={(e) => this.handleOrder(e)} /></p>
-             :
-             <p> Order <input type="text" name="txtOrder" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
-          }
-           
+              <p> Order <input type="text" name="txtOrder"  className="form-control" value='' onChange={(e) => this.handleOrder(e)} /></p>
+              :
+              <p> Order <input type="text" name="txtOrder"  className="form-control" value={question.order} onChange={(e) => this.handleOrder(e)} /></p>
+            }
+          </form>
             <input type="text" id="txtMethodName" value={question.data.methodName} className="form-control root" placeholder="Method's name" onChange={(e) => { e.stopPropagation(); this.editMethodName(e) }} />
             <ul>
               <li onClick={(e) => { e.preventDefault(); this.toggleView(global_variable) }}>
@@ -521,9 +522,12 @@ class TreeViewWeb extends Component {
           </div>
 
         </div>
-
+     
       </div>
     );
   }
+
 }
+
+
 export default TreeViewWeb;

@@ -50,6 +50,19 @@ class ModalEditPracticalExam extends Component {
             window.open(Constants.API_URL + "/" + Constants.END_POINT_DOWNLOAD_TESTSCRIPT + "/" + editObj.id);
         }
     }
+    handleDownLoadTemplateQuestion = () => {
+        let { editObj } = this.state;
+        if (editObj !== null && typeof (editObj) !== 'undefined') {
+            window.open(Constants.API_URL + "/" + Constants.END_POINT_DOWNLOAD_TEMPLATE_QUESTION + "/" + editObj.id);
+        }
+    }
+
+    handleDownLoadDatabase = () => {
+        let { editObj } = this.state;
+        if (editObj !== null && typeof (editObj) !== 'undefined') {
+            window.open(Constants.API_URL + "/" + Constants.END_POINT_DOWNLOAD_DATABASE + "/" + editObj.id);
+        }
+    }
 
     render() {
         let { isOpenForm, editObj } = this.state;
@@ -71,26 +84,29 @@ class ModalEditPracticalExam extends Component {
                         <div className="modal-body">
                             <form>
                                 <div className="form-group">
-                                    <label htmlFor="txtPracticalExamCode">SCRIPT CODE</label>
+                                    <label htmlFor="txtPracticalExamCode">Script Code</label>
                                     <input readOnly={true} type="text" name="txtPracticalExamCode" value={editObj.code} className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="txtPracticalExamCode">SCRIPT NAME</label>
+                                    <label htmlFor="txtPracticalExamCode">Script Name</label>
                                     <input readOnly={true} type="text" name="txtPracticalExamCode" value={editObj.name} className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="date">TIME CREATED</label>
+                                    <label htmlFor="date">Time Created</label>
                                     <input type="text" name="practicalDate" value={editObj.timeCreated} className="form-control" id="date" placeholder="Date" readOnly />
                                 </div>
                             </form>
                             <form>
-                                <label htmlFor="date">DOCUMENT</label>
+                                <label htmlFor="date">Download</label>
                                 <div className="form-row">
-                                    <div className="col-7">
-                                        <input type="text" value={editObj.docFileName} className="form-control" placeholder="doc file name" readOnly />
+                                    <div className="col">
+                                    <input type="button" value="Document" onClick={(e) => { e.preventDefault(); this.handleDownLoadDocument() }} className="form-control btn btn-primary" placeholder="State" />
                                     </div>
                                     <div className="col">
-                                        <input type="button" value="DOWNLOAD" onClick={(e) => { e.preventDefault(); this.handleDownLoadDocument() }} className="form-control btn btn-primary" placeholder="State" />
+                                    <input type="button" value="Template Question" onClick={(e) => { e.preventDefault(); this.handleDownLoadTemplateQuestion() }} className="form-control btn btn-primary" placeholder="State" />
+                                    </div>
+                                    <div className="col">
+                                        <input type="button" value="Database" onClick={(e) => { e.preventDefault(); this.handleDownLoadDatabase() }} className="form-control btn btn-primary" placeholder="State" />
                                     </div>
                                 </div>
                             </form>
