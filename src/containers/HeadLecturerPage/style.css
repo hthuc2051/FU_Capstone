@@ -22,6 +22,7 @@
   margin-right: 15px;
   background: white;
   padding-bottom: 20px;
+  width: 97%;
 }
 .tab-panel {
   background: white;
@@ -30,6 +31,7 @@
   margin: 0 15px;
   background: white;
   padding: 15px;
+  text-align: right;
 }
 .nav-tabs .nav-link {
   border-color: #e9ecef #e9ecef #dee2e6;

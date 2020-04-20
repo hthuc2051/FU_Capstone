@@ -104,7 +104,7 @@ class HeadLecturerPageContainer extends Component {
         }
     }
 
-    getDataBeforeSaveTestScript = (questionArr, scriptName, originalArr, pageType, globalVariableCode, document, templateQuestion, database, connection) => {
+    getDataBeforeSaveTestScript = (questionArr, scriptName, originalArr, pageType, globalVariableCode, document, templateQuestion, database,testData, connection) => {
         let { subjectId, scriptId } = this.state;
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
@@ -133,12 +133,15 @@ class HeadLecturerPageContainer extends Component {
         if (database !== null) {
             formData.append("database", database);
         }
+        if (testData !== null) {
+            formData.append("testData", testData);
+        }
         if (connection !== null && typeof (connection) !== 'undefined') {
             if (connection.online !== null && typeof (connection.online) !== 'undefined') {
-                formData.append("onlineConnection", connection.online);
+                formData.append("onlineConnection", JSON.stringify(connection.online));
             }
             if (connection.offline !== null && typeof (connection.offline) !== 'undefined') {
-                formData.append("offlineConnection", connection.offline);
+                formData.append("offlineConnection", JSON.stringify(connection.offline));
             }
         }
         formData.append("scriptData", questionData);
@@ -192,9 +195,9 @@ class HeadLecturerPageContainer extends Component {
                     <div className="loader"></div>
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  subjectId={subjectId}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
             </div>
         );
     }

@@ -10,8 +10,8 @@ class ModalEditPracticalExam extends Component {
             statusCode: false,
             editObj: null,
             document:null,
-            database:null,
             templateQuestion:null,
+            testData:null,
         };
     }
 
@@ -26,8 +26,8 @@ class ModalEditPracticalExam extends Component {
     }
 
     onCloseDetails = () => {
-        let { document,templateQuestion,database } = this.state;
-        this.props.onCloseDetails(document,templateQuestion,database);
+        let { document,templateQuestion,testData } = this.state;
+        this.props.onCloseDetails(document,templateQuestion,testData);
     }
 
     isOpenForm = (state) => {
@@ -68,8 +68,8 @@ class ModalEditPracticalExam extends Component {
                                         <input type="file" name="templateQuestion" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">DataBase Script</span></label>
-                                        <input type="file" name="database" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Test Data</span></label>
+                                        <input type="file" name="testData" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                 </form>
                             </div>

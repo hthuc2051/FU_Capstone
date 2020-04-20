@@ -103,13 +103,12 @@ class ListScripts extends Component {
             if (listScripts.length > 0) {
                 result = listScripts.map((item, index) => {
                     return (
-                        <tr key={index}>
-                            <th scope="row">{index + 1}</th>
-                            <td>{item.code}</td>
-                            <td>{item.timeCreated}</td>
-                            <td><a onClick={() => this.viewScriptDetails(item)} href="#">Details</a></td>
-                            <td><a onClick={() => this.onDelete(item.id, item.code)} href="#">Delete</a></td>
-                            <td><a href="#" onClick={(e) => {e.preventDefault(); this.onUpdate(item.id)}}>Update</a></td>
+                        <tr key={index} >
+                            <th scope="row" onClick={(e) => {e.preventDefault(); this.onUpdate(item.id)}}>{index + 1}</th>
+                            <td onClick={(e) => {e.preventDefault(); this.onUpdate(item.id)}}>{item.code}</td>
+                            <td onClick={(e) => {e.preventDefault(); this.onUpdate(item.id)}}>{item.timeCreated}</td>
+                            <td><button className="btn btn-info" onClick={(e) =>{e.preventDefault(); this.viewScriptDetails(item)}}>Details</button></td>
+                            <td><button className="btn btn-danger" onClick={(e) => {e.preventDefault();this.onDelete(item.id, item.code)}} >Delete</button></td>
                         </tr>
                     );
                 })
@@ -168,7 +167,7 @@ class ListScripts extends Component {
                 <br />
                 <div className="card content">
                     {listScripts ?
-                        <table className="table" id="myTable">
+                        <table className="table table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -176,7 +175,6 @@ class ListScripts extends Component {
                                     <th scope="col">Time created</th>
                                     <th scope="col">Details</th>
                                     <th scope="col">Delete</th>
-                                    <th scope="col">Update</th>
                                 </tr>
                             </thead>
                             <tbody>

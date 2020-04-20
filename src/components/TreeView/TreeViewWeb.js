@@ -463,7 +463,7 @@ class TreeViewWeb extends Component {
       <div className="col-md-12">
         <div className="group_dropdown_content">
           <div className="tree">
-          <form class="form-inline">
+          <form className="form-inline">
           {question.point === 0 ?
               <p> Point <input type="text" name="txtPoint" className="form-control" value='' onChange={(e) => this.handlePoint(e)} /></p>
               :

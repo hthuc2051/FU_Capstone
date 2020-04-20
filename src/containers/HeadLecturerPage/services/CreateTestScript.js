@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TreeViewWeb } from './../../../components/index';
 import * as AppConstant from './../../../constants/AppConstants';
+import * as Constants from './../../constants';
 import ScriptTemplateJavaWeb from './template.Javaweb';
 import ModalUploadFile from './../modals/ModalUploadFile';
 import ModalConnection from './../modals/ModalConnection';
@@ -71,7 +72,9 @@ class CreateTestScript extends Component {
             isOpenFormFile: false,
             document: null,
             templateQuestion: null,
-            database: null
+            database: null,
+            testData: null,
+            subjectId: 0
         };
     }
 
@@ -88,7 +91,8 @@ class CreateTestScript extends Component {
                 file: nextProps.file,
                 pageType: nextProps.pageType,
                 currentTemplate: nextProps.currentTemplate,
-                questionArr: questionArr
+                questionArr: questionArr,
+                subjectId: nextProps.subjectId
             }
         }
         return {
@@ -97,6 +101,7 @@ class CreateTestScript extends Component {
             file: nextProps.file,
             pageType: nextProps.pageType,
             currentTemplate: nextProps.currentTemplate,
+            subjectId: nextProps.subjectId
         }
     }
 
@@ -125,7 +130,7 @@ class CreateTestScript extends Component {
     }
 
     createTestScript = () => {
-        let { questionArr, txtScriptName, document, templateQuestion, database } = this.state;
+        let { questionArr, txtScriptName, document, templateQuestion, database, testData } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
         if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
@@ -133,7 +138,7 @@ class CreateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point, order: questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_CREATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database, questionArr.connection);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_CREATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database, testData, questionArr.connection);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -299,20 +304,21 @@ class CreateTestScript extends Component {
             isOpenForm: isOpenForm,
         })
     }
-    onCloseFormFileDetails = (documentFile, templateQuestionFile, databaseFile) => {
+    onCloseFormFileDetails = (documentFile, templateQuestionFile, testDataFile) => {
         this.setState({
             document: documentFile,
             templateQuestion: templateQuestionFile,
-            database: databaseFile,
+            testData: testDataFile,
             isOpenFormFile: false
         })
     }
 
-    onCloseDetails = (editObj) => {
+    onCloseDetails = (editObj, databaseFile) => {
         let { questionArr } = this.state;
         questionArr.connection = editObj
         this.setState({
             questionArr,
+            database: databaseFile,
             isOpenForm: false,
         })
     }
@@ -322,8 +328,14 @@ class CreateTestScript extends Component {
             isOpenFormFile: isOpenFormFile,
         })
     }
+
+    handelDownloadTemplateQuestion = (subjectId) => {
+        if (subjectId !== null && typeof (subjectId) !== 'undefined') {
+            window.open(Constants.API_URL + "/" + Constants.END_POINT_DOWNLOAD_TEMPLATE_QUESTION_TEMPLATE + "/" + subjectId);
+        }
+    }
     render() {
-        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, param_type } = this.state;
+        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, param_type, subjectId } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -332,7 +344,8 @@ class CreateTestScript extends Component {
                     </div>
                     <nav className="question-nav card_border">
                         <input type="text" name="txtScriptName" id="txtScriptName" onChange={this.onChange} className="form-control script-name" placeholder="Script's name" />
-                        <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-outline-secondary"> CONNECTION</button>
+                        <button onClick={(e) => { e.preventDefault(); this.handelDownloadTemplateQuestion(subjectId) }} className="btn btn-outline-info"> DOWNLOAD TEMPLATE QUESTION</button>
+                        <button onClick={(e) => { e.preventDefault(); this.onToggleModal(true) }} className="btn btn-outline-secondary btn-upload"> CONNECTION</button>
                         <button onClick={(e) => { e.preventDefault(); this.onToggleFileModal(true) }} className="btn btn-primary btn-upload"> UPLOAD</button>
 
                     </nav>

@@ -9,6 +9,7 @@ class ModalEditPracticalExam extends Component {
             isLoading: false,
             statusCode: false,
             editObj: null,
+            database:null,
         };
     }
 
@@ -23,8 +24,8 @@ class ModalEditPracticalExam extends Component {
     }
 
     onCloseDetails = () => {
-        let { editObj } = this.state;
-        this.props.onCloseDetails(editObj);
+        let { editObj,database } = this.state;
+        this.props.onCloseDetails(editObj,database);
     }
 
     isOpenForm = (state) => {
@@ -39,6 +40,10 @@ class ModalEditPracticalExam extends Component {
         editObj[targetName[0]][targetName[1]] = value;
         console.log(editObj);
         this.setState({ editObj });
+    }
+    
+    handelChangeDataBase = (e) => {
+        this.setState({ [e.target.name]: e.target.files[0] });
     }
 
     render() {
@@ -63,7 +68,7 @@ class ModalEditPracticalExam extends Component {
                             <div className="modal-body">
 
                                 <form>
-                                <h2><span className="badge badge-info">Online</span></h2>
+                                <h3><span className="badge badge-info">Online</span></h3>
                                     <div className="form-group">
                                         <input type="text" name="online_url" value={editObj.online.url} className="form-control" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} placeholder="Database connection string..." />
                                     </div>
@@ -83,7 +88,7 @@ class ModalEditPracticalExam extends Component {
                         {editObj ?
                             <div className="modal-body">
                                 <form>
-                                    <h2><span className="badge badge-info">Offline</span></h2>
+                                    <h3><span className="badge badge-info">Offline</span></h3>
                                     <div className="form-group">
                                         <input type="text" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} name="offline_url" value={editObj.offline.url} className="form-control" id="txtPracticalExamCode" placeholder="Database connection string..." />
                                     </div>
@@ -96,6 +101,11 @@ class ModalEditPracticalExam extends Component {
                                         </div>
                                     </div>
                                 </form>
+
+                                    <div className="form-group">
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">DataBase Script</span></label>
+                                        <input type="file" name="database" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChangeDataBase(e) }} />
+                                    </div>
                             </div>
                             :
                             ''

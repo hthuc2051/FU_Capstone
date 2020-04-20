@@ -118,7 +118,7 @@ class UpdateTestScript extends Component {
     }
 
     updateTestScript = () => {
-        let { questionArr, txtScriptName, document, templateQuestion, database } = this.state;
+        let { questionArr, txtScriptName, document, templateQuestion, database, testData } = this.state;
         let isvalid = this.checkValid(questionArr, txtScriptName);
         if (!isvalid) return;
         let newQuestionArr = { name: 'test1', questions: [] };
@@ -126,7 +126,7 @@ class UpdateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point, order: questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_UPDATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database, questionArr.connection);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_UPDATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database,testData, questionArr.connection);
     }
 
     checkValid(questionArr, txtScriptName) {
@@ -297,20 +297,21 @@ class UpdateTestScript extends Component {
             isOpenForm: isOpenForm,
         })
     }
-    onCloseFormFileDetails = (documentFile, templateQuestionFile, databaseFile) => {
+    onCloseFormFileDetails = (documentFile, templateQuestionFile, testDataFile) => {
         this.setState({
             document: documentFile,
             templateQuestion: templateQuestionFile,
-            database: databaseFile,
+            testData: testDataFile,
             isOpenFormFile: false
         })
     }
 
-    onCloseDetails = (editObj) => {
+    onCloseDetails = (editObj,databaseFile) => {
         let { questionArr } = this.state;
         questionArr.connection = editObj
         this.setState({
             questionArr,
+            database:databaseFile,
             isOpenForm: false,
         })
     }
