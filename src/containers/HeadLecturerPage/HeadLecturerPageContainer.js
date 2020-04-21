@@ -31,32 +31,32 @@ class HeadLecturerPageContainer extends Component {
             currentScript: null,
             scriptId: null,
             isShowMessage: false,
-            param_type:null,
+            param_type: null,
+            testAnotaion: '',
+            orderAnotation: '',
+            isShowPublicString:true,
+            isRequireOrder:false,
         };
     }
 
     componentDidMount() {
         let { subjectId, scriptId, pageType } = this.props;
         this.props.onFetchEvents(subjectId);
-        this.setState({ subjectId: subjectId });
-        if (subjectId !== null) {
-            let template = this.getTemplateBySubjectID(subjectId);
-            this.setState({ currentTemplate: template });
-        }
+        this.setState({ subjectId: subjectId, scriptId: scriptId, pageType: pageType });
         if (pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT) {
             this.props.getScriptById(scriptId);
         }
     }
-    getTemplateBySubjectID = (subjectId) => {
-        switch (subjectId) {
-            case '1': return ScriptTemplateJava;
-            case '2': return ScriptTemplateJava;
-            case '3': return ScriptTemplateJavaWeb;
-            default: return ScriptTemplateJavaWeb;
-        }
-        this.props.onFetchAllSubjects();
-        this.setState({ subjectId: this.props.subjectId });
-    }
+    // getTemplateBySubjectCode = (subjectCode) => {
+    //     switch (subjectCode) {
+    //         case AppConstant.SUBJECT_CODE_JAVA: return ScriptTemplateJava;
+    //         case AppConstant.SUBJECT_CODE_JAVA_WEB: return ScriptTemplateJava;
+    //         case AppConstant.SUBJECT_CODE_CSHARP: return ScriptTemplateJavaWeb;
+    //         case AppConstant.SUBJECT_CODE_C: return ScriptTemplateJavaWeb;
+    //     }
+    //     this.props.onFetchAllSubjects();
+    //     this.setState({ subjectId: this.props.subjectId });
+    // }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         console.log(nextProps);
@@ -64,13 +64,54 @@ class HeadLecturerPageContainer extends Component {
             return null;
         }
         let paramTypes = [];
-        if(nextProps.param_type !== null && typeof(nextProps.param_type) !== 'undefined'){
+        if (nextProps.param_type !== null && typeof (nextProps.param_type) !== 'undefined') {
             nextProps.param_type.forEach(element => {
-                if(element.name. toLowerCase() !== AppConstant.PARAM_TYPE_CODE){
+                if (element.name.toLowerCase() !== AppConstant.PARAM_TYPE_CODE) {
                     paramTypes.push(element.name);
                 }
             });
         }
+
+        // start set template and order variable by subject code
+        let { eventData } = nextProps;
+        let currentTemplate = null;
+        let orderAnotation = '';
+        let testAnotaion = '';
+        let isShowPublicString = false;
+        let isRequireOrder = false;
+        if (eventData !== null) {
+            if (eventData.length > 0) {
+                let subjectCode = eventData[0].subjectCode;
+                switch (subjectCode) {
+                    case AppConstant.SUBJECT_CODE_JAVA:
+                        isShowPublicString = true;
+                        isRequireOrder = true;
+                        testAnotaion = Constants.ANOTATION_TEST_JAVA;
+                        orderAnotation = Constants.ANOTATION_ORDER_JAVA;
+                        currentTemplate = ScriptTemplateJava; break;
+                    case AppConstant.SUBJECT_CODE_JAVA_WEB:
+                        isShowPublicString = true;
+                        isRequireOrder = true;
+                        testAnotaion = Constants.ANOTATION_TEST_JAVA;
+                        orderAnotation = Constants.ANOTATION_ORDER_JAVA;
+                        currentTemplate = ScriptTemplateJavaWeb; break;
+                    case AppConstant.SUBJECT_CODE_CSHARP:
+                        isShowPublicString = true;
+                        isRequireOrder = false;
+                        testAnotaion = Constants.ANOTATION_TEST_CSHARP;
+                        orderAnotation = '';
+                        currentTemplate = ScriptTemplateJavaWeb; break;
+                    case AppConstant.SUBJECT_CODE_C:
+                        isShowPublicString = false;
+                        isRequireOrder = false;
+                        testAnotaion = '';
+                        orderAnotation = '';
+                        currentTemplate = ScriptTemplateJavaWeb; break;
+                }
+            }
+        }
+        // end set template and order variable by subject code
+console.log(currentTemplate)
         return {
             eventData: nextProps.eventData,
             isLoading: nextProps.isLoading,
@@ -81,12 +122,18 @@ class HeadLecturerPageContainer extends Component {
             message: nextProps.message,
             action: nextProps.action,
             statusCode: nextProps.statusCode,
-            param_type:paramTypes
+            param_type: paramTypes,
+            currentTemplate: currentTemplate,
+            orderAnotation: orderAnotation,
+            testAnotaion: testAnotaion,
+            isShowPublicString:isShowPublicString,
+            isRequireOrder:isRequireOrder
         }
     }
 
     componentDidUpdate(prevProps) {
         let { statusCode, message, subjectId, isShowMessage } = this.state;
+
         console.log(message)
         console.log(isShowMessage);
         if (isShowMessage && message !== '') {
@@ -102,9 +149,10 @@ class HeadLecturerPageContainer extends Component {
             this.setState({ isShowMessage: false });
             this.props.history.push('/subjects/' + subjectId + '/scripts');
         }
+
     }
 
-    getDataBeforeSaveTestScript = (questionArr, scriptName, originalArr, pageType, globalVariableCode, document, templateQuestion, database,testData, connection) => {
+    getDataBeforeSaveTestScript = (questionArr, scriptName, originalArr, pageType, globalVariableCode, document, templateQuestion, database, testData, connection) => {
         let { subjectId, scriptId } = this.state;
         // temp data
         //checkQuestion1:2-checkQuestion2:4-checkQuestion3:2-checkQuestion4:2
@@ -162,11 +210,17 @@ class HeadLecturerPageContainer extends Component {
     }
 
     createQuestionString(questionArr) {
+        let { testAnotaion, orderAnotation } = this.state;
         // [{"testcase":"testcase1", "code":"ABC"}, {"testcase":"testcase2", "code":"AB2C"}]
         questionArr.forEach(element => {
-            let orderAnotation = Constants.ANOTATION_ORDER + '(' + element.order + ')';
-            let code = Constants.ANOTATION_TEST + " \n" + orderAnotation + " \n" + element.code;
-            element.code = code.replace(AppConstant.BODY_POSITION, '');
+            if (orderAnotation !== '') {
+                let orderAnotations = orderAnotation + '(' + element.order + ')';
+                let code = testAnotaion + " \n" + orderAnotations + " \n" + element.code;
+                element.code = code.replace(AppConstant.BODY_POSITION, '');
+            } else {
+                let code = testAnotaion + " \n" + element.code;
+                element.code = code.replace(AppConstant.BODY_POSITION, '');
+            }
             console.log(element.code);
             delete element.point;
             delete element.order;
@@ -187,7 +241,7 @@ class HeadLecturerPageContainer extends Component {
     }
 
     render() {
-        let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript,param_type } = this.state;
+        let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript, param_type,isRequireOrder,isShowPublicString } = this.state;
         return (
 
             <div className="page-wrapper" >
@@ -195,9 +249,9 @@ class HeadLecturerPageContainer extends Component {
                     <div className="loader"></div>
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} isShowPublicString={isShowPublicString} isRequireOrder={isRequireOrder} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  subjectId={subjectId}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} isShowPublicString={isShowPublicString} isRequireOrder={isRequireOrder} /> : ''}
             </div>
         );
     }
@@ -215,7 +269,7 @@ const mapStateToProps = state => {
         message: state.headerLecturerPage.message,
         error: state.headerLecturerPage.error,
         action: state.headerLecturerPage.action,
-        param_type:state.headerLecturerPage.param_type,
+        param_type: state.headerLecturerPage.param_type,
     }
 }
 

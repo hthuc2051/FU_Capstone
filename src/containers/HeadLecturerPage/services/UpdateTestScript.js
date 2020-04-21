@@ -6,8 +6,7 @@ import ModalUploadFile from './../modals/ModalUploadFile';
 import ModalConnection from './../modals/ModalConnection';
 import '../style.css';
 
-const QUESTION = "question";
-const QUESTION_UPPER = "Question";
+const QUESTION = "Question";
 
 class UpdateTestScript extends Component {
     // code: 'public void testcase(){Driver.findViewById("txtUsername").clear();Driver.findViewById("txtUsername") .sendKey("NguyenVanA");Driver.findViewById("txtPassword").clear();Driver.findViewById("txtPassword") .sendKey("p4ssw0rd");assertEquals("admin",question1("NguyenVanA","p4ssw0rd"));}'
@@ -73,7 +72,10 @@ class UpdateTestScript extends Component {
             isOpenFormFile: false,
             document: null,
             templateQuestion: null,
-            database: null
+            database: null,
+            testData: null,
+            isShowPublicString: false,
+            isRequireOrder: false,
         };
     }
 
@@ -90,6 +92,8 @@ class UpdateTestScript extends Component {
             questionArr: nextProps.script.scriptData,
             currentScript: nextProps.script,
             txtScriptName: nextProps.script.scriptData.name,
+            isShowPublicString: nextProps.isShowPublicString,
+            isRequireOrder: nextProps.isRequireOrder
         }
     }
 
@@ -126,10 +130,11 @@ class UpdateTestScript extends Component {
             let question = { testcase: questionArr.questions[i].data.methodName, code: questionArr.questions[i].code, point: questionArr.questions[i].point, order: questionArr.questions[i].order };
             newQuestionArr.questions.push(question);
         }
-        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_UPDATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database,testData, questionArr.connection);
+        this.props.saveTestScript(newQuestionArr, txtScriptName, questionArr, AppConstant.PAGE_TYPE_UPDATE_SCRIPT, questionArr.global_variable.code, document, templateQuestion, database, testData, questionArr.connection);
     }
 
     checkValid(questionArr, txtScriptName) {
+        let { isRequireOrder } = this.state;
         if (txtScriptName === '') {
             window.alert(AppConstant.ERROR_MSG_EMPTY_SCRIPT_NAME);
             return false;
@@ -152,15 +157,16 @@ class UpdateTestScript extends Component {
                 window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_POINT + questionArr.questions[i].testcase);
                 return false;
             }
-            if (order === 0 || order === '') {
-                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
-                return false;
+            if (isRequireOrder) {
+                if (order === 0 || order === '') {
+                    window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
+                    return false;
+                }
+                if (!reg.test(order)) {
+                    window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
+                    return false;
+                }
             }
-            if (!reg.test(order)) {
-                window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
-                return false;
-            }
-
         }
         return true;
     }
@@ -306,12 +312,12 @@ class UpdateTestScript extends Component {
         })
     }
 
-    onCloseDetails = (editObj,databaseFile) => {
+    onCloseDetails = (editObj, databaseFile) => {
         let { questionArr } = this.state;
         questionArr.connection = editObj
         this.setState({
             questionArr,
-            database:databaseFile,
+            database: databaseFile,
             isOpenForm: false,
         })
     }
@@ -322,7 +328,7 @@ class UpdateTestScript extends Component {
         })
     }
     render() {
-        let { isLoading, eventData, txtScriptName, questionArr, isOpenForm, isOpenFormFile, param_type } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr, isOpenForm, isOpenFormFile, param_type,isShowPublicString, isRequireOrder } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -348,7 +354,7 @@ class UpdateTestScript extends Component {
                         </div>
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                             <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
-                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
+                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} isShowPublicString = {isShowPublicString} isRequireOrder = {isRequireOrder}/>
                             <div className="tab-create">
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.updateTestScript() }}>
                                     <i className="fa fa-plus" />

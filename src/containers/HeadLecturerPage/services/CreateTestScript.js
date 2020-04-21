@@ -74,7 +74,9 @@ class CreateTestScript extends Component {
             templateQuestion: null,
             database: null,
             testData: null,
-            subjectId: 0
+            subjectId: 0,
+            isShowPublicString:false,
+            isRequireOrder:false
         };
     }
 
@@ -92,7 +94,9 @@ class CreateTestScript extends Component {
                 pageType: nextProps.pageType,
                 currentTemplate: nextProps.currentTemplate,
                 questionArr: questionArr,
-                subjectId: nextProps.subjectId
+                subjectId: nextProps.subjectId,
+                isShowPublicString: nextProps.isShowPublicString,
+                isRequireOrder: nextProps.isRequireOrder
             }
         }
         return {
@@ -101,7 +105,9 @@ class CreateTestScript extends Component {
             file: nextProps.file,
             pageType: nextProps.pageType,
             currentTemplate: nextProps.currentTemplate,
-            subjectId: nextProps.subjectId
+            subjectId: nextProps.subjectId,
+            isShowPublicString: nextProps.isShowPublicString,
+            isRequireOrder: nextProps.isRequireOrder
         }
     }
 
@@ -142,6 +148,7 @@ class CreateTestScript extends Component {
     }
 
     checkValid(questionArr, txtScriptName) {
+        let {isRequireOrder} = this.state;
         if (txtScriptName === '') {
             window.alert(AppConstant.ERROR_MSG_EMPTY_SCRIPT_NAME);
             return false;
@@ -163,13 +170,15 @@ class CreateTestScript extends Component {
                 window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_POINT + questionArr.questions[i].testcase);
                 return false;
             }
-            if (order === 0 || order === '') {
-                window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
-                return false;
-            }
-            if (!reg.test(order)) {
-                window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
-                return false;
+            if(isRequireOrder){
+                if (order === 0 || order === '') {
+                    window.alert(AppConstant.ERROR_MSG_EMPTY_QUESTION_ORDER + questionArr.questions[i].testcase);
+                    return false;
+                }
+                if (!reg.test(order)) {
+                    window.alert(AppConstant.ERROR_MSG_WRONG_FORMAT_ORDER + questionArr.questions[i].testcase);
+                    return false;
+                }
             }
         }
         return true;
@@ -223,6 +232,7 @@ class CreateTestScript extends Component {
 
     onchangeTemplate = (selectedTempalate, selectedTab) => {
         let { questionArr, currentTemplate } = this.state;
+        console.log(currentTemplate)
         if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
             switch (selectedTempalate) {
                 case 'Login':
@@ -335,7 +345,7 @@ class CreateTestScript extends Component {
         }
     }
     render() {
-        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, param_type, subjectId } = this.state;
+        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, param_type, subjectId, isShowPublicString, isRequireOrder } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -361,7 +371,7 @@ class CreateTestScript extends Component {
                         </div>
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                             <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
-                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} />
+                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} isShowPublicString = {isShowPublicString} isRequireOrder={isRequireOrder} />
                             <div className="tab-create">
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
                                     <i className="fa fa-plus" />

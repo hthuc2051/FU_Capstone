@@ -30,3 +30,9 @@ export const METHOD_NAME_DELETE = 'checkDelete';
 // Param Type
 export const PARAM_TYPE_CODE = 'code';
 export const PARAM_TYPE_STRING = 'string';
+
+// Subject Code
+export const SUBJECT_CODE_JAVA = "PRO192";
+export const SUBJECT_CODE_JAVA_WEB = "PRJ321";
+export const SUBJECT_CODE_C = "PRF192";
+export const SUBJECT_CODE_CSHARP = "PRN292";

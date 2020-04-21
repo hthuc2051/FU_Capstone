@@ -107,7 +107,7 @@ export const GET_PARAM_TYPE_TIME_OUT = 'GET_PARAM_TYPE_TIME_OUT';
 // End point 
 export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
-export const END_POINT_EVENTS = "actions/subjects";
+export const END_POINT_EVENTS = "action/subject";
 export const END_POINT_SUBJECTS = "subjects";
 export const END_POINT_CLASSES = "classes";
 
@@ -135,9 +135,10 @@ export const END_POINT_GITHUB_RESULT = "practical-exam/check-code/resultOnline";
 export const METHOD_GET = "GET";
 export const METHOD_POST = "POST";
 
-// Test Script
-export const ANOTATION_TEST = "@Test";
-export const ANOTATION_ORDER = "@Order";
+// Test Script anotations
+export const ANOTATION_TEST_JAVA = "@Test";
+export const ANOTATION_ORDER_JAVA = "@Order"
+export const ANOTATION_TEST_CSHARP = "[TestMethod()]";
 
 
 export const generateEndPoint = (...params) => {

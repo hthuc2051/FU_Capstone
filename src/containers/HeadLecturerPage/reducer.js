@@ -264,6 +264,7 @@ const headerLecturerPage = (state = initStage, action) => {
                 statusCode: 200,
                 listScripts: action.data,
                 action: '',
+                message:''
             });
         case Actions.FETCH_TEST_SCRIPT_FAILED:
             return Object.assign({}, state, {
