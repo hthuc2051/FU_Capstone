@@ -6,6 +6,7 @@ import '../style.css';
 import * as Constants from '../../constants';
 import { onLoading, onFinishing } from '../actions';
 import { fetchPracticalExams, deletePracticalExam } from '../axios';
+import ModalCreatePracticalExam from '../modals/ModalCreatePracticalExam';
 let lecturers = ['HauDV - Đoàn Văn Hậu', 'PhuongNC - Nguyễn Công Phượng', 'HaiNQ - Nguyễn Quang Hải']
 const TYPE_CREATE = 'CREATE';
 const TYPE_EDIT = 'EDIT';
@@ -91,8 +92,8 @@ class ListPracticalExams extends Component {
                 case 200:
                     swal("Successfully !", message, "success").then((value) => {
                         window.location.reload();
-                      });
-                   
+                    });
+
                     break;
                 case 500:
                 case 409:
@@ -194,7 +195,9 @@ class ListPracticalExams extends Component {
                 </div>
                 {/* For modal */}
                 {/* <ModalEditPracticalExam/> */}
-                {isOpenForm ? <ModalEditPracticalExam formType={formType} isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+                {formType === TYPE_EDIT ? <ModalEditPracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+                {formType === TYPE_CREATE ? <ModalCreatePracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+
             </div>
         );
     }
