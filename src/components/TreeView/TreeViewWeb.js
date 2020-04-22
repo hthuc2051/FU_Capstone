@@ -200,6 +200,17 @@ class TreeViewWeb extends Component {
       </div>
     )
   }
+
+  shortenNodeValue = (nodeValue) => {
+    let newValue = '';
+    if (nodeValue.length > 20) {
+      newValue = nodeValue.substring(0, 20) + Constant.ETC;
+    } else {
+      newValue = nodeValue;
+    }
+    return newValue;
+  }
+
   addChild = (node) => {
     node.showChildren = true;
     let newChild = null;
@@ -259,7 +270,6 @@ class TreeViewWeb extends Component {
           </li>
         )
       }
-
       // A node has children but don't want to showing her children
       else if (paramObj.children.length > 0 && !paramObj.showChildren) {
         item = (
@@ -281,7 +291,7 @@ class TreeViewWeb extends Component {
                   //paramObj.type  +" - " + paramObj.params +" - " + paramObj.value
                   this.renderParam(paramObj)
                   :
-                  paramObj.type + " - " + paramObj.name + " - " + paramObj.value
+                  paramObj.type + " - " + paramObj.name + " - " + this.shortenNodeValue(paramObj.value)
                 }
                 <span className="actions">
                   <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
@@ -297,7 +307,7 @@ class TreeViewWeb extends Component {
                   //paramObj.type  +" - " + paramObj.params +" - " + paramObj.value
                   this.renderParam(paramObj)
                   :
-                  paramObj.type + " - " + paramObj.name + " - " + paramObj.value
+                  paramObj.type + " - " + paramObj.name + " - " + this.shortenNodeValue(paramObj.value)
                 }
 
                 <span className="actions">
@@ -382,7 +392,7 @@ class TreeViewWeb extends Component {
     let paramArr = paramObject.params;
     if (paramArr !== null && typeof (paramArr) !== 'undefined') {
       paramArr.map((item, index) => {
-        strReturn += " - " + item.value;
+        strReturn += " - " + this.shortenNodeValue(item.value);
       })
     }
     return strReturn;
@@ -461,8 +471,20 @@ class TreeViewWeb extends Component {
     this.props.onchangeTemplate(target.value, selectedTab);
   }
 
+  renderTemplate = () => {
+    let { selectTemplate } = this.state;
+    let arr = Constant.TEMPLATE_ARR;
+    let result = (
+      <select value={selectTemplate} name="selectTemplate" onChange={this.changeTemplate}>
+       {arr.map((item,index)=>{
+         return(<option value={item} key={index}>{item}</option>)
+       })}
+      </select>)
+    return result;
+  }
+
   render() {
-    let { selectTemplate, question, data, global_variable, isShowPublicString,isRequireOrder } = this.state;
+    let { selectTemplate, question, data, global_variable, isShowPublicString, isRequireOrder } = this.state;
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
@@ -508,13 +530,7 @@ class TreeViewWeb extends Component {
           <div className="codePage" id="code" name="code" >
             <p>
               TEMPLATE:
-              <select value={selectTemplate} name="selectTemplate" onChange={this.changeTemplate}>
-                <option value="None">None</option>
-                <option value="Login">Login</option>
-                <option value="Create">Create</option>
-                <option value="Update">Update</option>
-                <option value="Delete">Delete</option>
-              </select>
+                {this.renderTemplate()}
             </p>
             <code className="codeLine" id="global_variable">
               <p>{global_variable.children.map((item, index) => this.createParam(item, index))}</p>

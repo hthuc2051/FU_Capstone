@@ -64,7 +64,7 @@ class HeadLecturerPageContainer extends Component {
             return null;
         }
         let paramTypes = [];
-        if (nextProps.param_type !== null && typeof (nextProps.param_type) !== 'undefined') {
+        if (nextProps.param_type !== null && typeof (nextProps.param_type) !== 'undefined' && nextProps.param_type.length>0) {
             nextProps.param_type.forEach(element => {
                 if (element.name.toLowerCase() !== AppConstant.PARAM_TYPE_CODE) {
                     paramTypes.push(element.name);

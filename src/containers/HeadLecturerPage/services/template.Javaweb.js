@@ -5,7 +5,7 @@ export default class ScriptTemplateJavaWeb {
   };
   DEFAULT = {
     methodName: Constant.METHOD_NAME,
-    template:'None',
+    template: 'Default',
     params: [
       {
 
@@ -36,7 +36,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code:'public void testcase(){driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);}',
+    code: 'public void testcase(){driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);}',
   }
   LOGIN = {
     methodName: Constant.METHOD_NAME_LOGIN,
@@ -234,7 +234,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void '+ Constant.METHOD_NAME_LOGIN +'(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+    code: 'public void ' + Constant.METHOD_NAME_LOGIN + '(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
   }
 
   CREATE = {
@@ -433,7 +433,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void '+ Constant.METHOD_NAME_CREATE +'(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+    code: 'public void ' + Constant.METHOD_NAME_CREATE + '(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
   }
 
   UPDATE = {
@@ -632,7 +632,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void '+ Constant.METHOD_NAME_UPDATE +'(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+    code: 'public void ' + Constant.METHOD_NAME_UPDATE + '(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
   }
 
   DELETE = {
@@ -831,6 +831,93 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void '+ Constant.METHOD_NAME_DELETE +'(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+    code: 'public void ' + Constant.METHOD_NAME_DELETE + '(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+  }
+  CHECK_CONNECTION = {
+    methodName: Constant.METHOD_NAME_CHECK_CONNECTION,
+    template: 'Check_Connection',
+    params: [
+      {
+        parentId: 39,
+        name: "Step",
+        label: "Step",
+        showChildren: true,
+        editMode: false,
+        children: [
+          {
+            label: "Step",
+            name: "Check_Connection",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "check"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            code: "boolean check = DBUtils.checkMakeConnection();",
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Assert_Equal",
+            code: "assertEquals( true , check );",
+            params: [
+              {
+                id: 11,
+                name: "$expected",
+                type: "Code",
+                value: "true"
+              },
+              {
+                id: 12,
+                name: "$actual",
+                type: "Code",
+                value: "check"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Add_If",
+            code: "if( check ){ //body }",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+              type: "Code",
+                value: "check"
+              }
+            ],
+            showChildren: true,
+            editMode: false,
+            children: [
+              {
+                label: "Step",
+                name: "Execute_Update",
+                code: " DBUtils.executeUpdate(\"Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status) Values ('AM01','AM01','AM01','AM01','2020-03-12','true'),('AM02','AM02','AM02','AM02','2020-03-12','true'), ('AM03','AM03','AM03','AM03','2020-03-12','true')\");",
+                params: [
+                  {
+                    id: 14,
+                    name: "$sql",
+                    type: "String",
+                    value: "Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status) Values ('AM01','AM01','AM01','AM01','2020-03-12','true'),('AM02','AM02','AM02','AM02','2020-03-12','true'), ('AM03','AM03','AM03','AM03','2020-03-12','true')"
+                  }
+                ],
+                showChildren: false,
+                editMode: false,
+                children: []
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    code: "public void checkConnection(){boolean check = DBUtils.checkMakeConnection();assertEquals( true , check );if( check ){  DBUtils.executeUpdate(\"Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status) Values ('AM01','AM01','AM01','AM01','2020-03-12','true'),('AM02','AM02','AM02','AM02','2020-03-12','true'), ('AM03','AM03','AM03','AM03','2020-03-12','true')\"); }}",
   }
 }

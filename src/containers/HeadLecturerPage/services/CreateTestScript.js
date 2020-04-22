@@ -233,32 +233,16 @@ class CreateTestScript extends Component {
     onchangeTemplate = (selectedTempalate, selectedTab) => {
         let { questionArr, currentTemplate } = this.state;
         console.log(currentTemplate)
+        let template_arr = AppConstant.TEMPLATE_ARR;
         if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
-            switch (selectedTempalate) {
-                case 'Login':
-                    let login = new currentTemplate;
-                    questionArr.questions[selectedTab].data = login.LOGIN;
-                    questionArr.questions[selectedTab].code = login.LOGIN.code;
-                    break;
-                case 'Create':
-                    let create = new currentTemplate;
-                    questionArr.questions[selectedTab].data = create.CREATE;
-                    questionArr.questions[selectedTab].code = create.CREATE.code;
-                    break;
-                case 'Update':
-                    let update = new currentTemplate;
-                    questionArr.questions[selectedTab].data = update.UPDATE;
-                    questionArr.questions[selectedTab].code = update.UPDATE.code;
-                    break;
-                case 'Delete':
-                    let deleteTemplate = new currentTemplate;
-                    questionArr.questions[selectedTab].data = deleteTemplate.DELETE;
-                    questionArr.questions[selectedTab].code = deleteTemplate.DELETE.code;
-                    break;
-                default:
-                    questionArr.questions[selectedTab].data = new currentTemplate().DEFAULT;
-                    questionArr.questions[selectedTab].code = new currentTemplate().DEFAULT.code;
-            }
+            template_arr.forEach(element => {
+                if(element === selectedTempalate){
+                    let currentTemplates = new currentTemplate;
+                    selectedTempalate = selectedTempalate.toUpperCase();
+                    questionArr.questions[selectedTab].data = currentTemplates[selectedTempalate];
+                    questionArr.questions[selectedTab].code = currentTemplates[selectedTempalate].code;
+                }
+            });
             this.setState({ questionArr });
         }
     }
