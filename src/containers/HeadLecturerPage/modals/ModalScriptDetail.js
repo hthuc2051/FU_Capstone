@@ -50,6 +50,12 @@ class ModalEditPracticalExam extends Component {
             window.open(Constants.API_URL + "/" + Constants.END_POINT_DOWNLOAD_TESTSCRIPT + "/" + editObj.id);
         }
     }
+    handleDownLoadTestData = () => {
+        let { editObj } = this.state;
+        if (editObj !== null && typeof (editObj) !== 'undefined') {
+            window.open(Constants.API_URL + "/" + Constants.END_POINT_DOWNLOAD_TESTDATA + "/" + editObj.id);
+        }
+    }
     handleDownLoadTemplateQuestion = () => {
         let { editObj } = this.state;
         if (editObj !== null && typeof (editObj) !== 'undefined') {
@@ -100,18 +106,20 @@ class ModalEditPracticalExam extends Component {
                                 <label htmlFor="date">Download</label>
                                 <div className="form-row">
                                     <div className="col">
-                                    <input type="button" value="Document" onClick={(e) => { e.preventDefault(); this.handleDownLoadDocument() }} className="form-control btn btn-primary" placeholder="State" />
+                                    <input type="button" value="DOCUMENT" onClick={(e) => { e.preventDefault(); this.handleDownLoadDocument() }} className="form-control btn  btn-outline-dark" placeholder="State" />
                                     </div>
                                     <div className="col">
-                                    <input type="button" value="Template Question" onClick={(e) => { e.preventDefault(); this.handleDownLoadTemplateQuestion() }} className="form-control btn btn-primary" placeholder="State" />
+                                    <input type="button" value="TEMPLATE QUESTION" onClick={(e) => { e.preventDefault(); this.handleDownLoadTemplateQuestion() }} className="form-control btn  btn-outline-info" placeholder="State" />
                                     </div>
                                     <div className="col">
-                                        <input type="button" value="Database" onClick={(e) => { e.preventDefault(); this.handleDownLoadDatabase() }} className="form-control btn btn-primary" placeholder="State" />
+                                        <input type="button" value="DATABASE" onClick={(e) => { e.preventDefault(); this.handleDownLoadDatabase() }} className="form-control btn btn-outline-secondary" placeholder="State" />
                                     </div>
                                 </div>
+        
                             </form>
                         </div>
                         <div className="modal-footer">
+                        <button type="button" onClick={(e) => { e.preventDefault(); this.handleDownLoadTestData() }} className="btn btn-dark">DOWNLOAD TEST DATA</button>
                             <button type="button" onClick={(e) => { e.preventDefault(); this.handleDownLoadTestScript() }} className="btn btn-success">DOWNLOAD TEST SCRIPT</button>
                         </div>
                     </div>

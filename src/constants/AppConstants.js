@@ -20,13 +20,25 @@ export const ERROR_MSG_WRONG_FORMAT_ORDER = "Oder must be number at question: ";
 export const ERROR_MSG_EMPTY_QUESTION_ORDER = "Please set order for question: ";
 export const ERROR_MSG_EMPTY_QUESTION_CODE = "Please set test script for question: ";
 
-// method name
+// Template method name JAVAWEB
 export const METHOD_NAME = 'testcase';
 export const METHOD_NAME_LOGIN = 'checkLogin';
 export const METHOD_NAME_CREATE = 'checkCreate';
 export const METHOD_NAME_UPDATE = 'checkUpdate';
 export const METHOD_NAME_DELETE = 'checkDelete';
+export const METHOD_NAME_CHECK_CONNECTION = 'checkConnection';
+export const TEMPLATE_ARR = ["Default","Check_Connection","Login","Create","Update","Delete"];
 
 // Param Type
 export const PARAM_TYPE_CODE = 'code';
 export const PARAM_TYPE_STRING = 'string';
+export const PARAM_TYPE_ARRAY = '$array';
+
+// Subject Code
+export const SUBJECT_CODE_JAVA = "Java";
+export const SUBJECT_CODE_JAVA_WEB = "JavaWeb";
+export const SUBJECT_CODE_C = "C";
+export const SUBJECT_CODE_CSHARP = "CSharp";
+
+// Node value
+export const ETC = "...";

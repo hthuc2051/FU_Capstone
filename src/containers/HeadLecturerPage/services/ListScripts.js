@@ -30,7 +30,8 @@ class ListScripts extends Component {
 
     componentDidUpdate(prevProps) {
         // Render giao diện sau khi call api
-        let { action, statusCode, message, isReloadData } = this.state;
+        let { statusCode, message, isReloadData } = this.state;
+        if(this.state === prevProps) return;
         if (isReloadData && message !== '') {
             switch (statusCode) {
                 case 200:
@@ -43,13 +44,13 @@ class ListScripts extends Component {
             }
             //this.props.onFinishing();
             if (isReloadData) {
-                this.setState({ isReloadData: false });
                 this.props.fetchTestScripts(this.props.subjectId);
+                this.setState({ isReloadData: false });
             }
         }
     }
     viewScriptDetails = (item) => {
-        this.setState({editObj:item,isOpenForm:true});
+        this.setState({ editObj: item, isOpenForm: true });
     }
 
     onToggleModal = (isOpenForm) => {
@@ -74,13 +75,13 @@ class ListScripts extends Component {
             dangerMode: true,
         });
         if (result === true) {
-            this.setState({ isReloadData: true });
+            this.setState({ isReloadData: true ,message:''});
             this.props.deleteTestScript(id);
         }
     }
     onUpdate = (id) => {
-    let {subjectId} = this.state;
-     this.props.history.push('/subjects/'+subjectId+'/scripts/'+id);
+        let { subjectId } = this.state;
+        this.props.history.push('/subjects/' + subjectId + '/scripts/' + id);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -93,7 +94,7 @@ class ListScripts extends Component {
             statusCode: nextProps.statusCode,
             action: nextProps.action,
             message: nextProps.message,
-            subjectId:nextProps.subjectId
+            subjectId: nextProps.subjectId
         }
     }
 
@@ -103,13 +104,12 @@ class ListScripts extends Component {
             if (listScripts.length > 0) {
                 result = listScripts.map((item, index) => {
                     return (
-                        <tr key={index}>
-                            <th scope="row">{index + 1}</th>
-                            <td>{item.code}</td>
-                            <td>{item.timeCreated}</td>
-                            <td><a onClick={() => this.viewScriptDetails(item)} href="#">Details</a></td>
-                            <td><a onClick={() => this.onDelete(item.id, item.code)} href="#">Delete</a></td>
-                            <td><a href="#" onClick={(e) => {e.preventDefault(); this.onUpdate(item.id)}}>Update</a></td>
+                        <tr key={index} >
+                            <th scope="row" onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{index + 1}</th>
+                            <td onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{item.code}</td>
+                            <td onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{item.timeCreated}</td>
+                            <td><button className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewScriptDetails(item) }}>Details</button></td>
+                            <td><button className="btn btn-danger" onClick={(e) => { e.preventDefault(); this.onDelete(item.id, item.code) }} >Delete</button></td>
                         </tr>
                     );
                 })
@@ -120,8 +120,8 @@ class ListScripts extends Component {
     }
 
     searchText = (e) => {
-        let{listScripts} = this.state;
-        if(listScripts.length === 0 )return;
+        let { listScripts } = this.state;
+        if (listScripts.length === 0) return;
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
@@ -168,7 +168,7 @@ class ListScripts extends Component {
                 <br />
                 <div className="card content">
                     {listScripts ?
-                        <table className="table" id="myTable">
+                        <table className="table table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -176,14 +176,13 @@ class ListScripts extends Component {
                                     <th scope="col">Time created</th>
                                     <th scope="col">Details</th>
                                     <th scope="col">Delete</th>
-                                    <th scope="col">Update</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.renderListScript(listScripts)}
                             </tbody>
-                    </table>:<p className="empty_script_message">{Constants.MSG_EMPTY_SCRIPT_LIST}</p>  
-                }
+                        </table> : <p className="empty_script_message">{Constants.MSG_EMPTY_SCRIPT_LIST}</p>
+                    }
 
                 </div>
                 {isOpenForm ? <ModalScriptDetail isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
