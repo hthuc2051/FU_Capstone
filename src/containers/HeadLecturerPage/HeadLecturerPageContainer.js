@@ -32,6 +32,7 @@ class HeadLecturerPageContainer extends Component {
             scriptId: null,
             isShowMessage: false,
             param_type:null,
+            subjects:[],
         };
     }
 
@@ -46,6 +47,7 @@ class HeadLecturerPageContainer extends Component {
         if (pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT) {
             this.props.getScriptById(scriptId);
         }
+        this.props.onFetchAllSubjects();
     }
     
     getTemplateBySubjectID = (subjectId) => {
@@ -55,7 +57,7 @@ class HeadLecturerPageContainer extends Component {
             case '3': return ScriptTemplateJavaWeb;
             default: return ScriptTemplateJavaWeb;
         }
-        this.props.onFetchAllSubjects();
+       
         this.setState({ subjectId: this.props.subjectId });
     }
 
@@ -194,7 +196,7 @@ class HeadLecturerPageContainer extends Component {
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams subjectId={subjectId} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
             </div>
         );

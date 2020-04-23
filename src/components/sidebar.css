@@ -18,6 +18,9 @@
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
     }
+    #header-logo img {
+      height: 100%;
+    }
     .sidebar {
       background-color: white!important;
       min-height: calc(100vh - 56px);

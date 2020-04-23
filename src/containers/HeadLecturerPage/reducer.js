@@ -8,7 +8,7 @@ const initStage = {
     action: '',
     message: '',
     error: null,
-    subjects: null,
+    subjects: [],
     classes: [
         {
             id: 1,

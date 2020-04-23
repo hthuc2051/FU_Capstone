@@ -32,6 +32,7 @@ class ListPracticalExams extends Component {
     viewDetails = (id) => {
         let { practicalExams } = this.state;
         let obj = practicalExams.find(item => item.id === id);
+        console.log(obj);
         this.setState({
             isOpenForm: true,
             formType: TYPE_EDIT,
@@ -133,6 +134,9 @@ class ListPracticalExams extends Component {
 
     renderPracticalExams = (arr) => {
         let result = null;
+        if (arr == null || typeof (arr) === 'undefined') {
+            return;
+        }
         if (arr.length > 0) {
             result = arr.map((item, index) => {
                 return (
@@ -195,8 +199,8 @@ class ListPracticalExams extends Component {
                 </div>
                 {/* For modal */}
                 {/* <ModalEditPracticalExam/> */}
-                {formType === TYPE_EDIT ? <ModalEditPracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
-                {formType === TYPE_CREATE ? <ModalCreatePracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+                {formType === TYPE_EDIT ? <ModalEditPracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails}  editObj={editObj}  /> : ''}
+                {formType === TYPE_CREATE ? <ModalCreatePracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails}/> : ''}
 
             </div>
         );

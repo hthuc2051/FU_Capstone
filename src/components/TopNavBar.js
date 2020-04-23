@@ -11,7 +11,9 @@ class TopNavBar extends Component {
         return (
             <nav className="navbar navbar-expand navbar-dark  static-top">
                 <div id="header-logo" className="logo-bg">
-                    <a className="navbar-brand mr-1" href="index.html">{pageTitle} - Logo</a>
+                    <img src="/images/top-nav-logo.png" alt="Logo imgage" />
+
+                    {/* <a className="navbar-brand mr-1" href="index.html">{pageTitle} - Logo</a> */}
                 </div>
 
                 {/* Navbar Search */}

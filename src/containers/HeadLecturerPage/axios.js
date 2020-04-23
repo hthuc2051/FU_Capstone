@@ -58,9 +58,9 @@ export const getTestScriptById = async (scriptId, dispatch) => {
     let endPoint = Constants.generateEndPoint(
         Constants.END_POINT_POST_TESTSCRIPT,
         scriptId);
-    let res = await callApi(endPoint,"GET",scriptId);
-    if(res != null){
-        handleResponse(res,Constants.GET_TEST_SCRIPT,dispatch);
+    let res = await callApi(endPoint, "GET", scriptId);
+    if (res != null) {
+        handleResponse(res, Constants.GET_TEST_SCRIPT, dispatch);
     }
 }
 
@@ -68,9 +68,9 @@ export const fetchTestScripts = async (subjectId, dispatch) => {
     let endPoint = Constants.generateEndPoint(
         Constants.END_POINT_GET_TESTSCRIPT_BY_SUBJECTID,
         subjectId);
-    let res = await callApi(endPoint,"GET",subjectId);
-    if(res != null){
-        handleResponse(res,Constants.FETCH_TEST_SCRIPT,dispatch);
+    let res = await callApi(endPoint, "GET", subjectId);
+    if (res != null) {
+        handleResponse(res, Constants.FETCH_TEST_SCRIPT, dispatch);
     }
 }
 
@@ -78,7 +78,7 @@ export const deleteTestScript = async (id, dispatch) => {
     let endPoint = Constants.generateEndPoint(
         Constants.END_POINT_POST_TESTSCRIPT,
         id);
-    let res = await callApi(endPoint,Constants.PREFIX_DELETE);
+    let res = await callApi(endPoint, Constants.PREFIX_DELETE);
     if (res != null) {
         handleResponse(res, Constants.DELETE_TEST_SCRIPT, dispatch);
     }
@@ -114,7 +114,7 @@ export const deletePracticalExam = async (id, dispatch) => {
     let endPoint = Constants.generateEndPoint(
         Constants.END_POINT_PRACTICAL_EXAMS,
         id);
-    let res = await callApi(endPoint,Constants.PREFIX_DELETE);
+    let res = await callApi(endPoint, Constants.PREFIX_DELETE);
     if (res != null) {
         handleResponse(res, Constants.DELETE_PRACTICAL_EXAMS, dispatch);
     }

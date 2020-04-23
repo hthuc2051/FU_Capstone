@@ -4,8 +4,6 @@ import * as Constants from '../../constants';
 import { onLoading } from '../actions';
 import { createPracticalExams, updatePracticalExam } from '../axios';
 
-const TYPE_CREATE = 'CREATE';
-const TYPE_EDIT = 'EDIT';
 
 
 class ModalCreatePracticalExam extends Component {
@@ -28,21 +26,13 @@ class ModalCreatePracticalExam extends Component {
         };
     }
 
-    componentDidMount(){
-        console.log(this.props);
-    }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps === prevState) {
             return null;
         }
-        console.log(nextProps);
-        if (nextProps.statusCode === 200) {
-        }
-        let { formType, editObj, subjects } = nextProps;
-        let checkedClasses = new Map();
-        let checkedScripts = new Map();
       
+
         return {
             subjects: nextProps.subjects,
             statusCode: nextProps.statusCode,
@@ -51,8 +41,6 @@ class ModalCreatePracticalExam extends Component {
             practicalExam: nextProps.editObj,
             isOpenForm: nextProps.isOpenForm,
             formType: nextProps.formType,
-            checkedClasses: checkedClasses,
-            checkedScripts: checkedScripts,
         }
     }
 
@@ -93,7 +81,6 @@ class ModalCreatePracticalExam extends Component {
         var target = e.target;
         let value = target.value;
         let subjectSelected = subjects.find(item => item.id === parseInt(value));
-        console.log(subjectSelected);
         this.setState({
             subjectSelected: subjectSelected,
             subjectId: subjectSelected.id,
@@ -108,35 +95,21 @@ class ModalCreatePracticalExam extends Component {
     }
 
     onSave = () => {
-        let { formType, checkedClasses, checkedScripts, practicalDate, practicalExam } = this.state;
+        let { checkedClasses, checkedScripts, practicalDate } = this.state;
         let listScripts = Array.from(checkedScripts.keys());
         let subjectClasses = Array.from(checkedClasses.keys());
         let obj = null;
-        switch (formType) {
-            case TYPE_CREATE:
-                obj = {
-                    listScripts: listScripts,
-                    subjectClasses: subjectClasses,
-                    date: practicalDate,
-                }
-                this.props.onCreatePracticalExams(obj);
-
-                break;
-            default:
-                obj = {
-                    id: practicalExam.id,
-                    listScripts: listScripts,
-                    subjectClasses: subjectClasses,
-                    date: practicalDate,
-                }
-                this.props.onCreatePracticalExams(obj);
+        obj = {
+            listScripts: listScripts,
+            subjectClasses: subjectClasses,
+            date: practicalDate,
         }
+        this.props.onCreatePracticalExams(obj);
     }
 
     render() {
-        let { practicalExam, checkedScripts, checkedClasses, isOpenForm, formType, subjectSelected, subjectId } = this.state;
-        console.log(subjectSelected);
-        let lecturers = practicalExam ? practicalExam.lecturers : [];
+        let { isOpenForm, subjects, subjectSelected, subjectId } = this.state;
+        
         let modalClass = isOpenForm ? "modal" : "modal fade";
         let modalStyle = isOpenForm ? "block" : "";
         return (
@@ -145,7 +118,7 @@ class ModalCreatePracticalExam extends Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">
-                                {formType === TYPE_EDIT ? 'Edit' : 'Create'} practical exam
+                                Create practical exam
                             </h5>
                             <button onClick={this.onCloseDetails} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -158,48 +131,28 @@ class ModalCreatePracticalExam extends Component {
                                 value={subjectId}
                                 onChange={this.onChangeDropdown}
                             >
-                                <option value="1">Java</option>
-                                <option value="2">CSharp</option>
-                                <option value="3">C</option>
-                                <option value="4">Java web</option>
+                                {this.onRenderSubjectsOption(subjects)}
                             </select>
                         </div>
                         <div className="check-box">
                             <div>Classes</div>
                             <div className="classes-box">
                                 {
-                                    !subjectSelected ? '' : subjectSelected.classes.map((item, index) => (
-                                        <label key={index}>
-                                            <Checkbox name={item.subjectClassId} checked={checkedClasses.get(item.subjectClassId)} onChange={this.handleCheckedClasses} />
-                                            {item.classCode}
-                                        </label>
-                                    ))
-                                };
+                                    !subjectSelected ? '' : this.renderCheckBoxClasses(subjectSelected.classes)
+                                }
                             </div>
                         </div>
                         <div className="check-box ">
                             <div>Script availables</div>
                             <div className="scripts-box" >
                                 {
-                                    !subjectSelected.scripts ? '' : subjectSelected.scripts.map((item, index) => (
-                                        <label key={index}>
-                                            <Checkbox name={item.id} checked={checkedScripts.get(item.id)} onChange={this.handleCheckedScripts} />
-                                            {item.name}
-                                        </label>
-                                    ))
+                                    !subjectSelected ? '' : this.renderCheckBoxScripts(subjectSelected.scripts)
                                 }
                             </div>
                         </div>
 
                         <div className="modal-body">
                             <form>
-                                {formType === TYPE_EDIT ?
-                                    <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode">Exam code</label>
-                                        <input readOnly={true} type="text" name="txtPracticalExamCode" className="form-control" id="txtPracticalExamCode" placeholder="Enter practical exam code" />
-                                    </div> : ''
-                                }
-
                                 <div className="form-group">
                                     <label htmlFor="date">Date</label>
                                     <input onChange={this.onChange} type="date" name="practicalDate" className="form-control" id="date" placeholder="Date" />
@@ -217,6 +170,65 @@ class ModalCreatePracticalExam extends Component {
         );
     }
 
+    onRenderSubjectsOption = (arr) => {
+        let result = null;
+        if (arr == null || typeof (arr) === 'undefined') {
+            return;
+        }
+        if (arr.length > 0) {
+            result = arr.map((item, index) => {
+                return (
+                    <option key={index} value={item.id}>{item.code}</option>
+                )
+            });
+        }
+        return result;
+    }
+
+    renderCheckBoxScripts = (arr) => {
+        let { checkedScripts } = this.state;
+        let result = null;
+        if (arr == null || typeof (arr) === 'undefined') {
+            return;
+        }
+        if (arr.length > 0) {
+            result = arr.map((item, index) => {
+
+                return (
+                    <label key={index}>
+                        <Checkbox name={item.id} checked={checkedScripts.get(item.id)}
+                            onChange={this.handleCheckedScripts} />
+                        {item.name}
+                    </label>
+                )
+            });
+        }
+        return result;
+    }
+    renderCheckBoxClasses = (arr) => {
+        let { checkedClasses } = this.state;
+        let result = null;
+        if (arr == null || typeof (arr) === 'undefined') {
+            return;
+        }
+        if (arr.length > 0) {
+            result = arr.map((item, index) => {
+                let lecturer = item.lecturer;
+                let lecName = "";
+                if (lecturer !== null && typeof (lecturer) !== 'undefined') {
+                    lecName = lecturer.lastName + " " + lecturer.middleName + " " + lecturer.firstName;
+                }
+                return (
+                    <label key={index}>
+                        <Checkbox name={item.subjectClassId} checked={checkedClasses.get(item.subjectClassId)}
+                            onChange={this.handleCheckedClasses} />
+                        {item.classCode + " - " + lecName}
+                    </label>
+                )
+            });
+        }
+        return result;
+    }
 
 }
 

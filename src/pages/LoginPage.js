@@ -38,7 +38,7 @@ class LoginPage extends Component {
             <div className="login-wrapper">
                 <div className="login-container">
                     <div className="form">
-                        <img src="./images/logo-dummy.png" alt="Logo imgage" />
+                        <img src="./images/logo.PNG" alt="Logo imgage" />
                         <form className="login-form">
                             <input type="text" placeholder="Username" />
                             <input type="password" placeholder="Password" />
