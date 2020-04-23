@@ -19,7 +19,7 @@ class ModalEditPracticalExam extends Component {
         }
         return {
             isOpenForm: nextProps.isOpenForm,
-            editObj: nextProps.editObj
+            editObj: nextProps.editObj,
         }
     }
 
@@ -44,10 +44,12 @@ class ModalEditPracticalExam extends Component {
     
     handelChangeDataBase = (e) => {
         this.setState({ [e.target.name]: e.target.files[0] });
+        console.log(this.state.database);
     }
 
     render() {
         let { isOpenForm, editObj } = this.state;
+        let {database} = this.props;
         let modalClass = isOpenForm ? "modal" : "modal fade";
         let modalStyle = isOpenForm ? "block" : "";
         return (
@@ -103,7 +105,7 @@ class ModalEditPracticalExam extends Component {
                                 </form>
 
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">DataBase Script</span></label>
+                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">DataBase Script</span>{database?<span className="badge badge-warning">{database.name}</span>:''}</label>
                                         <input type="file" name="database" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChangeDataBase(e) }} />
                                     </div>
                             </div>

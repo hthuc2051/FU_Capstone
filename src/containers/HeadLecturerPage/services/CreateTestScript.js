@@ -329,7 +329,8 @@ class CreateTestScript extends Component {
         }
     }
     render() {
-        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, param_type, subjectId, isShowPublicString, isRequireOrder } = this.state;
+        let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, 
+            param_type, subjectId, isShowPublicString, isRequireOrder,database, document,templateQuestion,testData } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -366,8 +367,9 @@ class CreateTestScript extends Component {
 
                     </div>
                 </div>
-                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails} editObj={questionArr.connection} /> : ''}
-                {isOpenForm ? <ModalConnection isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={questionArr.connection} /> : ''}
+                {isOpenFormFile ? <ModalUploadFile isOpenForm={this.onToggleFileModal} onCloseDetails={this.onCloseFormFileDetails}
+                 editObj={questionArr.connection} document={document} templateQuestion={templateQuestion} testData={testData}/> : ''}
+                {isOpenForm ? <ModalConnection isOpenForm={this.onToggleModal} onCloseDetails={this.onCloseDetails} editObj={questionArr.connection} database={database} /> : ''}
 
             </div>
         );

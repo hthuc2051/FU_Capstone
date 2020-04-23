@@ -32,6 +32,7 @@ export const TEMPLATE_ARR = ["Default","Check_Connection","Login","Create","Upda
 // Param Type
 export const PARAM_TYPE_CODE = 'code';
 export const PARAM_TYPE_STRING = 'string';
+export const PARAM_TYPE_ARRAY = '$array';
 
 // Subject Code
 export const SUBJECT_CODE_JAVA = "Java";

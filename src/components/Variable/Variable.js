@@ -47,7 +47,7 @@ class Variable extends Component {
     }
 
     doneEdit = () => {
-        let { paramObj, selectedType, txtName, txtValue, eventData } = this.state;
+        let { paramObj, selectedType, eventData } = this.state;
         if(paramObj.label === AppConstant.LABEL_STEP){
             paramObj.name = selectedType;
             if (paramObj.label === AppConstant.LABEL_STEP) {
@@ -69,21 +69,33 @@ class Variable extends Component {
 
     renderCode(code, paramObj) {
         // change here
-        let arr = paramObj.params;
-        if (paramObj != null && typeof (paramObj) !== 'undefined') {
-            if (arr != null && typeof (arr) !== 'undefined' && arr.length > 0) {
-                arr.forEach(element => {
-                    code = code.split(element.name).join(this.checkParameterType(element));
-                });
+            let arr = paramObj.params;
+            if (paramObj != null && typeof (paramObj) !== 'undefined') {
+                if (arr != null && typeof (arr) !== 'undefined' && arr.length > 0) {
+                        arr.forEach(element => {
+                            if(element.name === AppConstant.PARAM_TYPE_ARRAY){
+                                let value = element.value;
+                                let arrValue = value.split(',');
+                                let variable = '';
+                                for(let i = 0; i < arrValue.length; i++){
+                                    if(i ==0){
+                                        variable += this.checkParameterType( element.type,arrValue[i]);
+                                    }else{
+                                        variable += ',' + this.checkParameterType( element.type,arrValue[i]);
+                                    }
+                                }
+                                code = code.split(element.name).join(variable);
+                            }else{
+                            code = code.split(element.name).join(this.checkParameterType( element.type,element.value));
+                            }
+                        });
+                }
+    
             }
-
-        }
         return code;
     }
 
-    checkParameterType(param) {
-        let type = param.type;
-        let value = param.value;
+    checkParameterType(type,value) {
         if (type !== null && type !== 'undefined' && value !== null && value !== 'undefined') {
             if(type. toLowerCase() === AppConstant.PARAM_TYPE_STRING){
                 return '"' + value + '"';

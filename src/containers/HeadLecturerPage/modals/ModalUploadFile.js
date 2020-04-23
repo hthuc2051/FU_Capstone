@@ -40,6 +40,7 @@ class ModalEditPracticalExam extends Component {
 
     render() {
         let { isOpenForm, editObj } = this.state;
+        let{document,templateQuestion,testData} = this.props;
         let modalClass = isOpenForm ? "modal" : "modal fade";
         let modalStyle = isOpenForm ? "block" : "";
         return (
@@ -60,15 +61,15 @@ class ModalEditPracticalExam extends Component {
                             <div className="modal-body">
                                 <form>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Document File</span></label>
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Document File</span>{document?<span className="badge badge-warning">{document.name}</span>:''}</label>
                                         <input type="file" name="document" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Template Question File</span></label>
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Template Question File</span>{templateQuestion?<span className="badge badge-warning">{templateQuestion.name}</span>:''}</label>
                                         <input type="file" name="templateQuestion" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Test Data</span></label>
+                                        <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Test Data</span>{testData?<span className="badge badge-warning">{testData.name}</span>:''}</label>
                                         <input type="file" name="testData" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChange(e) }} />
                                     </div>
                                 </form>

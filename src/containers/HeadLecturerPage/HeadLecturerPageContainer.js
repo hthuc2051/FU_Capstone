@@ -34,8 +34,8 @@ class HeadLecturerPageContainer extends Component {
             param_type: null,
             testAnotaion: '',
             orderAnotation: '',
-            isShowPublicString:true,
-            isRequireOrder:false,
+            isShowPublicString: true,
+            isRequireOrder: false,
         };
     }
 
@@ -64,7 +64,7 @@ class HeadLecturerPageContainer extends Component {
             return null;
         }
         let paramTypes = [];
-        if (nextProps.param_type !== null && typeof (nextProps.param_type) !== 'undefined' && nextProps.param_type.length>0) {
+        if (nextProps.param_type !== null && typeof (nextProps.param_type) !== 'undefined' && nextProps.param_type.length > 0) {
             nextProps.param_type.forEach(element => {
                 if (element.name.toLowerCase() !== AppConstant.PARAM_TYPE_CODE) {
                     paramTypes.push(element.name);
@@ -111,7 +111,7 @@ class HeadLecturerPageContainer extends Component {
             }
         }
         // end set template and order variable by subject code
-console.log(currentTemplate)
+        console.log(currentTemplate)
         return {
             eventData: nextProps.eventData,
             isLoading: nextProps.isLoading,
@@ -126,8 +126,8 @@ console.log(currentTemplate)
             currentTemplate: currentTemplate,
             orderAnotation: orderAnotation,
             testAnotaion: testAnotaion,
-            isShowPublicString:isShowPublicString,
-            isRequireOrder:isRequireOrder
+            isShowPublicString: isShowPublicString,
+            isRequireOrder: isRequireOrder
         }
     }
 
@@ -241,9 +241,8 @@ console.log(currentTemplate)
     }
 
     render() {
-        let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript, param_type,isRequireOrder,isShowPublicString } = this.state;
+        let { isLoading, eventData, pageType, subjectId, currentTemplate, currentScript, param_type, isRequireOrder, isShowPublicString } = this.state;
         return (
-
             <div className="page-wrapper" >
                 <div className={isLoading ? 'loading' : 'none-loading'}>
                     <div className="loader"></div>
