@@ -31,16 +31,11 @@ class HeadLecturerPageContainer extends Component {
             currentScript: null,
             scriptId: null,
             isShowMessage: false,
-<<<<<<< HEAD
-            param_type:null,
-            subjects:[],
-=======
             param_type: null,
             testAnotaion: '',
             orderAnotation: '',
             isShowPublicString: true,
             isRequireOrder: false,
->>>>>>> origin/features/ThienVN_Teacher_WebTest
         };
     }
 
@@ -53,19 +48,6 @@ class HeadLecturerPageContainer extends Component {
         }
         this.props.onFetchAllSubjects();
     }
-<<<<<<< HEAD
-    
-    getTemplateBySubjectID = (subjectId) => {
-        switch (subjectId) {
-            case '1': return ScriptTemplateJava;
-            case '2': return ScriptTemplateJava;
-            case '3': return ScriptTemplateJavaWeb;
-            default: return ScriptTemplateJavaWeb;
-        }
-       
-        this.setState({ subjectId: this.props.subjectId });
-    }
-=======
     // getTemplateBySubjectCode = (subjectCode) => {
     //     switch (subjectCode) {
     //         case AppConstant.SUBJECT_CODE_JAVA: return ScriptTemplateJava;
@@ -76,7 +58,6 @@ class HeadLecturerPageContainer extends Component {
     //     this.props.onFetchAllSubjects();
     //     this.setState({ subjectId: this.props.subjectId });
     // }
->>>>>>> origin/features/ThienVN_Teacher_WebTest
 
     static getDerivedStateFromProps(nextProps, prevState) {
         console.log(nextProps);
@@ -268,15 +249,9 @@ class HeadLecturerPageContainer extends Component {
                     <div className="loader"></div>
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
-<<<<<<< HEAD
-                {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams subjectId={subjectId} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData}  param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} /> : ''}
-=======
                 {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} isShowPublicString={isShowPublicString} isRequireOrder={isRequireOrder} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} isShowPublicString={isShowPublicString} isRequireOrder={isRequireOrder} /> : ''}
->>>>>>> origin/features/ThienVN_Teacher_WebTest
             </div>
         );
     }
