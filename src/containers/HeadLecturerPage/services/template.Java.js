@@ -5,232 +5,195 @@ export default class ScriptJava {
   };
   DEFAULT = {
     methodName: Constant.METHOD_NAME,
-    template:'None',
+    template: 'None',
     params: [
       {
-
         parentId: 39,
-        name: 'Step',
-        label: Constant.LABEL_STEP,
+        name: "Step",
+        label: "Step",
         showChildren: true,
         editMode: false,
         children: [
           {
-            label: Constant.LABEL_STEP,
-            name: 'Input_TextBox_By_ID',
-            params: [{
-              type: 'String',
-              name: '$paramName',
-              value: '$paramName',
-            },
-            {
-              type: 'String',
-              name: '$paramValue',
-              value: '$paramValue',
-            }],
+            label: "Step",
+            name: "Println",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "Hello World"
+              }
+            ],
             showChildren: false,
             editMode: false,
-            code: 'findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);',
+            code: "System.out.println(\"Hello World\");",
             children: []
           }
         ]
       }
     ],
-    code:'public void testcase(){driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);}',
+    code: 'public void testcase(){driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);}',
   }
-  LOGIN = {
-    methodName: Constant.METHOD_NAME_LOGIN,
-    template: 'Login',
-    params: [
+  UPDATE = {
+    methodName: Constant.METHOD_NAME_UPDATE,
+    template: 'Update',
+    params:[
       {
-        name: 'Step',
-        label: Constant.LABEL_STEP,
+        parentId: 39,
+        name: "Step",
+        label: "Step",
         showChildren: true,
         editMode: false,
         children: [
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_If',
-            params: [{
-              type: 'Code',
-              name: '$variable',
-              value: '!isLogin',
-            }],
-            showChildren: true,
+            label: "Step",
+            name: "Add_Array_String",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 15,
+                name: "$array",
+                type: "String",
+                value: "codeAdd,modelUpdate,11,1001"
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'if( !isLogin ){ //body }',
-            children: [{
-              name: 'Assert_True',
-              label: Constant.LABEL_STEP,
-              showChildren: false,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'false',
-              }],
-              code: 'assertTrue( false );',
-              children: []
-            }],
+            code: "String[] data = new String[]{\"codeAdd\",\"modelUpdate\",\"11\",\"1001\"};",
+            children: []
           },
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_Else',
-            params: [],
-            showChildren: true,
+            label: "Step",
+            name: "Add_String",
+            code: "String start = \"==========Start Update==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Update=========="
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'else{ //body }',
-            children: [{
-              name: 'Add_If',
-              label: Constant.LABEL_STEP,
-              showChildren: true,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'driver != null',
-              }],
-              code: 'if( driver != null ){ //body }',
-              children: [
-                {
-                  name: 'Get_URL',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [{
-                    type: 'String',
-                    name: '$url',
-                    value: 'http://localhost:8080/login.html',
-                  }],
-                  code: 'driver.get( "http://localhost:8080/login.html" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtUsername',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtPassword',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Add_Try',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [],
-                  code: 'try{ //body }',
-                  children:
-                    [
-                      {
-                        name: 'Get_Text_By_Name',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$variable',
-                            value: 'html',
-                          },
-                          {
-                            type: 'String',
-                            name: '$paramName',
-                            value: 'body',
-                          }
-                        ],
-                        code: 'String html = driver.findElement(By.tagName("body")).getText();',
-                        children: []
-                      },
-                      {
-                        name: 'Assert_Equal',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$expected',
-                            value: 'true',
-                          },
-                          {
-                            type: 'Code',
-                            name: '$actual',
-                            value: 'html.toLowerCase().contains("search page")',
-                          }
-                        ],
-                        code: 'assertEquals( true, html.toLowerCase().contains("search page"));',
-                        children: []
-                      },
-
-                    ]
-                },
-                {
-                  name: 'Add_Catch',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'Code',
-                      name: '$variable',
-                      value: 'Exception e',
-                    },
-                  ],
-                  code: 'catch( Exception e ){ //body }',
-                  children: [
-                    {
-                      name: 'Assert_True',
-                      label: Constant.LABEL_STEP,
-                      showChildren: false,
-                      editMode: false,
-                      params: [
-                        {
-                          type: 'Code',
-                          name: '$variable',
-                          value: 'false',
-                        },
-                      ],
-                      code: 'assertTrue( false );',
-                      children: []
-                    }
-                  ]
-                },
-              ]
-            }],
+            children: []
           },
+          {
+            label: "Step",
+            name: "Add_String",
+            code: "String end = \"==========End Update==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "end"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Update=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========Start Update==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Update=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Call_TemplateQuestion_Function",
+            code: "templateQuestion.update();",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "update"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========End Update==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Update=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Check_Console_Constain",
+            code: "assertEquals(true, CheckingUtils.checkConsoleLogContains(data, end, start));",
+            params: [
+              {
+                id: 11,
+                name: "$expected",
+                type: "Code",
+                value: "true"
+              },
+              {
+                id: 19,
+                name: "$data",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 20,
+                name: "$start",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 21,
+                name: "$end",
+                type: "Code",
+                value: "end"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          }
         ]
       }
     ],
@@ -242,592 +205,489 @@ export default class ScriptJava {
     template: 'Create',
     params: [
       {
-        name: 'Step',
-        label: Constant.LABEL_STEP,
+        parentId: 39,
+        name: "Step",
+        label: "Step",
         showChildren: true,
         editMode: false,
         children: [
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_If',
-            params: [{
-              type: 'Code',
-              name: '$variable',
-              value: '!isLogin',
-            }],
-            showChildren: true,
+            label: "Step",
+            name: "Add_Array_String",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 15,
+                name: "$array",
+                type: "String",
+                value: "codeAdd,modelAdd,10,1000.0"
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'if( !isLogin ){ //body }',
-            children: [{
-              name: 'Assert_True',
-              label: Constant.LABEL_STEP,
-              showChildren: false,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'false',
-              }],
-              code: 'assertTrue( false );',
-              children: []
-            }],
+            code: "String[] data = new String[]{\"codeAdd\",\"modelAdd\",\"10\",\"1000.0\"};",
+            children: []
           },
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_Else',
-            params: [],
-            showChildren: true,
+            label: "Step",
+            name: "Add_String",
+            code: "String start = \"==========Start Insert==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Insert=========="
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'else{ //body }',
-            children: [{
-              name: 'Add_If',
-              label: Constant.LABEL_STEP,
-              showChildren: true,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'driver != null',
-              }],
-              code: 'if( driver != null ){ //body }',
-              children: [
-                {
-                  name: 'Get_URL',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [{
-                    type: 'String',
-                    name: '$url',
-                    value: 'http://localhost:8080/login.html',
-                  }],
-                  code: 'driver.get( "http://localhost:8080/login.html" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtUsername',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtPassword',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Add_Try',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [],
-                  code: 'try{ //body }',
-                  children:
-                    [
-                      {
-                        name: 'Get_Text_By_Name',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$variable',
-                            value: 'html',
-                          },
-                          {
-                            type: 'String',
-                            name: '$paramName',
-                            value: 'body',
-                          }
-                        ],
-                        code: 'String html = driver.findElement(By.tagName("body")).getText();',
-                        children: []
-                      },
-                      {
-                        name: 'Assert_Equal',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$expected',
-                            value: 'true',
-                          },
-                          {
-                            type: 'Code',
-                            name: '$actual',
-                            value: 'html.toLowerCase().contains("search page")',
-                          }
-                        ],
-                        code: 'assertEquals( true, html.toLowerCase().contains("search page"));',
-                        children: []
-                      },
-
-                    ]
-                },
-                {
-                  name: 'Add_Catch',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'Code',
-                      name: '$variable',
-                      value: 'Exception e',
-                    },
-                  ],
-                  code: 'catch( Exception e ){ //body }',
-                  children: [
-                    {
-                      name: 'Assert_True',
-                      label: Constant.LABEL_STEP,
-                      showChildren: false,
-                      editMode: false,
-                      params: [
-                        {
-                          type: 'Code',
-                          name: '$variable',
-                          value: 'false',
-                        },
-                      ],
-                      code: 'assertTrue( false );',
-                      children: []
-                    }
-                  ]
-                },
-              ]
-            }],
+            children: []
           },
+          {
+            label: "Step",
+            name: "Add_String",
+            code: "String end = \"==========End Insert==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "end"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Insert=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========Start Insert==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Insert=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Call_TemplateQuestion_Function",
+            code: "templateQuestion.insert();",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "insert"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========End Insert==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Insert=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Check_Console_Constain",
+            code: "assertEquals(true, CheckingUtils.checkConsoleLogContains(data, end, start));",
+            params: [
+              {
+                id: 11,
+                name: "$expected",
+                type: "Code",
+                value: "true"
+              },
+              {
+                id: 19,
+                name: "$data",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 20,
+                name: "$start",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 21,
+                name: "$end",
+                type: "Code",
+                value: "end"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          }
         ]
       }
     ],
-    code: 'public void testcase(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+    code: 'public void testcase(){driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);}',
   }
 
-  UPDATE = {
-    methodName: Constant.METHOD_NAME_UPDATE,
-    template: 'Update',
+  SEARCH = {
+    methodName: Constant.METHOD_NAME_SEARCH,
+    template: 'Search',
     params: [
       {
-        name: 'Step',
-        label: Constant.LABEL_STEP,
+        parentId: 39,
+        name: "Step",
+        label: "Step",
         showChildren: true,
         editMode: false,
         children: [
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_If',
-            params: [{
-              type: 'Code',
-              name: '$variable',
-              value: '!isLogin',
-            }],
-            showChildren: true,
+            label: "Step",
+            name: "Add_Array_String",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 15,
+                name: "$array",
+                type: "String",
+                value: "codeAdd,modelAdd,10,1000"
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'if( !isLogin ){ //body }',
-            children: [{
-              name: 'Assert_True',
-              label: Constant.LABEL_STEP,
-              showChildren: false,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'false',
-              }],
-              code: 'assertTrue( false );',
-              children: []
-            }],
+            code: "String[] data = new String[]{\"codeAdd\",\"modelAdd\",\"10\",\"1000\"};",
+            children: []
           },
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_Else',
-            params: [],
-            showChildren: true,
+            label: "Step",
+            name: "Add_String",
+            code: "String start = \"==========Start Search==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Search=========="
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'else{ //body }',
-            children: [{
-              name: 'Add_If',
-              label: Constant.LABEL_STEP,
-              showChildren: true,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'driver != null',
-              }],
-              code: 'if( driver != null ){ //body }',
-              children: [
-                {
-                  name: 'Get_URL',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [{
-                    type: 'String',
-                    name: '$url',
-                    value: 'http://localhost:8080/login.html',
-                  }],
-                  code: 'driver.get( "http://localhost:8080/login.html" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtUsername',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtPassword',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Add_Try',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [],
-                  code: 'try{ //body }',
-                  children:
-                    [
-                      {
-                        name: 'Get_Text_By_Name',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$variable',
-                            value: 'html',
-                          },
-                          {
-                            type: 'String',
-                            name: '$paramName',
-                            value: 'body',
-                          }
-                        ],
-                        code: 'String html = driver.findElement(By.tagName("body")).getText();',
-                        children: []
-                      },
-                      {
-                        name: 'Assert_Equal',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$expected',
-                            value: 'true',
-                          },
-                          {
-                            type: 'Code',
-                            name: '$actual',
-                            value: 'html.toLowerCase().contains("search page")',
-                          }
-                        ],
-                        code: 'assertEquals( true, html.toLowerCase().contains("search page"));',
-                        children: []
-                      },
-
-                    ]
-                },
-                {
-                  name: 'Add_Catch',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'Code',
-                      name: '$variable',
-                      value: 'Exception e',
-                    },
-                  ],
-                  code: 'catch( Exception e ){ //body }',
-                  children: [
-                    {
-                      name: 'Assert_True',
-                      label: Constant.LABEL_STEP,
-                      showChildren: false,
-                      editMode: false,
-                      params: [
-                        {
-                          type: 'Code',
-                          name: '$variable',
-                          value: 'false',
-                        },
-                      ],
-                      code: 'assertTrue( false );',
-                      children: []
-                    }
-                  ]
-                },
-              ]
-            }],
+            children: []
           },
+          {
+            label: "Step",
+            name: "Add_String",
+            code: "String end = \"==========End Search==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "end"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Search=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========Start Search==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Search=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Call_TemplateQuestion_Function",
+            code: "templateQuestion.search();",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "search"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========End Search==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Search=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Check_Console_Constain",
+            code: "assertEquals(true, CheckingUtils.checkConsoleLogContains(data, end, start));",
+            params: [
+              {
+                id: 11,
+                name: "$expected",
+                type: "Code",
+                value: "true"
+              },
+              {
+                id: 19,
+                name: "$data",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 20,
+                name: "$start",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 21,
+                name: "$end",
+                type: "Code",
+                value: "end"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          }
         ]
       }
     ],
-    code: 'public void testcase(){if( !isLogin ){ assertTrue( false ); }else{ if( driver != null ){ driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );try{ String html = driver.findElement(By.tagName("body")).getText();assertEquals( true, html.toLowerCase().contains("search page"));catch( Exception e ){ assertTrue( false ); } } } }}',
+    code: 'public void testcase(){driver.findElement(By.id($paramName)).clear(); driver.findElement(By.id($paramName)).sendKeys($paramValue);}',
   }
-
   DELETE = {
     methodName: Constant.METHOD_NAME_DELETE,
     template: 'Delete',
     params: [
       {
-        name: 'Step',
-        label: Constant.LABEL_STEP,
+        parentId: 39,
+        name: "Step",
+        label: "Step",
         showChildren: true,
         editMode: false,
         children: [
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_If',
-            params: [{
-              type: 'Code',
-              name: '$variable',
-              value: '!isLogin',
-            }],
-            showChildren: true,
+            label: "Step",
+            name: "Add_Array_String",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 15,
+                name: "$array",
+                type: "String",
+                value: "codeAdd,modelAdd,10,1000"
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'if( !isLogin ){ //body }',
-            children: [{
-              name: 'Assert_True',
-              label: Constant.LABEL_STEP,
-              showChildren: false,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'false',
-              }],
-              code: 'assertTrue( false );',
-              children: []
-            }],
+            code: "String[] data = new String[]{\"codeAdd\",\"modelAdd\",\"10\",\"1000\"};",
+            children: []
           },
           {
-            label: Constant.LABEL_STEP,
-            name: 'Add_Else',
-            params: [],
-            showChildren: true,
+            label: "Step",
+            name: "Add_String",
+            code: "String start = \"==========Start Remove==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Remove=========="
+              }
+            ],
+            showChildren: false,
             editMode: false,
-            code: 'else{ //body }',
-            children: [{
-              name: 'Add_If',
-              label: Constant.LABEL_STEP,
-              showChildren: true,
-              editMode: false,
-              params: [{
-                type: 'Code',
-                name: '$variable',
-                value: 'driver != null',
-              }],
-              code: 'if( driver != null ){ //body }',
-              children: [
-                {
-                  name: 'Get_URL',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [{
-                    type: 'String',
-                    name: '$url',
-                    value: 'http://localhost:8080/login.html',
-                  }],
-                  code: 'driver.get( "http://localhost:8080/login.html" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtUsername',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtUsername" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Input_TextBox_By_Name',
-                  label: Constant.LABEL_STEP,
-                  showChildren: false,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'String',
-                      name: '$paramName',
-                      value: 'txtPassword',
-                    },
-                    {
-                      type: 'String',
-                      name: '$paramValue',
-                      value: 't01',
-                    }
-                  ],
-                  code: 'driver.findElement(By.name( "txtPassword" )).sendKeys( "t01" );',
-                  children: []
-                },
-                {
-                  name: 'Add_Try',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [],
-                  code: 'try{ //body }',
-                  children:
-                    [
-                      {
-                        name: 'Get_Text_By_Name',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$variable',
-                            value: 'html',
-                          },
-                          {
-                            type: 'String',
-                            name: '$paramName',
-                            value: 'body',
-                          }
-                        ],
-                        code: 'String html = driver.findElement(By.tagName("body")).getText();',
-                        children: []
-                      },
-                      {
-                        name: 'Assert_Equal',
-                        label: Constant.LABEL_STEP,
-                        showChildren: false,
-                        editMode: false,
-                        params: [
-                          {
-                            type: 'Code',
-                            name: '$expected',
-                            value: 'true',
-                          },
-                          {
-                            type: 'Code',
-                            name: '$actual',
-                            value: 'html.toLowerCase().contains("search page")',
-                          }
-                        ],
-                        code: 'assertEquals( true, html.toLowerCase().contains("search page"));',
-                        children: []
-                      },
-
-                    ]
-                },
-                {
-                  name: 'Add_Catch',
-                  label: Constant.LABEL_STEP,
-                  showChildren: true,
-                  editMode: false,
-                  params: [
-                    {
-                      type: 'Code',
-                      name: '$variable',
-                      value: 'Exception e',
-                    },
-                  ],
-                  code: 'catch( Exception e ){ //body }',
-                  children: [
-                    {
-                      name: 'Assert_True',
-                      label: Constant.LABEL_STEP,
-                      showChildren: false,
-                      editMode: false,
-                      params: [
-                        {
-                          type: 'Code',
-                          name: '$variable',
-                          value: 'false',
-                        },
-                      ],
-                      code: 'assertTrue( false );',
-                      children: []
-                    }
-                  ]
-                },
-              ]
-            }],
+            children: []
           },
+          {
+            label: "Step",
+            name: "Add_String",
+            code: "String end = \"==========End Remove==========\";",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "end"
+              },
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Remove=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========Start Remove==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========Start Remove=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Call_TemplateQuestion_Function",
+            code: "templateQuestion.remove();",
+            params: [
+              {
+                id: 1,
+                name: "$variable",
+                type: "Code",
+                value: "remove"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Println",
+            code: "System.out.println(\"==========End Remove==========\");",
+            params: [
+              {
+                id: 3,
+                name: "$paramValue",
+                type: "String",
+                value: "==========End Remove=========="
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
+            name: "Check_Console_Constain",
+            code: "assertEquals(false, CheckingUtils.checkConsoleLogContains(data, end, start));",
+            params: [
+              {
+                id: 11,
+                name: "$expected",
+                type: "Code",
+                value: "false"
+              },
+              {
+                id: 19,
+                name: "$data",
+                type: "Code",
+                value: "data"
+              },
+              {
+                id: 20,
+                name: "$start",
+                type: "Code",
+                value: "start"
+              },
+              {
+                id: 21,
+                name: "$end",
+                type: "Code",
+                value: "end"
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          }
         ]
       }
     ],

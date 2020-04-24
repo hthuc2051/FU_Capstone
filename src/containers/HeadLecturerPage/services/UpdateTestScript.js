@@ -76,6 +76,7 @@ class UpdateTestScript extends Component {
             testData: null,
             isShowPublicString: false,
             isRequireOrder: false,
+            template_arr:[]
         };
     }
 
@@ -93,7 +94,8 @@ class UpdateTestScript extends Component {
             currentScript: nextProps.script,
             txtScriptName: nextProps.script.scriptData.name,
             isShowPublicString: nextProps.isShowPublicString,
-            isRequireOrder: nextProps.isRequireOrder
+            isRequireOrder: nextProps.isRequireOrder,
+            template_arr:nextProps.template_arr
         }
     }
 
@@ -220,9 +222,7 @@ class UpdateTestScript extends Component {
     }
 
     onchangeTemplate = (selectedTempalate, selectedTab) => {
-        let { questionArr, currentTemplate } = this.state;
-        console.log(currentTemplate)
-        let template_arr = AppConstant.TEMPLATE_ARR;
+        let { questionArr, currentTemplate,template_arr } = this.state;
         if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
             template_arr.forEach(element => {
                 if(element === selectedTempalate){
@@ -312,7 +312,7 @@ class UpdateTestScript extends Component {
         })
     }
     render() {
-        let { isLoading, eventData, txtScriptName, questionArr, isOpenForm, isOpenFormFile, param_type,isShowPublicString, isRequireOrder,database, document,templateQuestion,testData  } = this.state;
+        let { isLoading, eventData, txtScriptName, questionArr, isOpenForm, isOpenFormFile, param_type,isShowPublicString, isRequireOrder,database, document,templateQuestion,testData,template_arr  } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -338,7 +338,8 @@ class UpdateTestScript extends Component {
                         </div>
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                             <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
-                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} isShowPublicString = {isShowPublicString} isRequireOrder = {isRequireOrder}/>
+                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate}
+                                 isShowPublicString = {isShowPublicString} isRequireOrder = {isRequireOrder} template_arr={template_arr}/>
                             <div className="tab-create">
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.updateTestScript() }}>
                                     <i className="fa fa-plus" />
