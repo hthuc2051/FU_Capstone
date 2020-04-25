@@ -27,11 +27,12 @@ export const METHOD_NAME_CREATE = 'checkCreate';
 export const METHOD_NAME_UPDATE = 'checkUpdate';
 export const METHOD_NAME_DELETE = 'checkDelete';
 export const METHOD_NAME_SEARCH = 'checkSearch';
+export const METHOD_NAME_BUBBLESORT = 'bubbleSort';
 export const METHOD_NAME_CHECK_CONNECTION = 'checkConnection';
 export const TEMPLATE_ARR_JAVAWEB = ["Default","Check_Connection","Login","Create","Update","Delete"];
 export const TEMPLATE_ARR_JAVA = ["Default","Create","Update","Search","Delete"];
-export const TEMPLATE_ARR_CSHARP = ["Default","Login","Create","Update","Delete"];
-export const TEMPLATE_ARR_C = ["Default","Login","Create","Update","Delete"];
+export const TEMPLATE_ARR_CSHARP = ["Default"];
+export const TEMPLATE_ARR_C = ["Default","BubbleSort"];
 
 // Param Type
 export const PARAM_TYPE_CODE = 'code';

@@ -94,6 +94,7 @@ class TreeViewWeb extends Component {
     paramObj.editMode = false;
     if (isCreate) {
       parent.splice(index, 1);
+     
     }
     this.setState({ parent, isCreate: false });
     // }

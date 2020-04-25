@@ -12,6 +12,8 @@ import UpdateTestScript from './services/UpdateTestScript';
 import ListPracticalExams from './services/ListPracticalExams';
 import ScriptTemplateJavaWeb from './services/template.Javaweb';
 import ScriptTemplateJava from './services/template.Java';
+import ScriptTemplateC from './services/template.C';
+import ScriptTemplateCSharp from './services/template.CSharp';
 import swal from 'sweetalert';
 import { withRouter } from 'react-router-dom';
 
@@ -97,7 +99,7 @@ class HeadLecturerPageContainer extends Component {
                         isRequireOrder = false;
                         testAnotaion = Constants.ANOTATION_TEST_CSHARP;
                         orderAnotation = '';
-                        currentTemplate = ScriptTemplateJavaWeb; 
+                        currentTemplate = ScriptTemplateCSharp; 
                         templateArr = AppConstant.TEMPLATE_ARR_CSHARP;
                         break;
                     case AppConstant.SUBJECT_CODE_C:
@@ -105,7 +107,7 @@ class HeadLecturerPageContainer extends Component {
                         isRequireOrder = false;
                         testAnotaion = '';
                         orderAnotation = '';
-                        currentTemplate = ScriptTemplateJavaWeb; 
+                        currentTemplate = ScriptTemplateC; 
                         templateArr = AppConstant.TEMPLATE_ARR_C;
                         break;
                 }

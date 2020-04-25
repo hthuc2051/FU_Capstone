@@ -88,6 +88,7 @@ class CreateTestScript extends Component {
         let questionArr = prevState.questionArr;
         if (nextProps.currentTemplate !== null && typeof (nextProps.currentTemplate) !== 'undefined' && nextProps.currentTemplate !== prevState.currentTemplate) {
             questionArr.questions[0].data = new nextProps.currentTemplate().DEFAULT;
+            questionArr.questions[0].code = new nextProps.currentTemplate().DEFAULT.code;
             return {
                 eventData: nextProps.eventData,
                 param_type: nextProps.param_type,
