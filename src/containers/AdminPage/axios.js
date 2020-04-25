@@ -2,8 +2,10 @@ import callApi from '../api/ApiCaller';
 import * as Actions from './actions';
 import * as Constants from '../constants';
 
-export const getListActions = async (dispatch) => {
-    let res = await callApi(Constants.END_POINT_ACTION);
+export const getListActionsBySubject = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(Constants.END_POINT_LIST_ACTION_BY_SUBJECT, id);
+    let res = await callApi(endPoint);
+    
     if (res != null) {
         handleResponse(res, Constants.FETCH_ACTIONS, dispatch);
     }
@@ -14,6 +16,13 @@ export const deleteAction = async (id, dispatch) => {
     let res = await callApi(endPoint, Constants.PREFIX_DELETE);
     if (res != null) {
         handleResponse(res, Constants.DELETE_ACTION, dispatch);
+    }
+}
+
+export const getListSubjects = async (dispatch) => {
+    let results = await callApi(Constants.END_POINT_SUBJECTS_ALL);
+    if (results != null) {
+        handleResponse(results, Constants.FETCH_SUBJECT, dispatch);
     }
 }
 

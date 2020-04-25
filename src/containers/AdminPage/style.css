@@ -3,3 +3,4 @@ td:nth-child(3) { width: 35% ;}
 .action-page .code p{margin-bottom: 0rem;}
 .action-page .params p{margin-bottom: 0rem;}
 .action-page .subjects p{margin-bottom: 0rem;}
+.action-page .subject-list {font-size: 1em; font-weight: bold;}

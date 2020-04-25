@@ -22,6 +22,10 @@ class CodePageContainer extends Component {
     leftBracket = '{';
     rightBracket = '}';
 
+    componentDidMount() {
+        
+    }
+
     saveAction = () => {
         let { params, action } = this.state;
         action.params = params;
@@ -130,7 +134,7 @@ class CodePageContainer extends Component {
                         <div id="highlighter_548907" className="syntaxhighlighter nogutter">
                             <div className="container">
                                 <div>
-                                    <code className="keyword" placeholder='actionName'>{this.state.action.name}() </code>
+                                    <code className="keyword" placeholder='actionName'>{this.state.action.name} </code>
                                     <code className="plain">{this.leftBracket}</code>
                                 </div>
 

@@ -36,3 +36,9 @@ export const SUBJECT_CODE_JAVA = "PRO192";
 export const SUBJECT_CODE_JAVA_WEB = "PRJ321";
 export const SUBJECT_CODE_C = "PRF192";
 export const SUBJECT_CODE_CSHARP = "PRN292";
+
+// Nav Type
+export const ADMIN_NAV_TYPE = 'admin-nav-type';
+export const ADMIN_NAV_TITLE = 'Admin';
+export const PARAM_NAV_TITLE = 'Parameter';
+export const PARAM_TYPE_NAV_TITLE = 'Parameter Type';
