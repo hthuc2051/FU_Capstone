@@ -1,24 +1,54 @@
 import React, { Component } from 'react';
 import './sidebar.css';
-
+import * as Constant from './../constants/AppConstants';
 
 class LeftSideBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            navType: '',
+            navArr: [],
         };
     }
 
-  
+    onChangedLeftSideBar = (navType) => {
+        this.props.onChangedLeftSideBar(navType);
+    }
 
     render() {
         let { navArr } = this.props;
-        return (
-            <ul className="sidebar navbar-nav">
-                {navArr ? this.renderNavArr(navArr) : ''}
-            </ul>
-        );
+        if (this.state.navType === Constant.ADMIN_NAV_TYPE) {
+            return (
+                <ul className="sidebar navbar-nav">
+                    {navArr ? this.renderAdminNavArr(navArr) : ''}
+                </ul>
+            );
+        } else {
+            return (
+                <ul className="sidebar navbar-nav">
+                    {navArr ? this.renderNavArr(navArr) : ''}
+                </ul>
+            );
+        }
     }
+
+    renderAdminNavArr = (navArr) => {
+        let result = [];
+        if (navArr !== null && navArr.length > 0) {
+            result = navArr.map((item, index) => {
+                return (
+                    <li key={index} className="nav-item">
+                        <a className="nav-link dropdown-toggle" onClick={() => this.onChangedLeftSideBar(item.title)} id="pagesDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">
+                            <span>{item.title}</span>
+                        </a>
+                    </li>
+                );
+            });
+        }
+        return result;
+    }
+
     renderNavArr = (navArr) => {
         let result = [];
         if (navArr !== null && navArr.length > 0) {

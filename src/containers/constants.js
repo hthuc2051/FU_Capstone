@@ -45,6 +45,12 @@ export const FETCH_SUBJECT_INIT_OK = 'FETCH_SUBJECT_INIT_OK';
 export const FETCH_SUBJECT_INIT_FAILED = 'FETCH_SUBJECT_INIT_FAILED';
 export const FETCH_SUBJECT_INIT_TIME_OUT = 'FETCH_SUBJECT_INIT_TIME_OUT';
 
+// Subject
+export const FETCH_SUBJECT = 'FETCH_SUBJECT';
+export const FETCH_SUBJECT_OK = 'FETCH_SUBJECT_OK';
+export const FETCH_SUBJECT_FAILED = 'FETCH_SUBJECT_FAILED';
+export const FETCH_SUBJECT_TIME_OUT = 'FETCH_SUBJECT_TIME_OUT';
+
 // Subject full info
 export const FETCH_SUBJECT_FULLINFO = 'FETCH_SUBJECT_FULLINFO';
 export const FETCH_SUBJECT_FULLINFO_OK = 'FETCH_SUBJECT_FULLINFO_OK';
@@ -109,6 +115,7 @@ export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
 export const END_POINT_EVENTS = "action/subject";
 export const END_POINT_SUBJECTS = "subjects";
+export const END_POINT_SUBJECTS_ALL = "subjects/all";
 export const END_POINT_CLASSES = "classes";
 
 export const END_POINT_LECTURER = "lecturers";
@@ -127,6 +134,7 @@ export const END_POINT_GET_TESTSCRIPT_BY_SUBJECTID = "scripts/subject";
 export const END_POINT_TESTSCRIPTS = "testScript";
 export const END_POINT_LIST_ACTION = "actions";
 export const END_POINT_ACTION = "actions";
+export const END_POINT_LIST_ACTION_BY_SUBJECT = "actions/all/subject"
 export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "practical-exam/check-code/result";
 export const END_POINT_GITHUB_RESULT = "practical-exam/check-code/resultOnline";
 

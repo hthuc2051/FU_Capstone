@@ -2,6 +2,7 @@ import * as Actions from '../constants';
 import * as Messages from '../messages';
 const initStage = {
     listActions: null,
+    listSubjects: null,
     isLoading: false,
     statusCode: 500,
     message: '',
@@ -10,13 +11,40 @@ const initStage = {
 };
 
 const adminPage = (state = initStage, action) => {
-    console.log(action);
+    
     state.action = action.type;
     switch (action.type) {
         // [NOTE] - Reset global action state after finish call api
         case Actions.RESET_ACTION_STATUS:
             return Object.assign({}, state, {
                 action: action.type,
+            });
+
+        // Fetch subjects
+        case Actions.FETCH_SUBJECT:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.FETCH_SUBJECT_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                action: action.type,
+                listSubjects: action.data,
+            });
+        case Actions.FETCH_SUBJECT_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_FAILED,
+            });
+        case Actions.FETCH_SUBJECT_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.action,
+                message: Messages.MSG_TIMEOUT,
             });
 
         // Fetch actions
@@ -28,6 +56,7 @@ const adminPage = (state = initStage, action) => {
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: 200,
+                action: action.type,
                 listActions: action.data,
             });
         case Actions.FETCH_ACTIONS_FAILED:
