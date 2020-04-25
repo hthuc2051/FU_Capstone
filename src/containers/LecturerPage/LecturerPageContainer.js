@@ -28,7 +28,7 @@ class LecturerPageContainer extends Component {
 
     }
     onDownload = (id) => {
-        window.open("http://localhost:8080/api/templates/" + id);
+        window.open("http://localhost:2021/api/templates/" + id);
     }
 
     renderPracticalExams = (arr) => {
