@@ -5,8 +5,7 @@ import * as Constants from '../constants';
 export const getListActionsBySubject = async (id, dispatch) => {
     let endPoint = Constants.generateEndPoint(Constants.END_POINT_LIST_ACTION_BY_SUBJECT, id);
     let res = await callApi(endPoint);
-    
-    if (res != null) {
+    if (res !== null) {
         handleResponse(res, Constants.FETCH_ACTIONS, dispatch);
     }
 }
@@ -14,15 +13,37 @@ export const getListActionsBySubject = async (id, dispatch) => {
 export const deleteAction = async (id, dispatch) => {
     let endPoint = Constants.generateEndPoint(Constants.END_POINT_ACTION, id);
     let res = await callApi(endPoint, Constants.PREFIX_DELETE);
-    if (res != null) {
+    if (res !== null) {
         handleResponse(res, Constants.DELETE_ACTION, dispatch);
+    }
+}
+
+export const getListParams = async (dispatch) => {
+    let results = await callApi(Constants.END_POINT_PARAM);
+    if (results !== null) {
+        handleResponse(results, Constants.FETCH_PARAM, dispatch);
+    }
+}
+
+export const onDeleteParam = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(Constants.END_POINT_PARAM, id);
+    let result = await callApi(endPoint, Constants.PREFIX_DELETE);
+    if (result !== null) {
+        handleResponse(result, Constants.DELETE_PARAM, dispatch);
     }
 }
 
 export const getListSubjects = async (dispatch) => {
     let results = await callApi(Constants.END_POINT_SUBJECTS_ALL);
-    if (results != null) {
+    if (results !== null) {
         handleResponse(results, Constants.FETCH_SUBJECT, dispatch);
+    }
+}
+
+export const createParameter = async (parameter, dispatch) => {
+    let result = await callApi(Constants.END_POINT_PARAM, Constants.PREFIX_POST, parameter, null);
+    if (result !== null) {
+        handleResponse(result, Constants.CREATE_PARAM, dispatch);
     }
 }
 
@@ -47,6 +68,9 @@ const handleResponse = async (response, action, dispatch) => {
             break;
         case 408:
             await dispatch(Actions.isNot2xx(408, action + Constants.PREFIX_TIME_OUT, response.data));
+            break;
+        case 409:
+            await dispatch(Actions.isNot2xx(409, action + Constants.PREFIX_FAILED, response.data));
             break;
         default:
             await dispatch(Actions.isNot2xx(500, action + Constants.PREFIX_FAILED, response.data));

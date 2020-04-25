@@ -7,11 +7,11 @@ export const adminleftNavigation = [
     {
         title: 'Parameter',
         type: 'nav-item',
-        link: '/'
+        link: '/admin/action'
     },
     {
         title: 'Parameter Type',
         type: 'nav-item',
-        link: '/'
+        link: '/admin/action'
     }
 ];

@@ -9,9 +9,9 @@ export const PREFIX_POST = "POST";
 export const PREFIX_PUT = "PUT";
 export const PREFIX_DELETE = "DELETE";
 
+// Actions constant
 export const RESET_ACTION_STATUS = "FREE";
 
-// Actions constant
 export const FETCH_EVENTS = 'FETCH_EVENTS';
 export const FETCH_EVENTS_OK = 'FETCH_EVENTS_OK';
 export const FETCH_EVENTS_FAILED = 'FETCH_EVENTS_FAILED';
@@ -105,10 +105,27 @@ export const GET_GITHUB_RESULT_OK = 'GET_GITHUB_RESULT_OK';
 export const GET_GITHUB_RESULT_FAILED = 'GET_GITHUB_RESULT_FAILED';
 export const GET_GITHUB_RESULT_TIME_OUT = 'GET_GITHUB_RESULT_TIME_OUT';
 
+// Param Type
 export const GET_PARAM_TYPE = 'GET_PARAM_TYPE';
 export const GET_PARAM_TYPE_OK = 'GET_PARAM_TYPE_OK';
 export const GET_PARAM_TYPE_FAILED = 'GET_PARAM_TYPE_FAILED';
 export const GET_PARAM_TYPE_TIME_OUT = 'GET_PARAM_TYPE_TIME_OUT';
+
+// Parameter
+export const FETCH_PARAM = 'FETCH_PARAM';
+export const FETCH_PARAM_OK = 'FETCH_PARAM_OK';
+export const FETCH_PARAM_FAILED = 'FETCH_PARAM_FAILED';
+export const FETCH_PARAM_TIME_OUT = 'FETCH_PARAM_TIME_OUT';
+
+export const DELETE_PARAM = 'DELETE_PARAM';
+export const DELETE_PARAM_OK = 'DELETE_PARAM_OK';
+export const DELETE_PARAM_FAILED = 'DELETE_PARAM_FAILED';
+export const DELETE_PARAM_TIME_OUT = 'DELETE_PARAM_TIME_OUT';
+
+export const CREATE_PARAM = 'CREATE_PARAM';
+export const CREATE_PARAM_OK = 'CREATE_PARAM_OK';
+export const CREATE_PARAM_FAILED = 'CREATE_PARAM_FAILED';
+export const CREATE_PARAM_TIME_OUT = 'CREATE_PARAM_TIME_OUT';
 
 // End point 
 export const API_URL = 'http://localhost:2021/api';
@@ -137,6 +154,7 @@ export const END_POINT_ACTION = "actions";
 export const END_POINT_LIST_ACTION_BY_SUBJECT = "actions/all/subject"
 export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "practical-exam/check-code/result";
 export const END_POINT_GITHUB_RESULT = "practical-exam/check-code/resultOnline";
+export const END_POINT_PARAM = "params";
 
 
 // API Method
