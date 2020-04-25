@@ -4,6 +4,7 @@ const initStage = {
     listActions: null,
     listSubjects: null,
     listParams: null,
+    listParamTypes: null,
     isLoading: false,
     statusCode: 500,
     message: '',
@@ -173,6 +174,85 @@ const adminPage = (state = initStage, action) => {
                 error: action.error,
             });
         case Actions.CREATE_PARAM_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+                error: action.error,
+            });
+
+            // Fetch Param types
+        case Actions.FETCH_PARAM_TYPE:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.FETCH_PARAM_TYPE_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                action: action.type,
+                listParamTypes: action.data,
+            });
+        case Actions.FETCH_PARAM_TYPE_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_FAILED,
+            });
+        case Actions.FETCH_PARAM_TYPE_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_TIMEOUT,
+            });
+
+        // Delete Param
+        case Actions.DELETE_PARAM_TYPE:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.DELETE_PARAM_TYPE_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.DELETE_PARAM_TYPE_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_FAILED,
+            });
+        case Actions.DELETE_PARAM_TYPE_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_TIMEOUT,
+            });
+
+        // Create param
+        case Actions.CREATE_PARAM_TYPE:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.CREATE_PARAM_TYPE_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                message: action.data,
+            });
+        case Actions.CREATE_PARAM_TYPE_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                message: action.error.message,
+                error: action.error,
+            });
+        case Actions.CREATE_PARAM_TYPE_TIME_OUT:
             return Object.assign({}, state, {
                 isLoading: false,
                 statusCode: action.statusCode,

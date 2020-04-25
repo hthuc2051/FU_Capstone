@@ -47,6 +47,28 @@ export const createParameter = async (parameter, dispatch) => {
     }
 }
 
+export const getListParamTypes = async (dispatch) => {
+    let results = await callApi(Constants.END_POINT_PARAM_TYPE);
+    if (results !== null) {
+        handleResponse(results, Constants.FETCH_PARAM_TYPE, dispatch);
+    }
+}
+
+export const createParamType = async (paramType, dispatch) => {
+    let result = await callApi(Constants.END_POINT_PARAM_TYPE, Constants.PREFIX_POST, paramType, null);
+    if (result !== null) {
+        handleResponse(result, Constants.CREATE_PARAM_TYPE, dispatch);
+    }
+}
+
+export const deleteParamType = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(Constants.END_POINT_PARAM_TYPE, id);
+    let result = await callApi(endPoint, Constants.PREFIX_DELETE);
+    if (result !== null) {
+        handleResponse(result, Constants.DELETE_PARAM_TYPE, dispatch);
+    }
+}
+
 const handleResponse = async (response, action, dispatch) => {
     let status = response.status;
     switch (status) {

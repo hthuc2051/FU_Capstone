@@ -1,14 +1,173 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { onFinishing } from '../actions';
+import { getListParamTypes, deleteParamType, createParamType, getListSubjects } from '../axios';
+import swal from 'sweetalert';
+import * as Constants from '../../constants';
 
 class ParamTypeService extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            listParamTypes: [],
+            listSubjects: [],
+            paramTypeName: '',
+            listCheckedSubjects: new Map(),
+        };
+    }
 
+    componentDidMount() {
+        this.props.getListParamTypes();
+        this.props.getListSubjects();
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps === prevState) {
+            return null;
+        }
+        return {
+            listParamTypes: nextProps.listParamTypes,
+            listSubjects: nextProps.listSubjects,
+        }
+    }
+
+    onDelete = async (id) => {
+        // render modal
+        let result = await swal({
+            title: "Confirm delete",
+            text: "Are you sure to want to delete this parameter type?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        });
+        if (result === true) {
+            this.props.deleteParamType(id);
+        }
+    }
+
+    renderParamTypes = (listParamTypes) => {
+        let result = [];
+        if (typeof (listParamTypes) !== 'undefined') {
+            if (listParamTypes.length > 0) {
+                result = listParamTypes.map((item, index) => {
+                    return (
+                        <tr key={index}>
+                            <td className='align-middle'>{++index}</td>
+                            <td className='align-middle'>{item.name}</td>
+                            <td className='align-middle'>{item.subjectCode}</td>
+                            <td className='align-middle'>
+                                <button className="btn btn-danger"
+                                    onClick={() => this.onDelete(item.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    );
+                });
+            }
+        }
+        return result;
+    }
+
+    onParamTypeNameChanged = (e) => {
+        e.preventDefault();
+        let { paramTypeName } = this.state;
+        paramTypeName = e.target.value;
+        this.setState({paramTypeName});
+    }
+
+    createNewParameterType = (paramTypeName) => {
+        let {listCheckedSubjects} = this.state;
+        let subjectCode = [];
+
+        if (paramTypeName !== null && typeof(paramTypeName) !== 'undefined') {
+            if (listCheckedSubjects !== null) {
+                listCheckedSubjects.forEach((value, key) => {
+                    if (value === false) {
+                        listCheckedSubjects.delete(key);
+                    }
+                });
+                
+                if (listCheckedSubjects.size > 0) {
+                    subjectCode = Array.from(listCheckedSubjects.keys());
+                    let paramType = {
+                        active: true,
+                        name: paramTypeName,
+                        subjectCode: subjectCode
+                    };
+                    console.log(paramType)
+                    this.props.createParamType(paramType);
+                }
+            }
+        }
+    }
+
+    renderSubjectCheckBoxes = (listSubjects) => {
+        let result = [];
+        result = listSubjects.map((item, index) => {
+            return (
+                <div className="custom-control custom-checkbox mb-2" key={index}>
+                    <input className="custom-control-input" 
+                            type="checkbox" 
+                            value={item.code} 
+                            id={item.id} onChange={(e) => this.handleCheckboxChange(e)} />
+                    <label className="custom-control-label" htmlFor={item.id}>
+                        {item.name}
+                        </label>
+                </div>
+            );
+        });
+        return result;
+    }
+
+    handleCheckboxChange = (e) => {
+        let { listCheckedSubjects } = this.state;
+
+        const subjectCode = e.target.value;
+        const isChecked = e.target.checked;
+
+        listCheckedSubjects.set(subjectCode, isChecked);
+
+        this.setState({listCheckedSubjects});
+    }
+
+    renderCreateParamTypeModal() {
+        let {paramTypeName, listSubjects} = this.state;
+        return (
+            <div>
+                <div className="modal fade" id="createParamTypeModal" role="dialog" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="createParamTypeModal">New Parameter Type</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label htmlFor="recipient-name" className="col-form-label">Parameter type name:</label>
+                                    <input type="text" className="form-control" id="recipient-name" onChange={(e) => this.onParamTypeNameChanged(e)} />
+                                </div>
+                                <div className="form-group">
+                                    <div>
+                                        <label htmlFor="recipient-name" className="col-form-label">Subject:</label>
+                                    </div>
+                                    {listSubjects ? this.renderSubjectCheckBoxes(listSubjects) : ''}
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal" >Close</button>
+                                <button type="button" className="btn btn-primary" onClick={() => this.createNewParameterType(paramTypeName)} >Create</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     render() {
+        let { listParamTypes } = this.state;
         return (
             <div id="content-wrapper">
                 <nav className="question-nav">
@@ -26,7 +185,8 @@ class ParamTypeService extends Component {
                     <div className="table-title">
                         <div className="row">
                             <div className="col align-self-end mt-3 mr-3">
-                                <button  type="button" className="btn btn-primary add-new"><i className="fa fa-plus" /> Add New</button>
+                                <button data-toggle="modal" data-target="#createParamTypeModal" type="button" className="btn btn-primary add-new"><i className="fa fa-plus" /> Add New</button>
+                                {this.renderCreateParamTypeModal()}
                             </div>
                         </div>
                     </div>
@@ -34,13 +194,13 @@ class ParamTypeService extends Component {
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Type Name</th>
+                                <th scope="col">Parameter Type</th>
                                 <th scope="col">Subject Code</th>
                                 <th scope="col">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            {listParamTypes ? this.renderParamTypes(listParamTypes) : ''}
                         </tbody>
                     </table>
                 </div>
@@ -52,12 +212,28 @@ class ParamTypeService extends Component {
 
 const mapStateToProps = state => {
     return {
+        listParamTypes: state.listActionsPage.listParamTypes,
+        listSubjects: state.listActionsPage.listSubjects,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        
+        getListParamTypes: () => {
+            getListParamTypes(dispatch);
+        },
+        createParamType: (paramType) => {
+            createParamType(paramType, dispatch);
+        },
+        deleteParamType: (id) => {
+            deleteParamType(id, dispatch);
+        },
+        onFinishing: () => {
+            dispatch(onFinishing(Constants.RESET_ACTION_STATUS));
+        },
+        getListSubjects: () => {
+            getListSubjects(dispatch);
+        },
     }
 }
 

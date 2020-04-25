@@ -111,6 +111,21 @@ export const GET_PARAM_TYPE_OK = 'GET_PARAM_TYPE_OK';
 export const GET_PARAM_TYPE_FAILED = 'GET_PARAM_TYPE_FAILED';
 export const GET_PARAM_TYPE_TIME_OUT = 'GET_PARAM_TYPE_TIME_OUT';
 
+export const FETCH_PARAM_TYPE = 'FETCH_PARAM_TYPE';
+export const FETCH_PARAM_TYPE_OK = 'FETCH_PARAM_TYPE_OK';
+export const FETCH_PARAM_TYPE_FAILED = 'FETCH_PARAM_TYPE_FAILED';
+export const FETCH_PARAM_TYPE_TIME_OUT = 'FETCH_PARAM_TYPE_TIME_OUT';
+
+export const DELETE_PARAM_TYPE = 'DELETE_PARAM_TYPE';
+export const DELETE_PARAM_TYPE_OK = 'DELETE_PARAM_TYPE_OK';
+export const DELETE_PARAM_TYPE_FAILED = 'DELETE_PARAM_TYPE_FAILED';
+export const DELETE_PARAM_TYPE_TIME_OUT = 'DELETE_PARAM_TYPE_TIME_OUT';
+
+export const CREATE_PARAM_TYPE = 'CREATE_PARAM_TYPE';
+export const CREATE_PARAM_TYPE_OK = 'CREATE_PARAM_TYPE_OK';
+export const CREATE_PARAM_TYPE_FAILED = 'CREATE_PARAM_TYPE_FAILED';
+export const CREATE_PARAM_TYPE_TIME_OUT = 'CREATE_PARAM_TYPE_TIME_OUT';
+
 // Parameter
 export const FETCH_PARAM = 'FETCH_PARAM';
 export const FETCH_PARAM_OK = 'FETCH_PARAM_OK';
@@ -138,7 +153,7 @@ export const END_POINT_CLASSES = "classes";
 export const END_POINT_LECTURER = "lecturers";
 export const END_POINT_SUBMISSION_FILE = "submission/file";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
-export const END_POINT_PARAM_TYPE  = "param-type";
+export const END_POINT_PARAM_TYPE  = "param-types";
 export const END_POINT_CLASSES_SCRIPTS = "classes-scripts";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
 export const END_POINT_DOWNLOAD_TESTSCRIPT = "scripts/download";

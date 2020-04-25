@@ -25,36 +25,28 @@ class ParamService extends Component {
             return null;
         }
         return {
-            listActions: nextProps.listActions,
-            listSubjects: nextProps.listSubjects,
-            listParams: nextProps.listParams,
-            action: nextProps.action,
-            statusCode: nextProps.statusCode,
-            isLoading: nextProps.isLoading,
-            message: nextProps.message,
-            navType: nextProps.type,
-            error: nextProps.error,
+            listParams: nextProps.listParams,            
         }
     }
 
-    componentDidUpdate(prevProps) {
-        let { action, statusCode, message, error } = this.state;
-        if (prevProps.action !== action && message !== '') {
-            this.props.onFinishing();
-            switch (statusCode) {
-                case 200:
-                    swal("Successfully !", message, "success").then((value) => {
-                        window.location.reload();
-                    });
-                    break;
-                case 500:
-                    break;
-                case 409:
-                    swal("Failed !", error.message, "error");
-                    break;
-            }
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     let { action, statusCode, message, error } = this.state;
+    //     if (prevProps.action !== action && message !== '') {
+    //         this.props.onFinishing();
+    //         switch (statusCode) {
+    //             case 200:
+    //                 swal("Successfully !", message, "success").then((value) => {
+    //                     window.location.reload();
+    //                 });
+    //                 break;
+    //             case 500:
+    //                 break;
+    //             case 409:
+    //                 swal("Failed !", error.message, "error");
+    //                 break;
+    //         }
+    //     }
+    // }
 
     renderParams = (listParams) => {
         let result = [];
@@ -93,7 +85,7 @@ class ParamService extends Component {
 
     onParamNameChanged = (e) => {
         e.preventDefault();
-        let { paramName } = this.setState;
+        let { paramName } = this.state;
         paramName = e.target.value;
         this.setState({paramName});
     }
@@ -183,10 +175,6 @@ class ParamService extends Component {
 const mapStateToProps = state => {
     return {
         listParams: state.listActionsPage.listParams,
-        statusCode: state.listActionsPage.statusCode,
-        message: state.listActionsPage.message,
-        error: state.listActionsPage.error,
-        action: state.listActionsPage.action,
     };
 }
 
