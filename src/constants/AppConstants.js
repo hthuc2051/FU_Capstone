@@ -26,8 +26,13 @@ export const METHOD_NAME_LOGIN = 'checkLogin';
 export const METHOD_NAME_CREATE = 'checkCreate';
 export const METHOD_NAME_UPDATE = 'checkUpdate';
 export const METHOD_NAME_DELETE = 'checkDelete';
+export const METHOD_NAME_SEARCH = 'checkSearch';
+export const METHOD_NAME_BUBBLESORT = 'bubbleSort';
 export const METHOD_NAME_CHECK_CONNECTION = 'checkConnection';
-export const TEMPLATE_ARR = ["Default","Check_Connection","Login","Create","Update","Delete"];
+export const TEMPLATE_ARR_JAVAWEB = ["Default","Check_Connection","Login","Create","Update","Delete"];
+export const TEMPLATE_ARR_JAVA = ["Default","Create","Update","Search","Delete"];
+export const TEMPLATE_ARR_CSHARP = ["Default"];
+export const TEMPLATE_ARR_C = ["Default","BubbleSort"];
 
 // Param Type
 export const PARAM_TYPE_CODE = 'code';
@@ -42,3 +47,10 @@ export const SUBJECT_CODE_CSHARP = "CSharp";
 
 // Node value
 export const ETC = "...";
+
+// Nav Type
+export const ADMIN_NAV_TYPE = 'admin-nav-type';
+export const ADMIN_NAV_TITLE = 'Admin';
+export const PARAM_NAV_TITLE = 'Parameter';
+export const PARAM_TYPE_NAV_TITLE = 'Parameter Type';
+

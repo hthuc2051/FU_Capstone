@@ -28,6 +28,7 @@ class TreeViewWeb extends Component {
       isOpenForm: false,
       isShowPublicString: false,
       isRequireOrder: true,
+      template_arr:[],
     }
   }
 
@@ -47,6 +48,7 @@ class TreeViewWeb extends Component {
         param_type: nextProps.param_type,
         isShowPublicString: nextProps.isShowPublicString,
         isRequireOrder: nextProps.isRequireOrder,
+        template_arr: nextProps.template_arr
       }
     }
     // Ngược lại nếu có bất kì props nào thay đổi thì set lại state;
@@ -92,6 +94,7 @@ class TreeViewWeb extends Component {
     paramObj.editMode = false;
     if (isCreate) {
       parent.splice(index, 1);
+     
     }
     this.setState({ parent, isCreate: false });
     // }
@@ -471,20 +474,22 @@ class TreeViewWeb extends Component {
     this.props.onchangeTemplate(target.value, selectedTab);
   }
 
-  renderTemplate = () => {
+  renderTemplate = (template_arr) => {
     let { selectTemplate } = this.state;
-    let arr = Constant.TEMPLATE_ARR;
-    let result = (
-      <select value={selectTemplate} name="selectTemplate" onChange={this.changeTemplate}>
-       {arr.map((item,index)=>{
-         return(<option value={item} key={index}>{item}</option>)
-       })}
-      </select>)
-    return result;
+    if(template_arr === null || typeof(template_arr) === 'undefined') return;
+    if(template_arr.length > 0){
+      let result = (
+        <select value={selectTemplate} name="selectTemplate" onChange={this.changeTemplate}>
+         {template_arr.map((item,index)=>{
+           return(<option value={item} key={index}>{item}</option>)
+         })}
+        </select>)
+      return result;
+    }
   }
 
   render() {
-    let { selectTemplate, question, data, global_variable, isShowPublicString, isRequireOrder } = this.state;
+    let { selectTemplate, question, data, global_variable, isShowPublicString, isRequireOrder,template_arr } = this.state;
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
@@ -530,7 +535,7 @@ class TreeViewWeb extends Component {
           <div className="codePage" id="code" name="code" >
             <p>
               TEMPLATE:
-                {this.renderTemplate()}
+                {this.renderTemplate(template_arr)}
             </p>
             <code className="codeLine" id="global_variable">
               <p>{global_variable.children.map((item, index) => this.createParam(item, index))}</p>

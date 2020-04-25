@@ -76,7 +76,8 @@ class CreateTestScript extends Component {
             testData: null,
             subjectId: 0,
             isShowPublicString:false,
-            isRequireOrder:false
+            isRequireOrder:false,
+            template_arr:[],
         };
     }
 
@@ -87,6 +88,7 @@ class CreateTestScript extends Component {
         let questionArr = prevState.questionArr;
         if (nextProps.currentTemplate !== null && typeof (nextProps.currentTemplate) !== 'undefined' && nextProps.currentTemplate !== prevState.currentTemplate) {
             questionArr.questions[0].data = new nextProps.currentTemplate().DEFAULT;
+            questionArr.questions[0].code = new nextProps.currentTemplate().DEFAULT.code;
             return {
                 eventData: nextProps.eventData,
                 param_type: nextProps.param_type,
@@ -96,7 +98,8 @@ class CreateTestScript extends Component {
                 questionArr: questionArr,
                 subjectId: nextProps.subjectId,
                 isShowPublicString: nextProps.isShowPublicString,
-                isRequireOrder: nextProps.isRequireOrder
+                isRequireOrder: nextProps.isRequireOrder,
+                template_arr: nextProps.template_arr
             }
         }
         return {
@@ -107,7 +110,8 @@ class CreateTestScript extends Component {
             currentTemplate: nextProps.currentTemplate,
             subjectId: nextProps.subjectId,
             isShowPublicString: nextProps.isShowPublicString,
-            isRequireOrder: nextProps.isRequireOrder
+            isRequireOrder: nextProps.isRequireOrder,
+            template_arr: nextProps.template_arr
         }
     }
 
@@ -231,9 +235,8 @@ class CreateTestScript extends Component {
     }
 
     onchangeTemplate = (selectedTempalate, selectedTab) => {
-        let { questionArr, currentTemplate } = this.state;
+        let { questionArr, currentTemplate,template_arr } = this.state;
         console.log(currentTemplate)
-        let template_arr = AppConstant.TEMPLATE_ARR;
         if (selectedTempalate !== null && typeof (selectedTempalate) !== 'undefined') {
             template_arr.forEach(element => {
                 if(element === selectedTempalate){
@@ -330,7 +333,8 @@ class CreateTestScript extends Component {
     }
     render() {
         let { isLoading, eventData, questionArr, isOpenForm, isOpenFormFile, 
-            param_type, subjectId, isShowPublicString, isRequireOrder,database, document,templateQuestion,testData } = this.state;
+            param_type, subjectId, isShowPublicString, isRequireOrder,database,
+             document,templateQuestion,testData, template_arr } = this.state;
         return (
             <div>
                 <div id="content-wrapper">
@@ -356,7 +360,8 @@ class CreateTestScript extends Component {
                         </div>
                         <div className="tab-panel fade show active" id="panel1" role="tabpanel" aria-labelledby="question1">
                             <TreeViewWeb eventData={eventData} param_type={param_type} onSave={this.onSave} question={this.state.questionArr.questions[this.state.selectedTab]} selectedTab={this.state.selectedTab}
-                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} isShowPublicString = {isShowPublicString} isRequireOrder={isRequireOrder} />
+                                global_variable={this.state.questionArr.global_variable} onSaveGlobalVariable={this.onSaveGlobalVariable} onchangeTemplate={this.onchangeTemplate} isShowPublicString = {isShowPublicString} 
+                                isRequireOrder={isRequireOrder} template_arr={template_arr}/>
                             <div className="tab-create">
                                 <button className="btn btn-success btn_create" onClick={(e) => { e.stopPropagation(); this.createTestScript() }}>
                                     <i className="fa fa-plus" />

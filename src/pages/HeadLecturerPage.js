@@ -12,7 +12,7 @@ class HeadLecturerPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            
         };
     }
 

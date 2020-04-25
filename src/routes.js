@@ -1,5 +1,5 @@
 import { LoginPage, AdminPage, LecturerPage, NotFoundPage, ListScriptsPage,
-     CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,CreateActionPage,
+     CreateScriptPage,ListPracticalExamsPage,UpdateScripPage,
       DuplicatedCodePage ,GithubResultPage} from './pages/index';
 //import DuplicatedCodeResultPage from '';
 
@@ -56,11 +56,6 @@ const routes = [
         path: '/admin/action',
         exact: true,
         main: AdminPage
-    },
-    {
-        path: '/admin/action/create',
-        exact: false,
-        main: CreateActionPage
     },
     {
         path: '/not-found',
