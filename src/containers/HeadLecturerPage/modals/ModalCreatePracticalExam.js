@@ -41,6 +41,7 @@ class ModalCreatePracticalExam extends Component {
             practicalExam: nextProps.editObj,
             isOpenForm: nextProps.isOpenForm,
             formType: nextProps.formType,
+        
         }
     }
 

@@ -7,7 +7,6 @@ import * as Constants from '../../constants';
 import { onLoading, onFinishing } from '../actions';
 import { fetchPracticalExams, deletePracticalExam } from '../axios';
 import ModalCreatePracticalExam from '../modals/ModalCreatePracticalExam';
-let lecturers = ['HauDV - Đoàn Văn Hậu', 'PhuongNC - Nguyễn Công Phượng', 'HaiNQ - Nguyễn Quang Hải']
 const TYPE_CREATE = 'CREATE';
 const TYPE_EDIT = 'EDIT';
 
@@ -27,12 +26,14 @@ class ListPracticalExams extends Component {
 
     componentDidMount() {
         // Fetch API here with subject code 
-        this.props.onFetchPracticalExams(1);
+        // console.log(this.props.subjectId);/
+        this.props.onFetchPracticalExams(this.props.subjectId);
     }
     viewDetails = (id) => {
         let { practicalExams } = this.state;
         let obj = practicalExams.find(item => item.id === id);
-        console.log(obj);
+
+
         this.setState({
             isOpenForm: true,
             formType: TYPE_EDIT,
@@ -199,8 +200,8 @@ class ListPracticalExams extends Component {
                 </div>
                 {/* For modal */}
                 {/* <ModalEditPracticalExam/> */}
-                {formType === TYPE_EDIT ? <ModalEditPracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails}  editObj={editObj}  /> : ''}
-                {formType === TYPE_CREATE ? <ModalCreatePracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails}/> : ''}
+                {formType === TYPE_EDIT ? <ModalEditPracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} editObj={editObj} /> : ''}
+                {formType === TYPE_CREATE ? <ModalCreatePracticalExam isOpenForm={isOpenForm} onCloseDetails={this.onCloseDetails} /> : ''}
 
             </div>
         );
