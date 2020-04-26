@@ -19,6 +19,7 @@ export const ERROR_MSG_WRONG_FORMAT_POINT = "Point must be number at question: "
 export const ERROR_MSG_WRONG_FORMAT_ORDER = "Oder must be number at question: ";
 export const ERROR_MSG_EMPTY_QUESTION_ORDER = "Please set order for question: ";
 export const ERROR_MSG_EMPTY_QUESTION_CODE = "Please set test script for question: ";
+export const ERROR_MSG_EMPTY_TEMPLATE_QUESTION = "Please upload your template question file";
 
 // Template method name JAVAWEB
 export const METHOD_NAME = 'testcase';
@@ -29,7 +30,14 @@ export const METHOD_NAME_DELETE = 'checkDelete';
 export const METHOD_NAME_SEARCH = 'checkSearch';
 export const METHOD_NAME_BUBBLESORT = 'bubbleSort';
 export const METHOD_NAME_CHECK_CONNECTION = 'checkConnection';
-export const TEMPLATE_ARR_JAVAWEB = ["Default","Check_Connection","Login","Create","Update","Delete"];
+export const METHOD_NAME_CHECK_LOGIN_DAO = 'checkLoginDAO';
+export const METHOD_NAME_CHECK_DELETE_DAO = 'checkDeleteDAO';
+export const METHOD_NAME_CHECK_SHOW_ALL_UI = 'showAllUI';
+export const METHOD_NAME_SHOWALL_DAO = 'showAllDAO';
+export const METHOD_NAME_WELLCOME = 'checkWelcome';
+export const METHOD_NAME_DELETE_UI = 'deleteUI';
+export const METHOD_NAME_LOGOUT = 'logOut';
+export const TEMPLATE_ARR_JAVAWEB = ["Default","Check_Connection","CheckLoginDAO","ShowAllDAO","DeleteDAO","Login","ShowAllUI","CheckWelcome","DeleteUI","LogOut"];
 export const TEMPLATE_ARR_JAVA = ["Default","Create","Update","Search","Delete"];
 export const TEMPLATE_ARR_CSHARP = ["Default"];
 export const TEMPLATE_ARR_C = ["Default","BubbleSort"];

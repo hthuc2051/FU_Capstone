@@ -510,13 +510,13 @@ class TreeViewWeb extends Component {
             <input type="text" id="txtMethodName" value={question.data.methodName} className="form-control root" placeholder="Method's name" onChange={(e) => { e.stopPropagation(); this.editMethodName(e) }} />
             <ul>
               <li onClick={(e) => { e.preventDefault(); this.toggleView(global_variable) }}>
-                <div className="node">{global_variable.showChildren ? <i className="fa fa-minus-square-o" /> : <i className="fa fa-plus-square-o" />}
+                <div className="node">{global_variable ? <i className="fa fa-minus-square-o" /> : <i className="fa fa-plus-square-o" />}
                   {Constant.LABEL_GLOBAL_VARIABLE}
                   <span className="actions">
                     <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(global_variable) }}> </i>
                   </span>
                 </div>
-                {global_variable.showChildren ? this.makeChildren(global_variable.children) : ''}
+                {global_variable ? this.makeChildren(global_variable.children) : ''}
               </li>
 
               <li onClick={(e) => { e.preventDefault(); this.toggleView(data.params[0]) }}>
@@ -538,7 +538,7 @@ class TreeViewWeb extends Component {
                 {this.renderTemplate(template_arr)}
             </p>
             <code className="codeLine" id="global_variable">
-              <p>{global_variable.children.map((item, index) => this.createParam(item, index))}</p>
+              <p>{global_variable?  global_variable.children.map((item, index) => this.createParam(item, index)) :''}</p>
             </code>
             <code className="codeLine" id="codevalue">
               {isShowPublicString ? "public" : ''} void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />

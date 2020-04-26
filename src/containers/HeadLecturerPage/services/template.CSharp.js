@@ -3,6 +3,28 @@ import * as Constant from './../../../constants/AppConstants';
 export default class ScriptCSharp {
   constructor() {
   };
+  GLOBAL_VARIABLE=
+  {
+      label: Constant.LABEL_PARAM,
+      parentId: 39,
+      name: 'Global Variable',
+      showChildren: true,
+      editMode: false,
+      children: [
+          {
+              label: Constant.LABEL_PARAM,
+              parentId: 50,
+              type: 'String',
+              name: 'String',
+              value: 'value',
+              showChildren: false,
+              editMode: false,
+              code: '',
+              children: [],
+          }
+      ],
+      code: 'String String = "value";',
+  }
   DEFAULT = {
     methodName: Constant.METHOD_NAME,
     template: 'Default',
