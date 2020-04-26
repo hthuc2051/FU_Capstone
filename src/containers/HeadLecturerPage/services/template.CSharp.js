@@ -14,16 +14,16 @@ export default class ScriptCSharp {
           {
               label: Constant.LABEL_PARAM,
               parentId: 50,
-              type: 'String',
-              name: 'String',
-              value: 'value',
+              type: 'string',
+              name: 'target',
+              value: 'top',
               showChildren: false,
               editMode: false,
               code: '',
               children: [],
           }
       ],
-      code: 'String String = "value";',
+      code: 'string target = "top";',
   }
   DEFAULT = {
     methodName: Constant.METHOD_NAME,

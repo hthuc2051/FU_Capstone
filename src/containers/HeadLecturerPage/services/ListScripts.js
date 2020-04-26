@@ -106,7 +106,7 @@ class ListScripts extends Component {
                     return (
                         <tr key={index} >
                             <th scope="row" onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{index + 1}</th>
-                            <td onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{item.code}</td>
+                            <td onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{item.name}</td>
                             <td onClick={(e) => { e.preventDefault(); this.onUpdate(item.id) }}>{item.timeCreated}</td>
                             <td><button className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewScriptDetails(item) }}>Details</button></td>
                             <td><button className="btn btn-danger" onClick={(e) => { e.preventDefault(); this.onDelete(item.id, item.code) }} >Delete</button></td>
@@ -155,7 +155,7 @@ class ListScripts extends Component {
         console.log(listScripts);
         return (
             <div id="content-wrapper">
-                <nav className="question-nav">
+                <nav className="question-nav card_border_search">
                     <div className="input-field">
                         <div className="icon-wrap">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={20} height={20} viewBox="0 0 20 20">
@@ -166,13 +166,13 @@ class ListScripts extends Component {
                     </div>
                 </nav>
                 <br />
-                <div className="card content">
+                <div className="card content card_border_search">
                     {listScripts ?
                         <table className="table table-hover" id="myTable">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Script code</th>
+                                    <th scope="col">Script name</th>
                                     <th scope="col">Time created</th>
                                     <th scope="col">Details</th>
                                     <th scope="col">Delete</th>

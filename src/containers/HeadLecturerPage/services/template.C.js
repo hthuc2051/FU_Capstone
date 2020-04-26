@@ -14,16 +14,16 @@ export default class ScriptC {
           {
               label: Constant.LABEL_PARAM,
               parentId: 50,
-              type: 'String',
-              name: 'String',
-              value: 'value',
+              type: 'int',
+              name: 'index',
+              value: '0',
               showChildren: false,
               editMode: false,
               code: '',
               children: [],
           }
       ],
-      code: 'String String = "value";',
+      code: 'int index = 0;',
   }
   DEFAULT = {
     methodName: Constant.METHOD_NAME,

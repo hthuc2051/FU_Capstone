@@ -27,28 +27,7 @@ class UpdateTestScript extends Component {
                     point: 0,
                     order: 0,
                 }],
-                global_variable:
-                {
-                    label: AppConstant.LABEL_PARAM,
-                    parentId: 39,
-                    name: 'Global Variable',
-                    showChildren: true,
-                    editMode: false,
-                    children: [
-                        {
-                            label: AppConstant.LABEL_PARAM,
-                            parentId: 50,
-                            type: 'String',
-                            name: 'String',
-                            value: 'value',
-                            showChildren: false,
-                            editMode: false,
-                            code: '',
-                            children: []
-                        }
-                    ],
-                    code: 'String String = "value";',
-                },
+                global_variable:null,
                 connection: {
                     online: {
                         url: '',

@@ -73,7 +73,7 @@ class GithubResultContainer extends Component {
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td>{item.studentFile}</td>
-                            <td><h5><span className={this.colorPercent(hightestPercent)}>{hightestPercent.toFixed(0)}%</span></h5></td>
+                            {/* <td><h5><span className={this.colorPercent(hightestPercent)}>{hightestPercent.toFixed(0)}%</span></h5></td> */}
                             <td><button type="button" className="btn btn-info" onClick={(e) => { e.preventDefault(); this.viewDetail(item.listFile) }}>Detail</button></td>
                         </tr>
                     );
@@ -142,7 +142,7 @@ class GithubResultContainer extends Component {
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Student Code</th>
-                            <th scope="col">Similarity Percent</th>
+                            {/* <th scope="col">Similarity Percent</th> */}
                             <th scope="col">View Detail</th>
                         </tr>
                     </thead>

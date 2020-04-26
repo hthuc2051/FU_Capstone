@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './sidebar.css';
 import * as Constant from './../constants/AppConstants';
+import './leftSideBar.css'
 
 class LeftSideBar extends Component {
     constructor(props) {
@@ -19,13 +20,13 @@ class LeftSideBar extends Component {
         let { navArr } = this.props;
         if (this.state.navType === Constant.ADMIN_NAV_TYPE) {
             return (
-                <ul className="sidebar navbar-nav">
+                <ul className="sidebar navbar-nav card_border">
                     {navArr ? this.renderAdminNavArr(navArr) : ''}
                 </ul>
             );
         } else {
             return (
-                <ul className="sidebar navbar-nav">
+                <ul className="sidebar navbar-nav card_border">
                     {navArr ? this.renderNavArr(navArr) : ''}
                 </ul>
             );

@@ -57,7 +57,7 @@ class GithubResultDetailContainer extends Component {
                         <tr key={index} onClick={(e) => {e.preventDefault(); this.goToGithub(item.html_url)}}>
                             <th scope="row">{index + 1}</th>
                             <td>{item.name}</td>
-                            <td><h5><span className={this.colorPercent(item.percent)}>{item.percent.toFixed(0)}%</span></h5></td>
+                            {/* <td><h5><span className={this.colorPercent(item.percent)}>{item.percent.toFixed(0)}%</span></h5></td> */}
                         </tr>
                     );
                 })
@@ -127,7 +127,7 @@ class GithubResultDetailContainer extends Component {
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Github File Name</th>
-                            <th scope="col">Similarity Percent</th>
+                            {/* <th scope="col">Similarity Percent</th> */}
                         </tr>
                     </thead>
                     <tbody>

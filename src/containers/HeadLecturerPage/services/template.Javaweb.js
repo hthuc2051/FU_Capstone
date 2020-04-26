@@ -5,28 +5,7 @@ export default class ScriptTemplateJavaWeb {
   };
 
 
-  GLOBALVARIABLE=
-  {
-      label: Constant.LABEL_PARAM,
-      parentId: 39,
-      name: 'Global Variable',
-      showChildren: true,
-      editMode: false,
-      children: [
-          {
-              label: Constant.LABEL_PARAM,
-              parentId: 50,
-              type: 'boolean',
-              name: 'isLogin',
-              value: 'false',
-              showChildren: false,
-              editMode: false,
-              code: '',
-              children: [],
-          }
-      ],
-      code: 'boolean isLogin  = false;',
-  }
+  
   DEFAULT = {
     methodName: Constant.METHOD_NAME,
     template: 'Default',
@@ -2300,5 +2279,27 @@ export default class ScriptTemplateJavaWeb {
       }
     ],
     code: 'public void logOut() {if (driver != null) {if (!isLogin) {assertFalse(true);} else {driver.get("http://localhost:8080/logout");try {String html = driver.findElement(By.tagName("body")).getText();assertEquals(true, html.toLowerCase().contains("login page"));} catch (Exception e) {assertFalse(true);}}} else {assertFalse(true);}DBUtils.executeUpdate("Delete From tbl_Weapon");}',
+  }
+  GLOBAL_VARIABLE=
+  {
+      label: Constant.LABEL_PARAM,
+      parentId: 39,
+      name: 'Global Variable',
+      showChildren: true,
+      editMode: false,
+      children: [
+          {
+              label: Constant.LABEL_PARAM,
+              parentId: 50,
+              type: 'boolean',
+              name: 'isLogin',
+              value: 'false',
+              showChildren: false,
+              editMode: false,
+              code: '',
+              children: [],
+          }
+      ],
+      code: 'boolean isLogin  = false;',
   }
 }
