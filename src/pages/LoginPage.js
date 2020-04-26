@@ -6,14 +6,20 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            txtUsername: '',
+            txtPassword: '',
         };
     }
-    componentDidMount() {
-
+    onChange = (e) => {
+        var target = e.target;
+        var name = target.name;
+        this.setState({
+            [name]: target.value
+        });
     }
 
-    onLogin = () => {
+    onLogin = (e) => {
+        e.preventDefault();
         let userInfo = {
             id: "1",
             fullname: "Nguyen Huy Thuc",
@@ -29,9 +35,15 @@ class LoginPage extends Component {
                 },
             ],
         };
-        console.log(JSON.stringify(userInfo));
+        let { txtUsername, txtPassword } = this.state;
+        console.log(txtUsername);
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        history.push("/subjects/1/practical-exams");
+        if (txtUsername === 'HoangNT') {
+            history.push("/subjects/1/practical-exams");
+        } else {
+            history.push("/lecturer");
+        }
+        window.location.reload();
     }
     render() {
         return (
@@ -39,10 +51,10 @@ class LoginPage extends Component {
                 <div className="login-container">
                     <div className="form">
                         <img src="./images/logo.PNG" alt="Logo imgage" />
-                        <form className="login-form">
-                            <input type="text" placeholder="Username" />
-                            <input type="password" placeholder="Password" />
-                            <button onClick={this.onLogin} >login</button>
+                        <form onSubmit={this.onLogin}  className="login-form">
+                            <input  onChange={this.onChange} name="txtUsername" type="text" placeholder="Username" />
+                            <input  onChange={this.onChange} name="txtPassword" type="password" placeholder="Password" />
+                            <button>login</button>
                         </form>
                     </div>
                 </div>

@@ -26,14 +26,12 @@ class ListPracticalExams extends Component {
 
     componentDidMount() {
         // Fetch API here with subject code 
-        // console.log(this.props.subjectId);/
+        console.log(this.props.subjectId);
         this.props.onFetchPracticalExams(this.props.subjectId);
     }
     viewDetails = (id) => {
         let { practicalExams } = this.state;
         let obj = practicalExams.find(item => item.id === id);
-
-
         this.setState({
             isOpenForm: true,
             formType: TYPE_EDIT,
@@ -41,6 +39,7 @@ class ListPracticalExams extends Component {
         })
         // Open modal
     }
+    
     onDelete = async (id) => {
         let result = await swal({
             title: "Confirm delete",
