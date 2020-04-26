@@ -162,7 +162,7 @@ class ListPracticalExams extends Component {
         let { practicalExams, editObj, isOpenForm, formType } = this.state;
         return (
             <div id="content-wrapper">
-                <nav className="question-nav">
+                <nav className="question-nav card_border_search">
                     <div className="input-field">
                         <div className="icon-wrap">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={20} height={20} viewBox="0 0 20 20">
@@ -173,7 +173,7 @@ class ListPracticalExams extends Component {
                     </div>
                 </nav>
                 <br />
-                <div className="card content">
+                <div className="card content card_border_search">
                     <div className="table-title">
                         <div className="row">
                             <div className="col-sm-12">

@@ -28,28 +28,7 @@ class CreateTestScript extends Component {
                     point: 0,
                     order: 0,
                 }],
-                global_variable:
-                {
-                    label: AppConstant.LABEL_PARAM,
-                    parentId: 39,
-                    name: 'Global Variable',
-                    showChildren: true,
-                    editMode: false,
-                    children: [
-                        {
-                            label: AppConstant.LABEL_PARAM,
-                            parentId: 50,
-                            type: 'String',
-                            name: 'String',
-                            value: 'value',
-                            showChildren: false,
-                            editMode: false,
-                            code: '',
-                            children: [],
-                        }
-                    ],
-                    code: 'String String = "value";',
-                },
+                global_variable:null,
                 connection: {
                     online: {
                         url: '',
@@ -82,6 +61,7 @@ class CreateTestScript extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        console.log(nextProps.globalVariable)
         if (nextProps === prevState) {
             return null;
         }
@@ -89,6 +69,7 @@ class CreateTestScript extends Component {
         if (nextProps.currentTemplate !== null && typeof (nextProps.currentTemplate) !== 'undefined' && nextProps.currentTemplate !== prevState.currentTemplate) {
             questionArr.questions[0].data = new nextProps.currentTemplate().DEFAULT;
             questionArr.questions[0].code = new nextProps.currentTemplate().DEFAULT.code;
+            questionArr.global_variable = new nextProps.currentTemplate().GLOBAL_VARIABLE;
             return {
                 eventData: nextProps.eventData,
                 param_type: nextProps.param_type,
@@ -99,7 +80,7 @@ class CreateTestScript extends Component {
                 subjectId: nextProps.subjectId,
                 isShowPublicString: nextProps.isShowPublicString,
                 isRequireOrder: nextProps.isRequireOrder,
-                template_arr: nextProps.template_arr
+                template_arr: nextProps.template_arr,
             }
         }
         return {
@@ -111,7 +92,7 @@ class CreateTestScript extends Component {
             subjectId: nextProps.subjectId,
             isShowPublicString: nextProps.isShowPublicString,
             isRequireOrder: nextProps.isRequireOrder,
-            template_arr: nextProps.template_arr
+            template_arr: nextProps.template_arr,
         }
     }
 

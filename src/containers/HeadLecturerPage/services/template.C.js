@@ -3,6 +3,28 @@ import * as Constant from './../../../constants/AppConstants';
 export default class ScriptC {
   constructor() {
   };
+  GLOBAL_VARIABLE=
+  {
+      label: Constant.LABEL_PARAM,
+      parentId: 39,
+      name: 'Global Variable',
+      showChildren: true,
+      editMode: false,
+      children: [
+          {
+              label: Constant.LABEL_PARAM,
+              parentId: 50,
+              type: 'int',
+              name: 'index',
+              value: '0',
+              showChildren: false,
+              editMode: false,
+              code: '',
+              children: [],
+          }
+      ],
+      code: 'int index = 0;',
+  }
   DEFAULT = {
     methodName: Constant.METHOD_NAME,
     template: 'Default',
