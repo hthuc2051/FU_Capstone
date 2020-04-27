@@ -8,6 +8,8 @@ import * as AppConstants from '../../constants/AppConstants';
 import './style.css';
 import { withRouter } from 'react-router-dom';
 import CodePageContainer from './../CodePage/CodePageContainer';
+import ParamTypeService from './../AdminPage/services/ParamTypeService';
+import ParamService from './../AdminPage/services/ParamService';
 
 class AdminPageContainer extends Component {
 
@@ -22,6 +24,7 @@ class AdminPageContainer extends Component {
             isAddnew: false,
             navArr: [],
             navTye: 'Action',
+            error: '',
         };
     }
 
@@ -30,7 +33,6 @@ class AdminPageContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        
         if (nextProps === prevState) {
             return null;
         }
@@ -42,13 +44,15 @@ class AdminPageContainer extends Component {
             isLoading: nextProps.isLoading,
             message: nextProps.message,
             navType: nextProps.type,
+            error: nextProps.error,
+            isAddnew: nextProps.isAddnew,
         }
     }
 
     componentDidUpdate(prevProps) {
         // Render giao diện sau khi call api
         
-        let { action, statusCode, message, listSubjects } = this.state;
+        let { action, statusCode, message, error } = this.state;
         if (prevProps.action !== action && message !== '') {
             this.props.onFinishing();
             switch (statusCode) {
@@ -58,8 +62,14 @@ class AdminPageContainer extends Component {
                     });
                     break;
                 case 500:
+                    break;
                 case 409:
-                    swal("Failed !", message, "error");
+                    swal("Failed !", error.message, "error");
+                    break;
+                case 410:
+                    swal("Failed !", error.message, "error").then((value) => {
+                        window.location.reload();
+                    });
                     break;
             }
         }
@@ -146,7 +156,7 @@ class AdminPageContainer extends Component {
     }
 
     openCreateForm = () => {
-        this.setState({isAddnew: true});
+        this.props.onChangedAddNew(true);
         //this.props.history.push('/admin/action/create');
     }
 
@@ -175,7 +185,6 @@ class AdminPageContainer extends Component {
         if (code !== null) {
             let codeSnippet = [];
             codeSnippet = String(code).trim().split(/(.*?;)/g);
-            console.log(codeSnippet);
             result = codeSnippet.map((item, index) => {
                 if (item !== '') {
                     return (
@@ -183,6 +192,7 @@ class AdminPageContainer extends Component {
                     );
                 }
             });
+            return result;
         }
         return result;
     }
@@ -208,8 +218,11 @@ class AdminPageContainer extends Component {
 
     render() {
         let { listActions, listSubjects, isAddnew, navType } = this.state;
-        console.log(navType);
-        if (AppConstants.ADMIN_NAV_TITLE === navType) {
+        if (AppConstants.PARAM_NAV_TITLE === navType) {
+            return (<ParamService />);
+        } else if (AppConstants.PARAM_TYPE_NAV_TITLE === navType) {
+            return (<ParamTypeService />);
+        } else if (AppConstants.ACTION_NAV_TITLE === navType) {
             if (isAddnew) {
                 return (<CodePageContainer />);
             } else {
@@ -262,16 +275,11 @@ class AdminPageContainer extends Component {
                     </div>
                 );
             }
-        } else if (AppConstants.PARAM_NAV_TITLE === navType) {
-
-        } else if (AppConstants.PARAM_TYPE_NAV_TITLE === navType) {
-
         }
     }
 }
 
-const mapStateToProps = state => {
-    
+const mapStateToProps = state => {    
     return {
         listActions: state.listActionsPage.listActions,
         listSubjects: state.listActionsPage.listSubjects,
@@ -280,7 +288,7 @@ const mapStateToProps = state => {
         message: state.listActionsPage.message,
         error: state.listActionsPage.error,
         action: state.listActionsPage.action,
-    }
+    };
 }
 
 const mapDispatchToProps = (dispatch, props) => {
@@ -297,7 +305,7 @@ const mapDispatchToProps = (dispatch, props) => {
         getListSubjects: () => {
             getListSubjects(dispatch);
         }
-    }
+    };
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminPageContainer));

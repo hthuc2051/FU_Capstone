@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './sidebar.css';
-import * as Constant from './../constants/AppConstants';
 import './leftSideBar.css'
+import * as AppConstant from './../constants/AppConstants';
+
 
 class LeftSideBar extends Component {
     constructor(props) {
@@ -16,9 +17,18 @@ class LeftSideBar extends Component {
         this.props.onChangedLeftSideBar(navType);
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps === prevState) {
+            return null;
+        }
+        return {
+            navType: nextProps.navType,
+        }
+    }
+
     render() {
         let { navArr } = this.props;
-        if (this.state.navType === Constant.ADMIN_NAV_TYPE) {
+        if (this.state.navType === AppConstant.ACTION_NAV_TITLE) {
             return (
                 <ul className="sidebar navbar-nav card_border">
                     {navArr ? this.renderAdminNavArr(navArr) : ''}
@@ -39,8 +49,7 @@ class LeftSideBar extends Component {
             result = navArr.map((item, index) => {
                 return (
                     <li key={index} className="nav-item">
-                        <a className="nav-link dropdown-toggle" onClick={() => this.onChangedLeftSideBar(item.title)} id="pagesDropdown" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="true">
+                        <a className="nav-link" onClick={() => this.onChangedLeftSideBar(item.title)} >
                             <span>{item.title}</span>
                         </a>
                     </li>
@@ -85,7 +94,6 @@ class LeftSideBar extends Component {
         let result = [];
         if (arr !== null && arr.length > 0) {
             result = arr.map((item, index) => {
-                console.log(item)
                 return (
                     <a key={index} className="dropdown-item" href={item.link}>{item.title}</a>
                 )

@@ -57,8 +57,7 @@ export const SUBJECT_CODE_CSHARP = "CSharp";
 export const ETC = "...";
 
 // Nav Type
-export const ADMIN_NAV_TYPE = 'admin-nav-type';
-export const ADMIN_NAV_TITLE = 'Admin';
+export const ACTION_NAV_TYPE = 'action-nav-type';
+export const ACTION_NAV_TITLE = 'Action';
 export const PARAM_NAV_TITLE = 'Parameter';
 export const PARAM_TYPE_NAV_TITLE = 'Parameter Type';
-
