@@ -15,7 +15,7 @@ class LecturerPageContainer extends Component {
     }
 
     componentDidMount() {
-        this.props.onFetchPracticalExams(1);
+        this.props.onFetchPracticalExams(this.props.id);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
