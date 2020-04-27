@@ -1048,7 +1048,7 @@ export default class ScriptTemplateJavaWeb {
   SHOWALLDAO = {
     methodName: Constant.METHOD_NAME_SHOWALL_DAO,
     template: 'ShowAllDAO',
-    params:  [
+    params:[
       {
         parentId: 39,
         name: "Step",
@@ -1100,7 +1100,7 @@ export default class ScriptTemplateJavaWeb {
               {
                 label: "Step",
                 name: "Assert_Equal",
-                code: "assertEquals( Integer.valueOf(\"3\") , TemplateQuestion.showAll(); );",
+                code: "assertEquals( Integer.valueOf(\"3\") , TemplateQuestion.showAll() );",
                 params: [
                   {
                     id: 11,
@@ -1112,7 +1112,7 @@ export default class ScriptTemplateJavaWeb {
                     id: 12,
                     name: "$actual",
                     type: "Code",
-                    value: "TemplateQuestion.showAll();"
+                    value: "TemplateQuestion.showAll()"
                   }
                 ],
                 showChildren: false,
@@ -1124,7 +1124,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void showAllDAO(){if( !isLogin ){assertTrue( false );}else{assertEquals( Integer.valueOf("3") , TemplateQuestion.showAll(); );}}',
+    code: 'public void showAllDAO(){if( !isLogin ){assertTrue( false );}else{assertEquals( Integer.valueOf("3") , TemplateQuestion.showAll());}}',
   }
 
   DELETEDAO = {
@@ -1787,7 +1787,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void checkWelcome(){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btnAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("loginsuccess") && html.toLowerCase().contains("1") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
+    code: 'public void checkWelcome(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btnAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("loginsuccess") && html.toLowerCase().contains("1") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
   }
   DELETEUI = {
     methodName: Constant.METHOD_NAME_DELETE_UI,
