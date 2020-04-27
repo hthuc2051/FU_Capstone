@@ -18,6 +18,13 @@ export const deleteAction = async (id, dispatch) => {
     }
 }
 
+export const createAction = async (action, dispatch) => {
+    let result = await callApi(Constants.END_POINT_ACTION, Constants.PREFIX_POST, action, null);
+    if (result !== null) {
+        handleResponse(result, Constants.CREATE_ACTION, dispatch);
+    }
+}
+
 export const getListParams = async (dispatch) => {
     let results = await callApi(Constants.END_POINT_PARAM);
     if (results !== null) {
@@ -49,6 +56,14 @@ export const createParameter = async (parameter, dispatch) => {
 
 export const getListParamTypes = async (dispatch) => {
     let results = await callApi(Constants.END_POINT_PARAM_TYPE);
+    if (results !== null) {
+        handleResponse(results, Constants.FETCH_PARAM_TYPE, dispatch);
+    }
+}
+
+export const getListParamTypesBySubject = async (id, dispatch) => {
+    let endPoint = Constants.generateEndPoint(Constants.END_POINT_PARAM_TYPE, id);
+    let results = await callApi(endPoint, Constants.PREFIX_GET);
     if (results !== null) {
         handleResponse(results, Constants.FETCH_PARAM_TYPE, dispatch);
     }
@@ -93,6 +108,9 @@ const handleResponse = async (response, action, dispatch) => {
             break;
         case 409:
             await dispatch(Actions.isNot2xx(409, action + Constants.PREFIX_FAILED, response.data));
+            break;
+        case 410:
+            await dispatch(Actions.isNot2xx(410, action + Constants.PREFIX_FAILED, response.data));
             break;
         default:
             await dispatch(Actions.isNot2xx(500, action + Constants.PREFIX_FAILED, response.data));

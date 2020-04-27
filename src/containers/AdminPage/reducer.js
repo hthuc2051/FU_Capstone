@@ -76,6 +76,33 @@ const adminPage = (state = initStage, action) => {
                 message: Messages.MSG_TIMEOUT,
             });
 
+        // Create action
+        case Actions.CREATE_ACTION:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.CREATE_ACTION_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                action: action.type,
+                message: action.data,
+            });
+        case Actions.CREATE_ACTION_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_FAILED,
+            });
+        case Actions.CREATE_ACTION_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_TIMEOUT,
+            });
+
         // DELETE action
         case Actions.DELETE_ACTION:
             return Object.assign({}, state, {

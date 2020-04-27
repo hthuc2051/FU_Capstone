@@ -33,7 +33,6 @@ class AdminPageContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        
         if (nextProps === prevState) {
             return null;
         }
@@ -46,6 +45,7 @@ class AdminPageContainer extends Component {
             message: nextProps.message,
             navType: nextProps.type,
             error: nextProps.error,
+            isAddnew: nextProps.isAddnew,
         }
     }
 
@@ -65,6 +65,11 @@ class AdminPageContainer extends Component {
                     break;
                 case 409:
                     swal("Failed !", error.message, "error");
+                    break;
+                case 410:
+                    swal("Failed !", error.message, "error").then((value) => {
+                        window.location.reload();
+                    });
                     break;
             }
         }
@@ -151,7 +156,7 @@ class AdminPageContainer extends Component {
     }
 
     openCreateForm = () => {
-        this.setState({isAddnew: true});
+        this.props.onChangedAddNew(true);
         //this.props.history.push('/admin/action/create');
     }
 

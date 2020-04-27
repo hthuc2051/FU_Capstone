@@ -12,11 +12,16 @@ class CodePage extends Component {
         super(props);
         this.state = {
             navType: 'Action',
+            isAddnew: false,
         };
     }
 
+    onChangedAddNew = (isAddnew) => {
+        this.setState({isAddnew: isAddnew});
+    }
+
     onChangedLeftSideBar = (navType) => {
-        this.setState({ navType: navType });
+        this.setState({ navType: navType, isAddnew: false });
     }
 
     render() {
@@ -31,7 +36,8 @@ class CodePage extends Component {
                                     onChangedLeftSideBar={this.onChangedLeftSideBar}  />
 
                         {/* Container */}
-                        <AdminPageContainer type={this.state.navType} />
+                        <AdminPageContainer type={this.state.navType} 
+                                        isAddnew={this.state.isAddnew} onChangedAddNew={this.onChangedAddNew}/>
                     </div>
                 </div>
             </div>
