@@ -36,12 +36,19 @@ class LoginPage extends Component {
             ],
         };
         let { txtUsername, txtPassword } = this.state;
-        console.log(txtUsername);
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        if (txtUsername === 'HoangNT') {
+        let id = 5;
+        if (txtUsername === 'ThucNH') {
             history.push("/subjects/1/practical-exams");
-        } else {
-            history.push("/lecturer");
+        }
+        else if (txtUsername === 'PhuongNC') {
+            history.push("/lecturers/5");
+        } else if (txtUsername === 'HaiNQ') {
+            history.push("/lecturers/7");
+        } else if (txtUsername === 'LamDV') {
+            history.push("/lecturers/11");
+        } else if (txtUsername === 'TruongLX') {
+            history.push("/lecturers/12");
         }
         window.location.reload();
     }
@@ -51,9 +58,9 @@ class LoginPage extends Component {
                 <div className="login-container">
                     <div className="form">
                         <img src="./images/logo.PNG" alt="Logo imgage" />
-                        <form onSubmit={this.onLogin}  className="login-form">
-                            <input  onChange={this.onChange} name="txtUsername" type="text" placeholder="Username" />
-                            <input  onChange={this.onChange} name="txtPassword" type="password" placeholder="Password" />
+                        <form onSubmit={this.onLogin} className="login-form">
+                            <input onChange={this.onChange} name="txtUsername" type="text" placeholder="Username" />
+                            <input onChange={this.onChange} name="txtPassword" type="password" placeholder="Password" />
                             <button>login</button>
                         </form>
                     </div>

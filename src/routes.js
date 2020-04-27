@@ -38,7 +38,7 @@ const routes = [
     },
     // Lecturer
     {
-        path: '/lecturer',
+        path: '/lecturers/:id',
         exact: true,
         main: LecturerPage
     },

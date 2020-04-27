@@ -60,7 +60,7 @@ class ModalEditPracticalExam extends Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">
-                                DataBase Connection
+                                Database Connection
                          </h5>
                             <button onClick={(e) => { e.preventDefault(); this.isOpenForm(false) }} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -105,7 +105,7 @@ class ModalEditPracticalExam extends Component {
                                 </form>
 
                                 <div className="form-group" style={{marginTop:10}}>
-                                    <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">DataBase Script</span>{database ? <span className="badge badge-warning">{database.name}</span> : ''}</label>
+                                    <label htmlFor="txtPracticalExamCode"><span className="badge badge-info">Database Script</span>{database ? <span className="badge badge-warning">{database.name}</span> : ''}</label>
                                     <input type="file" name="database" className="form-control-file border" onChange={(e) => { e.preventDefault(); this.handelChangeDataBase(e) }} />
                                 </div>
                             </div>

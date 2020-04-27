@@ -47,7 +47,8 @@ class LecturerPage extends Component {
     }
 
     render() {
-        let { subjectCode } = this.props.match.params;
+        let { id } = this.props.match.params;
+        console.log(id);
         let {navArr}  = this.state;
         return (
             <div>
@@ -59,7 +60,7 @@ class LecturerPage extends Component {
                         <LeftSideBar navArr={navArr} />
 
                         {/* Container */}
-                        <LecturerPageContainer subjectCode={subjectCode ? "" : subjectCode} />
+                        <LecturerPageContainer id ={id}/>
                         {/* <PracticalExamResult/> */}
                     </div>
                 </div>
