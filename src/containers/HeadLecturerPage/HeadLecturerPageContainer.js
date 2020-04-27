@@ -254,7 +254,7 @@ class HeadLecturerPageContainer extends Component {
                 </div>
                 {pageType === AppConstant.PAGE_TYPE_LIST_SCRIPT ? <ListScripts subjectId={subjectId} /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_CREATE_SCRIPT ? <CreateTestScript eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} isShowPublicString={isShowPublicString} isRequireOrder={isRequireOrder} template_arr = {template_arr} /> : ''}
-                {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams /> : ''}
+                {pageType === AppConstant.PAGE_TYPE_LIST_PRACTICAL_EXAM ? <ListPracticalExams subjectId={subjectId}  /> : ''}
                 {pageType === AppConstant.PAGE_TYPE_UPDATE_SCRIPT && currentScript ? <UpdateTestScript script={currentScript} eventData={eventData} subjectId={subjectId} param_type={param_type} currentTemplate={currentTemplate} saveTestScript={this.getDataBeforeSaveTestScript} isShowPublicString={isShowPublicString} isRequireOrder={isRequireOrder} template_arr = {template_arr} /> : ''}
             </div>
         );

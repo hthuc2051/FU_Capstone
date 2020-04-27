@@ -11,6 +11,7 @@ const PAGE_TITLE = 'List practical exam page';
 class ListPracticalExamsPage extends Component {
     render() {
         let { subjectId } = this.props.match.params;
+        console.log(subjectId);
         return (
             <div>
                 <div>
