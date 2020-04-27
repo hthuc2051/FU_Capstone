@@ -1043,10 +1043,10 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void checkLoginDAOWithBoss(){boolean checkLoginSuccess = TemplateQuestion.checkLogin("LoginSuccess", "1");boolean checkLoginFailed = TemplateQuestion.checkLogin("LoginFailed", "1");boolean checkLoginIsBoss = TemplateQuestion.checkLogin("LoginNotBoss", "1");assertEquals( true , checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss );}',
+    code: 'public void checkLoginDAO(){boolean checkLoginSuccess = TemplateQuestion.checkLogin("LoginSuccess", "1");boolean checkLoginFailed = TemplateQuestion.checkLogin("LoginFailed", "1");boolean checkLoginIsBoss = TemplateQuestion.checkLogin("LoginNotBoss", "1");assertEquals( true , checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss );}',
   }
   SHOWALLDAO = {
-    methodName: Constant.METHOD_NAME_CHECK_LOGIN_DAO,
+    methodName: Constant.METHOD_NAME_SHOWALL_DAO,
     template: 'ShowAllDAO',
     params:  [
       {
@@ -1124,7 +1124,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void checkLoginDAOWithBoss(){boolean checkLoginSuccess = TemplateQuestion.checkLogin("LoginSuccess", "1");boolean checkLoginFailed = TemplateQuestion.checkLogin("LoginFailed", "1");boolean checkLoginIsBoss = TemplateQuestion.checkLogin("LoginNotBoss", "1");assertEquals( true , checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss );}',
+    code: 'public void showAllDAO(){if( !isLogin ){assertTrue( false );}else{assertEquals( Integer.valueOf("3") , TemplateQuestion.showAll(); );}}',
   }
 
   DELETEDAO = {
@@ -1522,7 +1522,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void testcase(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btnAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
+    code: 'public void showAllUI(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btnAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
   }
   CHECKWELCOME = {
     methodName: Constant.METHOD_NAME_WELLCOME,
