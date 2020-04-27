@@ -133,7 +133,7 @@ class CreateTestScript extends Component {
     }
 
     checkValid(questionArr, txtScriptName) {
-        let {isRequireOrder} = this.state;
+        let {isRequireOrder,templateQuestion} = this.state;
         if (txtScriptName === '') {
             window.alert(AppConstant.ERROR_MSG_EMPTY_SCRIPT_NAME);
             return false;
@@ -165,6 +165,10 @@ class CreateTestScript extends Component {
                     return false;
                 }
             }
+        }
+        if(templateQuestion === null){
+            window.alert(AppConstant.ERROR_MSG_EMPTY_TEMPLATE_QUESTION);
+            return false;
         }
         return true;
     }

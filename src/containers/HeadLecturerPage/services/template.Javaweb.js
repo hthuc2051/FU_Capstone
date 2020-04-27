@@ -216,7 +216,7 @@ export default class ScriptTemplateJavaWeb {
                       {
                         label: "Step",
                         name: "Assert_Equal",
-                        code: "Assert.assertEquals( true , html.toLowerCase().contains(\"search page\") && html.toLowerCase().contains(\"am01\") );",
+                        code: "assertEquals( true , html.toLowerCase().contains(\"search page\") && html.toLowerCase().contains(\"am01\") );",
                         params: [
                           {
                             id: 11,
@@ -303,7 +303,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void checkLogin(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();Assert.assertEquals( true , html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
+    code: 'public void checkLogin(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
   }
 
   CHECK_CONNECTION = {
@@ -336,7 +336,7 @@ export default class ScriptTemplateJavaWeb {
           {
             label: "Step",
             name: "Assert_Equal",
-            code: "Assert.assertEquals( true , check );",
+            code: "assertEquals( true , check );",
             params: [
               {
                 id: 11,
@@ -391,12 +391,12 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: "public void checkConnection(){boolean check = DBUtils.checkMakeConnection();Assert.assertEquals( true , check );if( check ){  DBUtils.executeUpdate(\"Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status) Values ('AM01','AM01','AM01','AM01','2020-03-12','true'),('AM02','AM02','AM02','AM02','2020-03-12','true'), ('AM03','AM03','AM03','AM03','2020-03-12','true')\"); }}",
+    code: "public void checkConnection(){boolean check = DBUtils.checkMakeConnection();assertEquals( true , check );if( check ){  DBUtils.executeUpdate(\"Insert into tbl_Weapon(amourId, description, classification, defense, timeOfCreate, status) Values ('AM01','AM01','AM01','AM01','2020-03-12','true'),('AM02','AM02','AM02','AM02','2020-03-12','true'), ('AM03','AM03','AM03','AM03','2020-03-12','true')\"); }}",
   }
   CHECKLOGINDAO = {
     methodName: Constant.METHOD_NAME_CHECK_LOGIN_DAO,
     template: 'CheckLoginDAO',
-    params:  [
+    params: [
       {
         parentId: 39,
         name: "Step",
@@ -490,8 +490,24 @@ export default class ScriptTemplateJavaWeb {
           },
           {
             label: "Step",
+            name: "Add_CODE",
+            code: "isLogin = checkLoginSuccess && !checkLoginFailed ;",
+            params: [
+              {
+                id: 19,
+                name: "$data",
+                type: "Code",
+                value: "isLogin = checkLoginSuccess && !checkLoginFailed "
+              }
+            ],
+            showChildren: false,
+            editMode: false,
+            children: []
+          },
+          {
+            label: "Step",
             name: "Assert_Equal",
-            code: "Assert.assertEquals( true , checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss );",
+            code: "assertEquals( true , isLogin && !checkLoginIsBoss );",
             params: [
               {
                 id: 11,
@@ -503,7 +519,7 @@ export default class ScriptTemplateJavaWeb {
                 id: 12,
                 name: "$actual",
                 type: "Code",
-                value: "checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss"
+                value: "isLogin && !checkLoginIsBoss"
               }
             ],
             showChildren: false,
@@ -513,7 +529,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void checkLoginDAO(){boolean checkLoginSuccess = TemplateQuestion.checkLogin("LoginSuccess", "1");boolean checkLoginFailed = TemplateQuestion.checkLogin("LoginFailed", "1");boolean checkLoginIsBoss = TemplateQuestion.checkLogin("LoginNotBoss", "1");Assert.assertEquals( true , checkLoginSuccess && !checkLoginFailed && !checkLoginIsBoss );}',
+    code: 'public void checkLoginDAO(){boolean checkLoginSuccess = TemplateQuestion.checkLogin("LoginSuccess","1");boolean checkLoginFailed = TemplateQuestion.checkLogin("LoginFailed","1");boolean checkLoginIsBoss = TemplateQuestion.checkLogin("LoginNotBoss","1");isLogin = checkLoginSuccess && !checkLoginFailed ;assertEquals( true , isLogin && !checkLoginIsBoss );}',
   }
   SHOWALLDAO = {
     methodName: Constant.METHOD_NAME_SHOWALL_DAO,
@@ -570,7 +586,7 @@ export default class ScriptTemplateJavaWeb {
               {
                 label: "Step",
                 name: "Assert_Equal",
-                code: "Assert.assertEquals( Integer.valueOf(\"3\") , TemplateQuestion.showAll() );",
+                code: "assertEquals( Integer.valueOf(\"3\") , TemplateQuestion.showAll() );",
                 params: [
                   {
                     id: 11,
@@ -594,7 +610,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void showAllDAO(){if( !isLogin ){assertTrue( false );}else{Assert.assertEquals( Integer.valueOf("3") , TemplateQuestion.showAll());}}',
+    code: 'public void showAllDAO(){if( !isLogin ){assertTrue( false );}else{assertEquals( Integer.valueOf("3") , TemplateQuestion.showAll());}}',
   }
 
   DELETEDAO = {
@@ -702,7 +718,7 @@ export default class ScriptTemplateJavaWeb {
               {
                 label: "Step",
                 name: "Assert_Equal",
-                code: "Assert.assertEquals( true , checkDAO && !checkExisted );",
+                code: "assertEquals( true , checkDAO && !checkExisted );",
                 params: [
                   {
                     id: 11,
@@ -726,7 +742,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void deleteDAO(){if( !isLogin ){assertTrue( false );}else{boolean checkDAO = TemplateQuestion.delete("AM02");boolean checkExisted= DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where amourId = \'A02\'");Assert.assertEquals( true , checkDAO && !checkExisted );}}',
+    code: 'public void deleteDAO(){if( !isLogin ){assertTrue( false );}else{boolean checkDAO = TemplateQuestion.delete("AM02");boolean checkExisted= DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where amourId = \'A02\'");assertEquals( true , checkDAO && !checkExisted );}}',
   }
   
   SHOWALLUI = {
@@ -905,7 +921,7 @@ export default class ScriptTemplateJavaWeb {
                       {
                         label: "Step",
                         name: "Assert_Equal",
-                        code: "Assert.assertEquals( true ,  html.toLowerCase().contains(\"search page\") && html.toLowerCase().contains(\"am01\") );",
+                        code: "assertEquals( true ,  html.toLowerCase().contains(\"search page\") && html.toLowerCase().contains(\"am01\") );",
                         params: [
                           {
                             id: 11,
@@ -992,7 +1008,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void showAllUI(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();Assert.assertEquals( true , html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
+    code: 'public void showAllUI(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("search page") && html.toLowerCase().contains("am01") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
   }
   CHECKWELCOME = {
     methodName: Constant.METHOD_NAME_WELLCOME,
@@ -1170,7 +1186,7 @@ export default class ScriptTemplateJavaWeb {
                       {
                         label: "Step",
                         name: "Assert_Equal",
-                        code: "Assert.assertEquals( true , html.toLowerCase().contains(\"loginsuccess\") && html.toLowerCase().contains(\"1\") );",
+                        code: "assertEquals( true , html.toLowerCase().contains(\"loginsuccess\") && html.toLowerCase().contains(\"1\") );",
                         params: [
                           {
                             id: 11,
@@ -1257,7 +1273,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void checkWelcome(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();Assert.assertEquals( true , html.toLowerCase().contains("loginsuccess") && html.toLowerCase().contains("1") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
+    code: 'public void checkWelcome(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/login.html" );driver.findElement(By.name( "txtUsername")).clear();driver.findElement(By.name( "txtUsername" )).sendKeys( "LoginSuccess" );driver.findElement(By.name( "txtPassword")).clear();driver.findElement(By.name( "txtPassword" )).sendKeys( "1" );driver.findElement(By.name( "btAction" )).click();try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("loginsuccess") && html.toLowerCase().contains("1") );}catch( Exception e ){assertTrue( false );}}}else{assertTrue( false );}}',
   }
   DELETEUI = {
     methodName: Constant.METHOD_NAME_DELETE_UI,
@@ -1412,7 +1428,7 @@ export default class ScriptTemplateJavaWeb {
                           {
                             label: "Step",
                             name: "Assert_Equal",
-                            code: "Assert.assertEquals( true , html.contains(\"search page\") && !html.contains(\"am03\") );",
+                            code: "assertEquals( true , html.toLowerCase().contains(\"search page\") && !html.toLowerCase().contains(\"am03\") );",
                             params: [
                               {
                                 id: 11,
@@ -1424,7 +1440,7 @@ export default class ScriptTemplateJavaWeb {
                                 id: 12,
                                 name: "$actual",
                                 type: "Code",
-                                value: "html.contains(\"search page\") && !html.contains(\"am03\")"
+                                value: "html.toLowerCase().contains(\"search page\") && !html.toLowerCase().contains(\"am03\")"
                               }
                             ],
                             showChildren: false,
@@ -1527,7 +1543,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void deleteUI(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/delete?idDelete=AM03&btAction=Delete" );boolean checkDB= DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where amourId = \'AM03\'");if( !checkDB ){try{String html = driver.findElement(By.tagName("body")).getText();Assert.assertEquals( true , html.contains("search page") && !html.contains("am03") );}catch( Exception e ){assertTrue( false );}}else{assertTrue( false );}}}else{assertTrue( false );}}',
+    code: 'public void deleteUI(){if( driver != null ){if( !isLogin ){assertTrue( false );}else{driver.get( "http://localhost:8080/delete?idDelete=AM03&btAction=Delete" );boolean checkDB= DBUtils.executeQuery("SELECT amourId FROM tbl_Weapon Where amourId = \'AM03\'");if( !checkDB ){try{String html = driver.findElement(By.tagName("body")).getText();assertEquals( true , html.toLowerCase().contains("search page") && !html.toLowerCase().contains("am03") );}catch( Exception e ){assertTrue( false );}}else{assertTrue( false );}}}else{assertTrue( false );}}',
   }
   LOGOUT = {
     methodName: Constant.METHOD_NAME_LOGOUT,
@@ -1645,7 +1661,7 @@ export default class ScriptTemplateJavaWeb {
                       {
                         label: "Step",
                         name: "Assert_Equal",
-                        code: "Assert.assertEquals( true , html.toLowerCase().contains(\"login page\") );",
+                        code: "assertEquals( true , html.toLowerCase().contains(\"login page\") );",
                         params: [
                           {
                             id: 11,
@@ -1748,7 +1764,7 @@ export default class ScriptTemplateJavaWeb {
         ]
       }
     ],
-    code: 'public void logOut() {if (driver != null) {if (!isLogin) {assertFalse(true);} else {driver.get("http://localhost:8080/logout");try {String html = driver.findElement(By.tagName("body")).getText();Assert.assertEquals(true, html.toLowerCase().contains("login page"));} catch (Exception e) {assertFalse(true);}}} else {assertFalse(true);}DBUtils.executeUpdate("Delete From tbl_Weapon");}',
+    code: 'public void logOut() {if (driver != null) {if (!isLogin) {assertFalse(true);} else {driver.get("http://localhost:8080/logout");try {String html = driver.findElement(By.tagName("body")).getText();assertEquals(true, html.toLowerCase().contains("login page"));} catch (Exception e) {assertFalse(true);}}} else {assertFalse(true);}DBUtils.executeUpdate("Delete From tbl_Weapon");}',
   }
   GLOBAL_VARIABLE=
   {
