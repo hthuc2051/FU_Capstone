@@ -135,7 +135,7 @@ class GithubResultContainer extends Component {
                 </div>
             </nav>
             <br />
-            <div className="card content">
+            <div className="card content" style={{marginBottom:300}}>
                 <h2 className="github-button"><span className="badge badge-info">{studentCode}</span></h2>
                 <table className="table" id="myTable">
                     <thead>
