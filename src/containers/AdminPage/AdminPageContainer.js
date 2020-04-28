@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import CodePageContainer from './../CodePage/CodePageContainer';
 import ParamTypeService from './../AdminPage/services/ParamTypeService';
 import ParamService from './../AdminPage/services/ParamService';
+import UpdateActionContainer from '../CodePage/UpdateActionContainer';
 
 class AdminPageContainer extends Component {
 
@@ -25,6 +26,8 @@ class AdminPageContainer extends Component {
             navArr: [],
             navTye: 'Action',
             error: '',
+            isUpdate: false,
+            updateAction: null,
         };
     }
 
@@ -46,6 +49,7 @@ class AdminPageContainer extends Component {
             navType: nextProps.type,
             error: nextProps.error,
             isAddnew: nextProps.isAddnew,
+            isUpdate: nextProps.isUpdate,
         }
     }
 
@@ -152,7 +156,13 @@ class AdminPageContainer extends Component {
     }
 
     onUpdate = (id) => {
-        // render modal
+        let { listActions, updateAction } = this.state;
+        if (id !== null && typeof (id) !== 'undefined') {
+            let action = listActions.find(a => a.id === id);
+            updateAction = action;
+            this.setState({updateAction, isUpdate: true});
+            this.props.onChangedUpdate(true);
+        }
     }
 
     openCreateForm = () => {
@@ -217,7 +227,7 @@ class AdminPageContainer extends Component {
     }
 
     render() {
-        let { listActions, listSubjects, isAddnew, navType } = this.state;
+        let { listActions, listSubjects, isAddnew, navType, isUpdate, updateAction } = this.state;
         if (AppConstants.PARAM_NAV_TITLE === navType) {
             return (<ParamService />);
         } else if (AppConstants.PARAM_TYPE_NAV_TITLE === navType) {
@@ -225,6 +235,9 @@ class AdminPageContainer extends Component {
         } else if (AppConstants.ACTION_NAV_TITLE === navType) {
             if (isAddnew) {
                 return (<CodePageContainer />);
+            } else if (isUpdate) {
+                console.log(updateAction)
+                return (<UpdateActionContainer updateAction={updateAction} />);
             } else {
                 return (
                     <div id="content-wrapper">
@@ -279,7 +292,7 @@ class AdminPageContainer extends Component {
     }
 }
 
-const mapStateToProps = state => {    
+const mapStateToProps = state => {
     return {
         listActions: state.listActionsPage.listActions,
         listSubjects: state.listActionsPage.listSubjects,
