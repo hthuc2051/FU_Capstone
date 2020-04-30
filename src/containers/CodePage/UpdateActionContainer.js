@@ -43,21 +43,12 @@ class UpdateActionContainer extends Component {
         if (nextProps === prevState) {
             return null;
         }
-        // if (nextProps.updateAction.subject !== null && typeof(nextProps.updateAction.subject) !== 'undefined') {
-        //     return {
-        //         listParams: nextProps.listParams,
-        //         listSubjects: nextProps.listSubjects,
-        //         listParamTypes: nextProps.listParamTypes,
-                
-        //     };
-        // } else {
-            return {
-                listParams: nextProps.listParams,
-                listSubjects: nextProps.listSubjects,
-                listParamTypes: nextProps.listParamTypes,
-                updateAction: nextProps.updateAction,
-            };
-        // }
+        return {
+            listParams: nextProps.listParams,
+            listSubjects: nextProps.listSubjects,
+            listParamTypes: nextProps.listParamTypes,
+            updateAction: nextProps.updateAction,
+        };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -72,7 +63,8 @@ class UpdateActionContainer extends Component {
         return true;
     }
 
-    saveAction = () => {
+    saveAction = (e) => {
+        e.preventDefault();
         let { actionParams, updateAction } = this.state;
 
         updateAction.actionParams = actionParams;
@@ -82,7 +74,7 @@ class UpdateActionContainer extends Component {
 
         this.setState({ updateAction });
         console.log(updateAction)
-        this.props.updateAction(updateAction);
+        this.props.updateActionDetails(updateAction);
     }
 
     addMoreParam = (e) => {
@@ -93,7 +85,7 @@ class UpdateActionContainer extends Component {
             let parameter = listParams[0];
             let paramType = listParamTypes[0];
             actionParams.push({
-                randId: randId,
+                id: randId,
                 param: {
                     id: parameter.id,
                     name: parameter.name,
@@ -198,7 +190,7 @@ class UpdateActionContainer extends Component {
                     <select className="custom-select subject-list col-3" name="param-type" onChange={(e) => this.onParamChangeHandler(e, index)}>
                         {listParamTypes ? this.renderParameterType(listParamTypes, index) : ''}
                     </select>
-                    <button className="btn btn-danger" onClick={() => this.removeParam(item.randId)}>
+                    <button className="btn btn-danger" onClick={() => this.removeParam(item.id)}>
                         <i className="fa fa-plus" /> Remove
                     </button>
                 </div>
@@ -209,7 +201,7 @@ class UpdateActionContainer extends Component {
 
     removeParam = (id) => {
         let { actionParams } = this.state;
-        var removeIndex = actionParams.map(function (item) { return item.randId; }).indexOf(id);
+        var removeIndex = actionParams.map(function (item) { return item.id; }).indexOf(id);
 
         if (removeIndex !== null && removeIndex >= 0) {
             actionParams.splice(removeIndex, 1);
@@ -317,7 +309,7 @@ class UpdateActionContainer extends Component {
 
                                 <br />
                                 <div className=''>
-                                    <button type="button" onClick={this.saveAction} className="btn btn-success">Save</button>
+                                    <button type="button" onClick={(e) => this.saveAction(e)} className="btn btn-success">Save</button>
                                         &nbsp;
                                         <button type="reset" className="btn btn-danger">Clear</button>
                                 </div>
@@ -359,9 +351,9 @@ const mapDispatchToProps = (dispatch, props) => {
         getListParams: () => {
             getListParams(dispatch);
         },
-        // updateAction: (actionUpdate) => {
-        //     updateAction(actionUpdate, dispatch);
-        // }
+        updateActionDetails: (actionUpdate) => {
+            updateAction(actionUpdate, dispatch);
+        }
     };
 }
 

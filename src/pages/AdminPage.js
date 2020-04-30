@@ -22,7 +22,7 @@ class CodePage extends Component {
     }
 
     onChangedLeftSideBar = (navType) => {
-        this.setState({ navType: navType, isAddnew: false });
+        this.setState({ navType: navType, isAddnew: false, isUpdate: false });
     }
 
     onChangedUpdate = (isUpdate) => {
