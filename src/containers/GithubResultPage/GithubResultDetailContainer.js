@@ -109,7 +109,7 @@ class GithubResultDetailContainer extends Component {
             <p>
                 <button className="btn btn-success" onClick={(e) =>{e.preventDefault();this.back()}}><i className="fa fa-chevron-left"/></button>
             </p>
-            <nav className="question-nav">
+            <nav className="question-nav card_border_search">
                 <div className="input-field">
                     <div className="icon-wrap">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={20} height={20} viewBox="0 0 20 20">
@@ -120,7 +120,7 @@ class GithubResultDetailContainer extends Component {
                 </div>
             </nav>
             <br />
-            <div className="card content">
+            <div className="card content card_border_search">
                 <h2 className="github-button"><span className="badge badge-info">{studentCode}</span></h2>
                 <table className="table table-hover" id="myTable">
                     <thead>
