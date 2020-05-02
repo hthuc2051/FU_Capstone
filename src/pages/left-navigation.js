@@ -1,9 +1,9 @@
 export const headLecturerNavArr = [
-    {
-        title: 'Dashboard',
-        type: 'nav-item',
-        link: '/head-lecturer/1'
-    },
+    // {
+    //     title: 'Dashboard',
+    //     type: 'nav-item',
+    //     link: '/head-lecturer/1'
+    // },
     {
         title: 'Create script',
         type: 'drop-down',

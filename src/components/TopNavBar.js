@@ -3,7 +3,7 @@ class TopNavBar extends Component {
 
     onLogOut = () => {
         localStorage.removeItem('userInfo');
-        window.location.replace("/login");
+        window.location.replace("/");
     }
 
     render() {
@@ -30,7 +30,7 @@ class TopNavBar extends Component {
                 </form> */}
                 {/* Navbar container*/}
                 <ul className="navbar-nav ml-auto ">
-                    <li className="nav-item dropdown no-arrow mx-1">
+                    {/* <li className="nav-item dropdown no-arrow mx-1">
                         <a className="nav-link dropdown-toggle" href="dummy" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="fa fa-bell fa-fw" />
                             <span className="badge badge-danger">9+</span>
@@ -53,15 +53,15 @@ class TopNavBar extends Component {
                             <div className="dropdown-divider" />
                             <a className="dropdown-item" href="dummy">Something else here</a>
                         </div>
-                    </li>
+                    </li> */}
                     <li className="nav-item dropdown no-arrow">
                         <a className="nav-link dropdown-toggle" href="dummy" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i className="fa fa-user-circle fa-fw" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a className="dropdown-item" href="dummy">Settings</a>
-                            <a className="dropdown-item" href="dummy">Activity Log</a>
-                            <div className="dropdown-divider" />
+                            {/* <a className="dropdown-item" href="dummy">Settings</a>
+                            <a className="dropdown-item" href="dummy">Activity Log</a> */}
+                            {/* <div className="dropdown-divider" /> */}
                             <button className="dropdown-item" href="dummy" onClick={this.onLogOut} data-toggle="modal" data-target="dummylogoutModal">Logout</button>
                         </div>
                     </li>
