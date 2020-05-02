@@ -3,15 +3,16 @@ import './style.css';
 import { connect } from 'react-redux';
 import * as Constants from '../constants';
 import { onFinishing } from '../AdminPage/actions';
-import { getListParams, getListSubjects, getListParamTypesBySubject, createAction } from '../AdminPage/axios';
+import { getListParams, getListSubjects, getListParamTypesBySubject, updateAction } from '../AdminPage/axios';
 
-class CodePageContainer extends Component {
+class UpdateActionContainer extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             actionParams: [],
-            action: {
+            updateAction: {
+                id: '',
                 randId: '',
                 name: '',
                 code: '',
@@ -46,46 +47,34 @@ class CodePageContainer extends Component {
             listParams: nextProps.listParams,
             listSubjects: nextProps.listSubjects,
             listParamTypes: nextProps.listParamTypes,
-        }
+            updateAction: nextProps.updateAction,
+        };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        let {listSubjects} = nextProps;
-        let {isSubjectChanged, action} = this.state;
-        if (listSubjects !== null && listSubjects.length > 0 && !isSubjectChanged) {
-            this.props.getListParamTypesBySubject(listSubjects[0].id);
+        let {updateAction, isSubjectChanged, actionParams} = this.state;
+        console.log(this.state);
+        if (updateAction !== null && typeof (updateAction) !== 'undefined' && !isSubjectChanged) {
             isSubjectChanged = true;
-            action.subject = listSubjects[0];
-            this.setState({isSubjectChanged, action});
+            this.props.getListParamTypesBySubject(updateAction.subject.id);
+            actionParams = updateAction.actionParams;
+            this.setState({isSubjectChanged, updateAction, actionParams});
         }
         return true;
     }
 
-    changeSubject = (e) => {
-        let { listSubjects, action, actionParams } = this.state;
-        let subjectId = e.target.value;
-        if (subjectId !== '') {
-            let subject = listSubjects.find(s => s.id.toString() === subjectId);
-            if (subject !== null && typeof (subject) !== 'undefined') {
-                action.subject = subject;
-                actionParams = [];
-                this.setState({action, actionParams});
-            }
-            this.props.getListParamTypesBySubject(subjectId);
-        }
-    }
+    saveAction = (e) => {
+        e.preventDefault();
+        let { actionParams, updateAction } = this.state;
 
-    saveAction = () => {
-        let { actionParams, action } = this.state;
-
-        action.actionParams = actionParams;
-        let formatedCode = action.code.replace(/\r?\n|\r/g, '');
+        updateAction.actionParams = actionParams;
+        let formatedCode = updateAction.code.replace(/\r?\n|\r/g, '');
         
-        action.code = formatedCode;
+        updateAction.code = formatedCode;
 
-        this.setState({ action });
-        console.log(action)
-        //this.props.createAction(action);
+        this.setState({ updateAction });
+        console.log(updateAction)
+        this.props.updateActionDetails(updateAction);
     }
 
     addMoreParam = (e) => {
@@ -96,7 +85,7 @@ class CodePageContainer extends Component {
             let parameter = listParams[0];
             let paramType = listParamTypes[0];
             actionParams.push({
-                randId: randId,
+                id: randId,
                 param: {
                     id: parameter.id,
                     name: parameter.name,
@@ -118,11 +107,11 @@ class CodePageContainer extends Component {
 
     onActionNameChangeHandler = (e, actionName) => {
         e.preventDefault();
-        let { action } = this.state;
+        let { updateAction } = this.state;
         actionName = e.target.value;
-        action.name = actionName;
+        updateAction.name = actionName;
         this.setState({
-            action
+            updateAction
         });
     }
 
@@ -153,26 +142,38 @@ class CodePageContainer extends Component {
         });
     }
 
-    renderParameter = (listParams) => {
+    renderParameter = (listParams, index) => {
         let result = [];
+        let {actionParams} = this.state;
         if (listParams !== null && typeof(listParams) !== 'undefined') {
-            result = listParams.map((item, index) => {
-                return (
-                    <option id={item.id} value={item.name} key={index}>{item.name}</option>
-                );
-            });
+            if (actionParams !== null && actionParams.length > 0) {
+                let parameter = actionParams[index].param;
+                result = listParams.map((item, index) => {                      
+                    if (parameter.id === item.id) {
+                        return <option id={item.id} value={item.name} key={index} selected>{item.name}</option>;
+                    } else {
+                        return <option id={item.id} value={item.name} key={index}>{item.name}</option>;
+                    }
+                });
+            }
         }
         return result;
     }
 
-    renderParameterType = (listParamTypes) => {
+    renderParameterType = (listParamTypes, index) => {
         let result = [];
+        let {actionParams} = this.state;
         if (listParamTypes !== null && typeof(listParamTypes) !== 'undefined') {
-            result = listParamTypes.map((item, index) => {
-                return (
-                    <option id={item.id} value={item.name} key={index}>{item.name}</option>
-                );
-            });
+            if (actionParams !== null && actionParams.length > 0) {
+                let paramType = actionParams[index].paramType;
+                result = listParamTypes.map((item, index) => {
+                    if (paramType.id === item.id) {
+                        return <option id={item.id} value={item.name} key={index} selected>{item.name}</option>;
+                    } else {
+                        return <option id={item.id} value={item.name} key={index}>{item.name}</option>;
+                    }
+                });
+            }
         }
         return result;
     }
@@ -184,12 +185,12 @@ class CodePageContainer extends Component {
             return (
                 <div className='form-group row params' key={index}>
                     <select className="custom-select subject-list col-3 mr-3" name="parameter" onChange={(e) => this.onParamChangeHandler(e, index)}>
-                        {listParams ? this.renderParameter(listParams) : ''}
+                        {listParams ? this.renderParameter(listParams, index) : ''}
                     </select>
                     <select className="custom-select subject-list col-3" name="param-type" onChange={(e) => this.onParamChangeHandler(e, index)}>
-                        {listParamTypes ? this.renderParameterType(listParamTypes) : ''}
+                        {listParamTypes ? this.renderParameterType(listParamTypes, index) : ''}
                     </select>
-                    <button className="btn btn-danger" onClick={() => this.removeParam(item.randId)}>
+                    <button className="btn btn-danger" onClick={() => this.removeParam(item.id)}>
                         <i className="fa fa-plus" /> Remove
                     </button>
                 </div>
@@ -200,7 +201,7 @@ class CodePageContainer extends Component {
 
     removeParam = (id) => {
         let { actionParams } = this.state;
-        var removeIndex = actionParams.map(function (item) { return item.randId; }).indexOf(id);
+        var removeIndex = actionParams.map(function (item) { return item.id; }).indexOf(id);
 
         if (removeIndex !== null && removeIndex >= 0) {
             actionParams.splice(removeIndex, 1);
@@ -211,11 +212,11 @@ class CodePageContainer extends Component {
 
     onCodeChangeHandler = (e, code) => {
         e.preventDefault();
-        let { action } = this.state;
+        let { updateAction } = this.state;
         code = e.target.value;
-        action.code = code;
+        updateAction.code = code;
         this.setState({
-            action
+            updateAction
         });
     }
 
@@ -227,7 +228,7 @@ class CodePageContainer extends Component {
                         <div id="highlighter_548907" className="syntaxhighlighter nogutter">
                             <div className="container">
                                 <div>
-                                    <code className="keyword" placeholder='actionName'>{this.state.action.name} </code>
+                                    <code className="keyword" placeholder='actionName'>{this.state.updateAction.name} </code>
                                     <code className="plain">{this.leftBracket}</code>
                                 </div>
 
@@ -246,20 +247,28 @@ class CodePageContainer extends Component {
         );
     }
 
-    renderSubjects = (listSubjects) => {
+    renderSubjects = (listSubjects, updateAction) => {
         let result = [];
         if (listSubjects !== null && typeof(listSubjects) !== 'undefined') {
             result = listSubjects.map((item, index) => {
-                return (
-                    <option value={item.id} key={index}>{item.name}</option>
-                );
+                console.log(updateAction.subject.id);
+                let subject = listSubjects.find(s => s.id === updateAction.subject.id)
+                if (subject !== null) {
+                    return (
+                        <option value={subject.id} key={index} selected>{subject.name}</option>
+                    );
+                } else {
+                    return (
+                        <option value={item.id} key={index} >{item.name}</option>
+                    );
+                }
             });
         }
         return result;
     }
 
     render() {
-        let {listSubjects} = this.state;
+        let {listSubjects, updateAction, actionParams} = this.state;
         return (
             <div id="content-wrapper" >
                 <div className="card content">
@@ -268,21 +277,21 @@ class CodePageContainer extends Component {
                             <div className="col-sm-6">
                                 <div className="form-group">
                                     <label >Action name:</label>
-                                    <input type="text" className="form-control" onChange={(e) => this.onActionNameChangeHandler(e, this, this.state.action.name)} />
+                                    <input type="text" className="form-control" onChange={(e) => this.onActionNameChangeHandler(e, updateAction.name)} value={updateAction.name} />
                                 </div>
 
                                 <div className='form-group'>
                                     <div>
                                         <label>Subject:</label>
                                     </div>
-                                    <select className="custom-select subject-list col-6" id="inputGroupSelect02" onChange={(e) => this.changeSubject(e)}>
-                                        {listSubjects ? this.renderSubjects(listSubjects) : ''}
+                                    <select className="custom-select subject-list col-6" id="inputGroupSelect02" disabled>
+                                        {listSubjects ? this.renderSubjects(listSubjects, updateAction) : ''}
                                     </select>
                                 </div>
 
                                 <div className="form-group">
                                     <label >Code Snippet:</label>
-                                    <textarea className="form-control" onChange={(e) => this.onCodeChangeHandler(e, this.state.action.code)} />
+                                    <textarea className="form-control" onChange={(e) => this.onCodeChangeHandler(e, updateAction.code)} value={updateAction.code} />
                                 </div>
 
                                 <div className="form-group">
@@ -295,12 +304,12 @@ class CodePageContainer extends Component {
                                 </div>
 
                                 <div className="form-group" id="paramRoot" >
-                                    {this.renderParameters(this.state.actionParams)}
+                                    {this.renderParameters(actionParams)}
                                 </div>
 
                                 <br />
                                 <div className=''>
-                                    <button type="button" onClick={this.saveAction} className="btn btn-success">Save</button>
+                                    <button type="button" onClick={(e) => this.saveAction(e)} className="btn btn-success">Save</button>
                                         &nbsp;
                                         <button type="reset" className="btn btn-danger">Clear</button>
                                 </div>
@@ -308,7 +317,7 @@ class CodePageContainer extends Component {
 
                             <div className="vl" style={{ marginRight: '15px' }} ></div>
 
-                            {this.renderCodeSnippet(this.state.action.code)}
+                            {this.renderCodeSnippet(updateAction.code)}
 
 
                         </div>
@@ -320,17 +329,18 @@ class CodePageContainer extends Component {
 }
 
 const mapStateToProps = state => {
+    console.log(state)
     return {
-        listParams: state.listActionsPage.listParams,
         listSubjects: state.listActionsPage.listSubjects,
         listParamTypes: state.listActionsPage.listParamTypes,
+        listParams: state.listActionsPage.listParams,
     };
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        getListParams: () => {
-            getListParams(dispatch);
+        onFinishing: () => {
+            dispatch(onFinishing(Constants.RESET_ACTION_STATUS));
         },
         getListSubjects: () => {
             getListSubjects(dispatch);
@@ -338,13 +348,13 @@ const mapDispatchToProps = (dispatch, props) => {
         getListParamTypesBySubject: (id) => {
             getListParamTypesBySubject(id, dispatch);
         },
-        createAction: (action) => {
-            createAction(action, dispatch);
+        getListParams: () => {
+            getListParams(dispatch);
         },
-        onFinishing: () => {
-            dispatch(onFinishing(Constants.RESET_ACTION_STATUS));
-        },
+        updateActionDetails: (actionUpdate) => {
+            updateAction(actionUpdate, dispatch);
+        }
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CodePageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateActionContainer);

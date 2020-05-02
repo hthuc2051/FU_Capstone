@@ -25,6 +25,13 @@ export const createAction = async (action, dispatch) => {
     }
 }
 
+export const updateAction = async (action, dispatch) => {
+    let result = await callApi(Constants.END_POINT_ACTION, Constants.PREFIX_PUT, action, null);
+    if (result !== null) {
+        handleResponse(result, Constants.UPDATE_ACTION, dispatch);
+    }
+}
+
 export const getListParams = async (dispatch) => {
     let results = await callApi(Constants.END_POINT_PARAM);
     if (results !== null) {
