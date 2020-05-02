@@ -287,12 +287,24 @@ class CreateTestScript extends Component {
         })
     }
     onCloseFormFileDetails = (documentFile, templateQuestionFile, testDataFile) => {
-        this.setState({
-            document: documentFile,
-            templateQuestion: templateQuestionFile,
-            testData: testDataFile,
-            isOpenFormFile: false
-        })
+        if(documentFile !== null ){
+            this.setState({
+                document: documentFile,
+                isOpenFormFile: false
+            })
+        }
+        if(templateQuestionFile !== null ){
+            this.setState({
+                templateQuestion: templateQuestionFile,
+                isOpenFormFile: false
+            })
+        }
+        if(testDataFile !== null ){
+            this.setState({
+                testData: testDataFile,
+                isOpenFormFile: false
+            })
+        }
     }
 
     onCloseDetails = (editObj, databaseFile) => {

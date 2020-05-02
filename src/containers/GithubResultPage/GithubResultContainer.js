@@ -124,7 +124,7 @@ class GithubResultContainer extends Component {
         let { filesResult } = this.state;
         console.log(filesResult);
         return (<div id="content-wrapper">
-            <nav className="question-nav">
+            <nav className="question-nav card_border_search">
                 <div className="input-field">
                     <div className="icon-wrap">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width={20} height={20} viewBox="0 0 20 20">
@@ -135,7 +135,7 @@ class GithubResultContainer extends Component {
                 </div>
             </nav>
             <br />
-            <div className="card content" style={{marginBottom:300}}>
+            <div className="card content card_border_search" style={{marginBottom:300}}>
                 <h2 className="github-button"><span className="badge badge-info">{studentCode}</span></h2>
                 <table className="table" id="myTable">
                     <thead>

@@ -286,3 +286,8 @@ form.node_edit_form .field.action_node .fa.fa-close {
     width: 100%;
     margin-top: 30px;
 }
+.add-sibling{
+    color: #28a745 !important;
+    font-weight: bold !important;
+    font-size: 14px;
+}

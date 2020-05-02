@@ -28,7 +28,7 @@ class TreeViewWeb extends Component {
       isOpenForm: false,
       isShowPublicString: false,
       isRequireOrder: true,
-      template_arr:[],
+      template_arr: [],
     }
   }
 
@@ -94,7 +94,7 @@ class TreeViewWeb extends Component {
     paramObj.editMode = false;
     if (isCreate) {
       parent.splice(index, 1);
-     
+
     }
     this.setState({ parent, isCreate: false });
     // }
@@ -149,7 +149,8 @@ class TreeViewWeb extends Component {
     this.setState({ ob });
   }
 
-  addMember = (parent) => {
+  addMember = (parent, paramObj) => {
+    console.log(parent)
     let newChild = null;
     if (parent[0].label === Constant.LABEL_STEP) {
       let sampleData = this.state.eventData[0];
@@ -178,7 +179,12 @@ class TreeViewWeb extends Component {
         children: []
       }
     }
-    parent.push(newChild);
+    if(paramObj !== null && typeof(paramObj) !== 'undefined'){
+       let index = parent.indexOf(paramObj);
+        parent.splice(index + 1 ,0,newChild);
+    }else{
+      parent.push(newChild);
+    }
     this.setState({ parent, isCreate: true });
   }
 
@@ -297,7 +303,8 @@ class TreeViewWeb extends Component {
                   paramObj.type + " - " + paramObj.name + " - " + this.shortenNodeValue(paramObj.value)
                 }
                 <span className="actions">
-                  <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
+                  <i className="fa fa-angle-down" onClick={(e) => { e.stopPropagation(); this.addChild(paramObj) }}> </i>
+                  <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addMember(node,paramObj) }}> </i>
                   <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
                   <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
                 </span>
@@ -314,6 +321,7 @@ class TreeViewWeb extends Component {
                 }
 
                 <span className="actions">
+                  <i className="fa fa-plus" onClick={(e) => { e.stopPropagation(); this.addMember(node,paramObj) }}> </i>
                   <i className="fa fa-pencil" onClick={(e) => { e.stopPropagation(); this.makeEditable(paramObj) }}></i>
                   <i className="fa fa-close" onClick={(e) => { e.stopPropagation(); this.deleteNode(node, index) }}></i>
                 </span>
@@ -336,7 +344,7 @@ class TreeViewWeb extends Component {
         {children}
         <li>
           <div className="node add_node" onClick={(e) => { e.stopPropagation(); this.addMember(node) }}>
-            <i className="fa fa-plus" ></i>
+            <i className="fa fa-plus add-sibling" ></i>
             <span>Add New</span>
           </div>
         </li>
@@ -476,20 +484,20 @@ class TreeViewWeb extends Component {
 
   renderTemplate = (template_arr) => {
     let { selectTemplate } = this.state;
-    if(template_arr === null || typeof(template_arr) === 'undefined') return;
-    if(template_arr.length > 0){
+    if (template_arr === null || typeof (template_arr) === 'undefined') return;
+    if (template_arr.length > 0) {
       let result = (
         <select value={selectTemplate} name="selectTemplate" onChange={this.changeTemplate}>
-         {template_arr.map((item,index)=>{
-           return(<option value={item} key={index}>{item}</option>)
-         })}
+          {template_arr.map((item, index) => {
+            return (<option value={item} key={index}>{item}</option>)
+          })}
         </select>)
       return result;
     }
   }
 
   render() {
-    let { selectTemplate, question, data, global_variable, isShowPublicString, isRequireOrder,template_arr } = this.state;
+    let { selectTemplate, question, data, global_variable, isShowPublicString, isRequireOrder, template_arr } = this.state;
     return (
       <div className="col-md-12">
         <div className="group_dropdown_content">
@@ -538,7 +546,7 @@ class TreeViewWeb extends Component {
                 {this.renderTemplate(template_arr)}
             </p>
             <code className="codeLine" id="global_variable">
-              <p>{global_variable?  global_variable.children.map((item, index) => this.createParam(item, index)) :''}</p>
+              <p>{global_variable ? global_variable.children.map((item, index) => this.createParam(item, index)) : ''}</p>
             </code>
             <code className="codeLine" id="codevalue">
               {isShowPublicString ? "public" : ''} void <span className="methodName">{this.state.data.methodName}</span>()&#123;<br />
