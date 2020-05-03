@@ -21,7 +21,7 @@ class ModalCreatePracticalExam extends Component {
             isOpenForm: false,
             checkedClasses: new Map(),
             checkedScripts: new Map(),
-            subjectSelected: '',
+            subjectSelected: null,
             subjectId: '',
         };
     }
@@ -31,17 +31,23 @@ class ModalCreatePracticalExam extends Component {
         if (nextProps === prevState) {
             return null;
         }
-      
+        let {subjectSelected }= prevState;
+        let {subjects} = nextProps;
+        if(subjectSelected === null || typeof(subjectSelected) === 'undefined'){
+            if(subjects !== null || typeof(subjects) !=='undefined')
+            subjectSelected = nextProps.subjects[0];
+        }
+        console.log(subjectSelected);
 
         return {
-            subjects: nextProps.subjects,
+            subjects: subjects,
             statusCode: nextProps.statusCode,
             classes: nextProps.classes,
             scripts: nextProps.scripts,
             practicalExam: nextProps.editObj,
             isOpenForm: nextProps.isOpenForm,
             formType: nextProps.formType,
-        
+            subjectSelected:subjectSelected,
         }
     }
 

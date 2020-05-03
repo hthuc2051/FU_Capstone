@@ -34,14 +34,17 @@ class ModalEditPracticalExam extends Component {
         if (nextProps.statusCode === 200) {
         }
         let { editObj, subjects } = nextProps;
-        let { checkedClasses, checkedScripts } = prevState;
+        console.log(nextProps);
+        let { checkedClasses, checkedScripts, practicalDate, subjectSelected, subjectId } = prevState;
         checkedClasses = new Map();
         checkedScripts = new Map();
-        let subjectSelected = null;
         if (editObj != null && typeof (editObj) !== 'undefined') {
-            console.log(editObj);
+            if (practicalDate === null || practicalDate === '') {
+                practicalDate = editObj.date;
+            }
             if (subjects != null && typeof (subjects) !== 'undefined') {
-                subjectSelected = subjects.find(item => item.id === parseInt(editObj.subjectId));
+                subjectSelected = subjects.find(item => item.id === parseInt(editObj.subjectId)); 
+                subjectId = subjectSelected.id;
                 let arrClasses = editObj.subjectClass;
                 if (arrClasses != null && typeof (arrClasses) !== 'undefined') {
                     if (arrClasses.length > 0) {
@@ -77,6 +80,8 @@ class ModalEditPracticalExam extends Component {
             subjectSelected: subjectSelected,
             checkedClasses: checkedClasses,
             checkedScripts: checkedScripts,
+            practicalDate: practicalDate,
+            subjectId:subjectId,
         }
     }
 
@@ -107,9 +112,12 @@ class ModalEditPracticalExam extends Component {
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
+        console.log(name);
+        console.log(target.value);
         this.setState({
             [name]: target.value
         });
+
     }
 
     onChangeDropdown = (e) => {
@@ -124,6 +132,7 @@ class ModalEditPracticalExam extends Component {
     }
 
     onCloseDetails = () => {
+        console.log(this.state);
         this.setState({
             isOpenForm: false,
         })
@@ -141,12 +150,13 @@ class ModalEditPracticalExam extends Component {
             subjectClasses: subjectClasses,
             date: practicalDate,
         }
-        this.props.onCreatePracticalExams(obj);
+        console.log(obj);
+        this.props.onUpdatePracticalExam(obj);
     }
 
     render() {
-        let { isOpenForm, subjects, subjectSelected, subjectId } = this.state;
-
+        let { isOpenForm, subjects, subjectSelected, subjectId, practicalDate } = this.state;
+        console.log(subjectId);
         let modalClass = isOpenForm ? "modal" : "modal fade";
         let modalStyle = isOpenForm ? "block" : "";
         return (
@@ -155,7 +165,7 @@ class ModalEditPracticalExam extends Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLongTitle">
-                                Create practical exam
+                                Edit practical exam
                             </h5>
                             <button onClick={this.onCloseDetails} type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
@@ -165,7 +175,7 @@ class ModalEditPracticalExam extends Component {
                             <div>Subjects</div>
                             <select
                                 name="subjectId"
-                                value={subjectId}
+                                value={subjectId? subjectId :''}
                                 onChange={this.onChangeDropdown}
                             >
                                 {this.onRenderSubjectsOption(subjects)}
@@ -192,7 +202,7 @@ class ModalEditPracticalExam extends Component {
                             <form>
                                 <div className="form-group">
                                     <label htmlFor="date">Date</label>
-                                    <input onChange={this.onChange} type="date" name="practicalDate" className="form-control" id="date" placeholder="Date" />
+                                    <input onChange={this.onChange} type="date" name="practicalDate" className="form-control" id="date" placeholder="Date" value={practicalDate ? practicalDate : ''} />
                                 </div>
                                 <div className="form-group">
                                 </div>
@@ -270,7 +280,7 @@ class ModalEditPracticalExam extends Component {
 }
 
 const Checkbox = ({ type = 'checkbox', name, checked, onChange }) => (
-    <input type={type} name={name} checked={checked} onChange={onChange} />
+    <input type={type} name={name} checked={checked ? checked : false} onChange={onChange} />
 );
 
 const mapStateToProps = (state) => {
