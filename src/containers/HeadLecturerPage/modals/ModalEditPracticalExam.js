@@ -34,40 +34,46 @@ class ModalEditPracticalExam extends Component {
         if (nextProps.statusCode === 200) {
         }
         let { editObj, subjects } = nextProps;
-        console.log(nextProps);
         let { checkedClasses, checkedScripts, practicalDate, subjectSelected, subjectId } = prevState;
-        checkedClasses = new Map();
-        checkedScripts = new Map();
+
+        // checkedClasses = new Map();
+        // checkedScripts = new Map();
         if (editObj != null && typeof (editObj) !== 'undefined') {
             if (practicalDate === null || practicalDate === '') {
                 practicalDate = editObj.date;
             }
+            console.log(subjectSelected);
+
             if (subjects != null && typeof (subjects) !== 'undefined') {
-                subjectSelected = subjects.find(item => item.id === parseInt(editObj.subjectId)); 
-                subjectId = subjectSelected.id;
-                let arrClasses = editObj.subjectClass;
-                if (arrClasses != null && typeof (arrClasses) !== 'undefined') {
-                    if (arrClasses.length > 0) {
-                        arrClasses.forEach(item => {
-                            checkedClasses.set(item.id, true);
-                        });
-                    } else {
-                        checkedClasses.set(arrClasses.id, true);
+                if (subjectSelected === null || subjectSelected === '' || typeof (subjectSelected) === 'undefined') {
+                    subjectSelected = subjects.find(item => item.id === parseInt(editObj.subjectId));
+                    subjectId = subjectSelected.id;
+                }
+                if (checkedClasses.size == 0) {
+                    let arrClasses = editObj.subjectClass;
+                    if (arrClasses != null && typeof (arrClasses) !== 'undefined') {
+                        if (arrClasses.length > 0) {
+                            arrClasses.forEach(item => {
+                                checkedClasses.set(item.id, true);
+                            });
+                        } else {
+                            checkedClasses.set(arrClasses.id, true);
+                        }
                     }
                 }
+                if (checkedScripts.size == 0) {
+                    let arrScripts = editObj.scripts;
+                    if (arrScripts !== null && typeof (arrScripts) !== 'undefined') {
+                        if (arrScripts.length > 0) {
+                            arrScripts.forEach(item => {
+                                checkedScripts.set(item.id, true);
+                            });
+                        } else {
+                            checkedScripts.set(arrScripts.id, true);
+                        }
 
-                let arrScripts = editObj.scripts;
-                if (arrScripts !== null && typeof (arrScripts) !== 'undefined') {
-                    if (arrScripts.length > 0) {
-                        arrScripts.forEach(item => {
-                            checkedScripts.set(item.id, true);
-                        });
-                    } else {
-                        checkedScripts.set(arrScripts.id, true);
                     }
-
                 }
-
             }
         }
         return {
@@ -81,7 +87,7 @@ class ModalEditPracticalExam extends Component {
             checkedClasses: checkedClasses,
             checkedScripts: checkedScripts,
             practicalDate: practicalDate,
-            subjectId:subjectId,
+            subjectId: subjectId,
         }
     }
 
@@ -93,7 +99,7 @@ class ModalEditPracticalExam extends Component {
         let { checkedClasses } = this.state;
         const id = e.target.name;
         const isChecked = e.target.checked;
-        checkedClasses.set(id, isChecked);
+        checkedClasses.set(parseInt(id), isChecked);
         this.setState({
             checkedClasses: checkedClasses,
         })
@@ -103,7 +109,7 @@ class ModalEditPracticalExam extends Component {
         let { checkedScripts } = this.state;
         const id = e.target.name;
         const isChecked = e.target.checked;
-        checkedScripts.set(id, isChecked);
+        checkedScripts.set(parseInt(id), isChecked);
         this.setState({
             checkedScripts: checkedScripts,
         })
@@ -112,8 +118,6 @@ class ModalEditPracticalExam extends Component {
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
-        console.log(name);
-        console.log(target.value);
         this.setState({
             [name]: target.value
         });
@@ -132,7 +136,6 @@ class ModalEditPracticalExam extends Component {
     }
 
     onCloseDetails = () => {
-        console.log(this.state);
         this.setState({
             isOpenForm: false,
         })
@@ -140,12 +143,25 @@ class ModalEditPracticalExam extends Component {
     }
 
     onSave = () => {
-        let { checkedClasses, checkedScripts, practicalDate } = this.state;
-        let listScripts = Array.from(checkedScripts.keys());
-        let subjectClasses = Array.from(checkedClasses.keys());
+        let { checkedClasses, checkedScripts, practicalDate,practicalExam } = this.state;
+        let listScripts = [];
+        let subjectClasses = [];
+        console.log(practicalExam);
         let obj = null;
-
+        for (const [key, value] of checkedClasses.entries()) {
+            console.log(key,value);
+            if (value === true) {
+                subjectClasses.push(key)
+            }
+        }
+        for (const [key, value] of checkedScripts.entries()) {
+            console.log(key,value);
+            if (value === true) {
+                listScripts.push(key)
+            }
+        }
         obj = {
+            id : practicalExam.id,
             listScripts: listScripts,
             subjectClasses: subjectClasses,
             date: practicalDate,
@@ -175,7 +191,7 @@ class ModalEditPracticalExam extends Component {
                             <div>Subjects</div>
                             <select
                                 name="subjectId"
-                                value={subjectId? subjectId :''}
+                                value={subjectId ? subjectId : ''}
                                 onChange={this.onChangeDropdown}
                             >
                                 {this.onRenderSubjectsOption(subjects)}
@@ -262,12 +278,13 @@ class ModalEditPracticalExam extends Component {
             result = arr.map((item, index) => {
                 let lecturer = item.lecturer;
                 let lecName = "";
+                let subjectClassId = item.subjectClassId;
                 if (lecturer !== null && typeof (lecturer) !== 'undefined') {
                     lecName = lecturer.lastName + " " + lecturer.middleName + " " + lecturer.firstName;
                 }
                 return (
                     <label key={index}>
-                        <Checkbox name={item.subjectClassId} checked={checkedClasses.get(item.subjectClassId)}
+                        <Checkbox name={subjectClassId ? subjectClassId : ''} checked={checkedClasses ? checkedClasses.get(subjectClassId ? subjectClassId : '') : ''}
                             onChange={this.handleCheckedClasses} />
                         {item.classCode + " - " + lecName}
                     </label>
@@ -280,7 +297,7 @@ class ModalEditPracticalExam extends Component {
 }
 
 const Checkbox = ({ type = 'checkbox', name, checked, onChange }) => (
-    <input type={type} name={name} checked={checked ? checked : false} onChange={onChange} />
+    <input type={type} name={name} checked={checked ? checked : ''} onChange={onChange} />
 );
 
 const mapStateToProps = (state) => {
