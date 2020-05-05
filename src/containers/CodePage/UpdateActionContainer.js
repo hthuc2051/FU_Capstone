@@ -191,7 +191,7 @@ class UpdateActionContainer extends Component {
                         {listParamTypes ? this.renderParameterType(listParamTypes, index) : ''}
                     </select>
                     <button className="btn btn-danger" onClick={() => this.removeParam(item.id)}>
-                        <i className="fa fa-plus" /> Remove
+                        <i className="fa fa-minus" /> Remove
                     </button>
                 </div>
             );
@@ -298,7 +298,7 @@ class UpdateActionContainer extends Component {
                                     <label>Parameter:</label>
                                     <div>
                                         <button className="btn btn-success" onClick={this.addMoreParam}>
-                                            Add Parameter
+                                            <i className="fa fa-plus" /> Add Parameter
                                         </button>
                                     </div>
                                 </div>
