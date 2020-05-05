@@ -37,6 +37,11 @@ export const DELETE_ACTION_OK = 'DELETE_ACTION_OK';
 export const DELETE_ACTION_FAILED = 'DELETE_ACTION_FAILED';
 export const DELETE_ACTION_TIME_OUT = 'DELETE_ACTION_TIME_OUT';
 
+// Login
+export const LOGIN = 'LOGIN';
+export const LOGIN_OK = 'LOGIN_OK';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const LOGIN_TIME_OUT = 'LOGIN_TIME_OUT';
 // Practical exam
 export const FETCH_PRACTICAL_EXAMS = 'FETCH_PRACTICAL_EXAMS';
 export const FETCH_PRACTICAL_EXAMS_OK = 'FETCH_PRACTICAL_EXAMS_OK';
@@ -161,6 +166,7 @@ export const END_POINT_SUBJECTS_ALL = "subjects/all";
 export const END_POINT_CLASSES = "classes";
 
 export const END_POINT_LECTURER = "lecturers";
+export const END_POINT_LOGIN = "login";
 export const END_POINT_SUBMISSION_FILE = "submission/file";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_PARAM_TYPE  = "param-types";

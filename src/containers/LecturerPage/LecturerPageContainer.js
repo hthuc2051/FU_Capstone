@@ -41,6 +41,7 @@ class LecturerPageContainer extends Component {
                         <td>{item.date}</td>
                         <td>{item.classCode}</td>
                         <td>{item.subjectCode}</td>
+                        <td>{item.state}</td>
                         <td><button
                             type="button" className="btn btn-info" onClick={() => this.onDownload(item.id)}>Download</button></td>
                     </tr>
@@ -72,6 +73,7 @@ class LecturerPageContainer extends Component {
                                 <th scope="col">Practical date</th>
                                 <th scope="col">Class</th>
                                 <th scope="col">Subject</th>
+                                <th scope="col">State</th>
                                 <th scope="col">File import</th>
                             </tr>
                         </thead>

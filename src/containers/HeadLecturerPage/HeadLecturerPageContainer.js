@@ -43,6 +43,7 @@ class HeadLecturerPageContainer extends Component {
     }
 
     componentDidMount() {
+        console.log(localStorage);
         let { subjectId, scriptId, pageType } = this.props;
         this.props.onFetchEvents(subjectId);
         this.setState({ subjectId: subjectId, scriptId: scriptId, pageType: pageType });
@@ -53,7 +54,6 @@ class HeadLecturerPageContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(nextProps);
         if (nextProps === prevState) {
             return null;
         }
@@ -152,6 +152,7 @@ class HeadLecturerPageContainer extends Component {
             }
             this.setState({ isShowMessage: false });
             this.props.history.push('/subjects/' + subjectId + '/scripts');
+            window.location.reload();
         }
 
     }

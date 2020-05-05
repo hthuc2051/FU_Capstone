@@ -42,8 +42,6 @@ class ModalEditPracticalExam extends Component {
             if (practicalDate === null || practicalDate === '') {
                 practicalDate = editObj.date;
             }
-            console.log(subjectSelected);
-
             if (subjects != null && typeof (subjects) !== 'undefined') {
                 if (subjectSelected === null || subjectSelected === '' || typeof (subjectSelected) === 'undefined') {
                     subjectSelected = subjects.find(item => item.id === parseInt(editObj.subjectId));

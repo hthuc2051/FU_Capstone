@@ -28,6 +28,7 @@ class LeftSideBar extends Component {
 
     render() {
         let { navArr } = this.props;
+        console.log(navArr);
         if (this.state.navType === AppConstant.ACTION_NAV_TITLE) {
             return (
                 <ul className="sidebar navbar-nav card_border">

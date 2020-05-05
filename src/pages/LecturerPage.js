@@ -19,18 +19,24 @@ class LecturerPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            navArr: navArr,
+            navArr: null,
+            id: null,
         };
     }
 
     componentDidMount() {
-        // let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-        // let { navArr } = this.state;
-        // if (typeof (userInfo) !== 'undefined') {
-        //     let subjects = userInfo.subjects;
-        //     navArr[1].subjectsDropDownArr = this.createDropDownArr(userInfo.id, subjects);
-        // }
-        // this.setState({navArr});
+        let { id } = this.props.match.params;
+        let navArr = [
+            {
+                title: 'Invigilate request',
+                type: 'nav-item',
+                link: '/lecturers/' + id
+            }
+        ]
+        this.setState({
+            navArr: navArr,
+            id: id,
+        })
     }
 
     createDropDownArr = (userId, subjects) => {
@@ -47,9 +53,8 @@ class LecturerPage extends Component {
     }
 
     render() {
-        let { id } = this.props.match.params;
-        console.log(id);
-        let {navArr}  = this.state;
+        let { navArr, id } = this.state;
+        console.log(navArr);
         return (
             <div>
                 <div>
@@ -57,10 +62,10 @@ class LecturerPage extends Component {
                     <TopNavBar pageTitle={CODE_PAGE_TITLE} />
                     <div id="wrapper">
                         {/* Sidebar */}
-                        <LeftSideBar navArr={navArr} />
+                        {navArr ? <LeftSideBar navArr={navArr} /> : ''}
 
                         {/* Container */}
-                        <LecturerPageContainer id ={id}/>
+                        {id ? <LecturerPageContainer id={id} /> : ''}
                         {/* <PracticalExamResult/> */}
                     </div>
                 </div>
