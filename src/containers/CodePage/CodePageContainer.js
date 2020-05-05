@@ -190,7 +190,7 @@ class CodePageContainer extends Component {
                         {listParamTypes ? this.renderParameterType(listParamTypes) : ''}
                     </select>
                     <button className="btn btn-danger" onClick={() => this.removeParam(item.randId)}>
-                        <i className="fa fa-plus" /> Remove
+                        <i className="fa fa-minus" /> Remove
                     </button>
                 </div>
             );
@@ -289,7 +289,7 @@ class CodePageContainer extends Component {
                                     <label>Parameter:</label>
                                     <div>
                                         <button className="btn btn-success" onClick={this.addMoreParam}>
-                                            Add Parameter
+                                            <i className="fa fa-plus" /> Add Parameter
                                         </button>
                                     </div>
                                 </div>
