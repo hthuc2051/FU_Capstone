@@ -155,7 +155,7 @@ export const CREATE_PARAM_TIME_OUT = 'CREATE_PARAM_TIME_OUT';
 // End point 
 export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
-export const END_POINT_EVENTS = "action/subject";
+export const END_POINT_EVENTS = "actions/subject";
 export const END_POINT_SUBJECTS = "subjects";
 export const END_POINT_SUBJECTS_ALL = "subjects/all";
 export const END_POINT_CLASSES = "classes";
