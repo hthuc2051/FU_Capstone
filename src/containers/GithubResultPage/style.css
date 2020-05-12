@@ -71,3 +71,7 @@
     border-radius: 4px;
    
   }
+
+  .table_row :hover{
+      cursor: pointer !important;
+  }

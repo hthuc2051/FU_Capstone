@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { onFinishing } from './actions';
-import swal from 'sweetalert';
-import * as Constants from '../constants.js';
-import { withRouter } from 'react-router-dom';
 import { getGithubResult } from './axios';
 class GithubResultContainer extends Component {
 
