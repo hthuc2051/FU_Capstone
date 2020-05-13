@@ -59,5 +59,6 @@ export const ETC = "...";
 // Nav Type
 export const ACTION_NAV_TYPE = 'action-nav-type';
 export const ACTION_NAV_TITLE = 'Action';
+export const TESTSCRIPT_NAV_TITLE = 'Test Script Template';
 export const PARAM_NAV_TITLE = 'Parameter';
 export const PARAM_TYPE_NAV_TITLE = 'Parameter Type';
