@@ -74,12 +74,11 @@ class DuplicatedCodeDetailContainer extends Component {
     }
     render() {
         let { firstFiles, secondFiles, filesTokenArr } = this.state;
-        console.log(firstFiles,secondFiles,filesTokenArr);
         return (
             <div id="duplicated-code-page" className="scroll">
-                
+
                 <div className="form-group">
-                    <label>Example multiple select</label>
+                    <label>List of pair methods are consider to similar:</label>
                     <select multiple className="form-control" >
                         {filesTokenArr ? this.renderFilesTokenArr(filesTokenArr) : ''}
                     </select>
@@ -108,10 +107,15 @@ class DuplicatedCodeDetailContainer extends Component {
         // SE63157_Cabinet.java_149-154   ~    SE63155_Jewelry.java_82-85
         // "Practical_Java_SE1269_20200902_SE63157_Cabinet.java"
         let { filesToken } = this.state;
-        let arr = filesToken.split("~");
         if (filesToken !== "") {
+            let arr = filesToken.split("~");
             let startIndex = -1;
             let endIndex = -1;
+            let label = file.fileName;
+            let arrLabel = file.fileName.split("_");
+            if (arrLabel && arrLabel.length > 0) {
+                label = "Student code: " + arrLabel[4] + " - File: " + arrLabel[5];
+            }
 
             if (typeof (file) !== 'undefined' && file != null) {
                 if (arr != null && arr.length > 0) {
@@ -123,7 +127,10 @@ class DuplicatedCodeDetailContainer extends Component {
                             let arrIndex = fileToken.split("-");
                             startIndex = arrIndex[0];
                             endIndex = arrIndex[1];
-                            console.log(fileName, startIndex, endIndex);
+                            let arrTemp = endIndex.split(":");
+                            if (arrTemp && arrTemp.length > 0) {
+                                endIndex = arrTemp[0].trim();
+                            }
                         }
                     });
                 }
@@ -131,8 +138,8 @@ class DuplicatedCodeDetailContainer extends Component {
                     <div key={file.fileName} className="card">
                         <div className="card-header">
                             <h2 className="mb-0">
-                                <button className="btn btn-link" type="button">
-                                    {file.fileName}
+                                <button className="btn btn-link file-name" type="button">
+                                    {label}
                                 </button>
                             </h2>
                         </div>
@@ -174,10 +181,37 @@ class DuplicatedCodeDetailContainer extends Component {
         let result = [];
         if (typeof (arr) !== 'undefined' && arr != null) {
             result = arr.map((item, index) => {
+                let filesToken = item;
+                let student1Code = "";
+                let student2Code = "";
+                let student1Label = "";
+                let student2Label = "";
+
+                if (filesToken !== "") {
+                    let arr = filesToken.split("~");
+                    if (arr != null && arr.length > 0) {
+                        let stringStudent1 = arr[0];
+                        let stringStudent2 = arr[1];
+
+                        let arrTempStudent1 = stringStudent1.split("_");
+                        let arrTempStudent2 = stringStudent2.split("_");
+
+                        // SE62882 - LoginServlet.java - line (96-100)   &   SE62847 - LoginServlet.java - line (96-100)
+                        if (arrTempStudent1 && arrTempStudent1.length > 0) {
+                            student1Label = arrTempStudent1[0] + " - " + arrTempStudent1[1] + " - line (" + arrTempStudent1[2] + ")";
+                        }
+                        if (arrTempStudent2 && arrTempStudent2.length > 0) {
+                            let arrPercent = arrTempStudent2[2].split(":");
+                            student2Label = arrTempStudent2[0] + " - " + arrTempStudent2[1] + " - line (" + arrPercent[0] + ") - " + (arrPercent[1] * 100).toFixed(1) + "%";
+                        }
+                        console.log(student1Code, student2Code);
+                    }
+                }
                 return (
                     <option key={index} onClick={() => this.onSelected(item)}
                         value={item}>
-                        {item}</option>
+                        {student1Label + " & " + student2Label}
+                    </option>
 
                 )
             })

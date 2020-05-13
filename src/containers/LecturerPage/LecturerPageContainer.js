@@ -4,6 +4,8 @@ import * as Constants from '../constants';
 import { onLoading } from './actions';
 import { fetchPracticalExams } from './axios';
 import './style.css';
+import { history } from './../../App';
+
 
 class LecturerPageContainer extends Component {
     constructor(props) {
@@ -31,9 +33,13 @@ class LecturerPageContainer extends Component {
         window.open("http://localhost:2021/api/templates/" + id);
     }
 
+    onViewResult = (id) => {
+        history.push("/practical-exam/online-result/" + id);
+        window.location.reload();
+    }
     renderPracticalExams = (arr) => {
         let result = null;
-        if (arr.length > 0) {
+        if (arr && arr.length > 0) {
             result = arr.map((item, index) => {
                 return (
                     <tr key={index} >
@@ -44,7 +50,10 @@ class LecturerPageContainer extends Component {
                         <td>{item.state}</td>
                         <td><button
                             type="button" className="btn btn-info" onClick={() => this.onDownload(item.id)}>Download</button></td>
+                        <td><button
+                            type="button" className="btn btn-info" onClick={() => this.onViewResult(item.id)}>Online result</button></td>
                     </tr>
+
                 )
             });
         }

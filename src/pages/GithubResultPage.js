@@ -16,6 +16,10 @@ class GithubResultPage extends Component {
         }
     }
 
+    componentDidMount(){
+        document.title = "GitHub result page";
+
+    }
     viewDetail = (listFiles) => {
          let { isViewDetail, listFile } = this.state;
         isViewDetail = true;

@@ -48,6 +48,11 @@ export const FETCH_PRACTICAL_EXAMS_OK = 'FETCH_PRACTICAL_EXAMS_OK';
 export const FETCH_PRACTICAL_EXAMS_FAILED = 'FETCH_PRACTICAL_EXAMS_FAILED';
 export const FETCH_PRACTICAL_EXAMS_TIME_OUT = 'FETCH_PRACTICAL_EXAMS_TIME_OUT';
 
+export const FETCH_EVALUATED_ONLINE = 'FETCH_EVALUATED_ONLINE';
+export const FETCH_EVALUATED_ONLINE_OK = 'FETCH_EVALUATED_ONLINE_OK';
+export const FETCH_EVALUATED_ONLINE_FAILED = 'FETCH_EVALUATED_ONLINE_FAILED';
+export const FETCH_EVALUATED_ONLINE_TIME_OUT = 'FETCH_EVALUATED_ONLINE_TIME_OUT';
+
 // View files
 export const VIEW_CODE_FILES = 'VIEW_CODE_FILES';
 export const VIEW_CODE_FILES_OK = 'VIEW_CODE_FILES_OK';
@@ -160,7 +165,7 @@ export const CREATE_PARAM_TIME_OUT = 'CREATE_PARAM_TIME_OUT';
 // End point 
 export const API_URL = 'http://localhost:2021/api';
 export const API_URL_DUMMY = 'http://localhost:4000'
-export const END_POINT_EVENTS = "action/subject";
+export const END_POINT_EVENTS = "actions/subject";
 export const END_POINT_SUBJECTS = "subjects";
 export const END_POINT_SUBJECTS_ALL = "subjects/all";
 export const END_POINT_CLASSES = "classes";
@@ -168,6 +173,7 @@ export const END_POINT_CLASSES = "classes";
 export const END_POINT_LECTURER = "lecturers";
 export const END_POINT_LOGIN = "login";
 export const END_POINT_SUBMISSION_FILE = "submission/file";
+export const END_POINT_ONLINE = "practical-exam/online-result/";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_PARAM_TYPE  = "param-types";
 export const END_POINT_CLASSES_SCRIPTS = "classes-scripts";

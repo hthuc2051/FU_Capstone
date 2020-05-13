@@ -13,8 +13,15 @@ export const fetchPracticalExams = async (id, dispatch) => {
     }
 }
 
+export const fetchOnlineResult = async (id, dispatch) => {
+    let res = await callApi(Constants.END_POINT_ONLINE + id);
+    if (res != null) {
+        handleResponse(res, Constants.FETCH_EVALUATED_ONLINE, dispatch);
+    }
+}
+
 export const viewCodeFiles = async (token, dispatch) => {
-    let res = await callApi(Constants.END_POINT_SUBMISSION_FILE,Constants.METHOD_POST,token);
+    let res = await callApi(Constants.END_POINT_SUBMISSION_FILE, Constants.METHOD_POST, token);
     console.log(res);
     if (res != null) {
         handleResponse(res, Constants.VIEW_CODE_FILES, dispatch);

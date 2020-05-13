@@ -15,7 +15,9 @@ class DuplicatedCodePage extends Component {
             duplicatedCodeDetails: [],
         }
     }
-
+    componentDidMount(){
+        document.title = "Duplicated code page";
+    }
     viewDetail = (detail) => {
         let { isViewDetail, duplicatedCodeDetails } = this.state;
         isViewDetail = true;

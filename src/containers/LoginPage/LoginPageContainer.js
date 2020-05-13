@@ -28,53 +28,54 @@ class LoginPageContainer extends Component {
             username: txtUsername,
             password: txtPassword
         }
-        this.props.onLogin(userDetails);
+        //  localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        let id = 5;
+        if (txtUsername === 'ThucNH') {
+            history.push("/subjects/1/practical-exams");
+        }
+        else if (txtUsername === 'PhuongNC') {
+            history.push("/lecturers/5");
+        } else if (txtUsername === 'HaiNQ') {
+            history.push("/lecturers/7");
+        } else if (txtUsername === 'LamDV') {
+            history.push("/lecturers/11");
+        } else if (txtUsername === 'TruongLX') {
+            history.push("/lecturers/12");
+        }
+        window.location.reload();
+        // this.props.onLogin(userDetails);
     }
 
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps === prevState) {
-            return null;
-        }
-        console.log(nextProps);
-        let { userDetails, statusCode } = nextProps;
-        switch (statusCode) {
-            case 200:
-                if (userDetails != null && typeof (userDetails) !== 'undefined') {
-                    localStorage.setItem("USER", JSON.stringify(userDetails));
-                    let id = userDetails.id;
-                    let role = userDetails.role;
-                    if (role === 'admin') {
-                    } else if (role === 'headlecturer') {
-                        history.push("/subjects/1/practical-exams");
-                    } else {
-                        history.push("/lecturers/" + id);
-                    }
-                    window.location.reload();
-                }
-                break;
-            case 404:
-            case 500:
-            case 403:
-            case 409:
-                swal("Login failed", "Please input correct username and password", "error");
-                break;
-        }
-        // localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        // let id = 5;
-        // if (txtUsername === 'ThucNH') {
-        //     history.push("/subjects/1/practical-exams");
+        // if (nextProps === prevState) {
+        //     return null;
         // }
-        // else if (txtUsername === 'PhuongNC') {
-        //     history.push("/lecturers/5");
-        // } else if (txtUsername === 'HaiNQ') {
-        //     history.push("/lecturers/7");
-        // } else if (txtUsername === 'LamDV') {
-        //     history.push("/lecturers/11");
-        // } else if (txtUsername === 'TruongLX') {
-        //     history.push("/lecturers/12");
+        // console.log(nextProps);
+        // let { userDetails, statusCode } = nextProps;
+        // switch (statusCode) {
+        //     case 200:
+        //         if (userDetails != null && typeof (userDetails) !== 'undefined') {
+        //             localStorage.setItem("USER", JSON.stringify(userDetails));
+        //             let id = userDetails.id;
+        //             let role = userDetails.role;
+        //             if (role === 'admin') {
+        //             } else if (role === 'headlecturer') {
+        //                 history.push("/subjects/1/practical-exams");
+        //             } else {
+        //                 history.push("/lecturers/" + id);
+        //             }
+        //             window.location.reload();
+        //         }
+        //         break;
+        //     case 404:
+        //     case 500:
+        //     case 403:
+        //     case 409:
+        //         swal("Login failed", "Please input correct username and password", "error");
+        //         break;
         // }
-        // window.location.reload();
+       
         return {
         }
 

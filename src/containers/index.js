@@ -7,6 +7,7 @@ import DuplicatedCodePageContainer from './DuplicatedCodePage/DuplicatedCodePage
 import GithubResultContainer from './GithubResultPage/GithubResultContainer';
 import GithubResultDetailContainer from './GithubResultPage/GithubResultDetailContainer';
 import LoginPageContainer from './LoginPage/LoginPageContainer';
+import OnlineResultPageContainer from './LecturerPage/OnlineResultPageContainer';
 export {
     HeadLecturerPageContainer,
     CodePageContainer,
@@ -17,4 +18,5 @@ export {
     GithubResultContainer,
     GithubResultDetailContainer,
     LoginPageContainer,
+    OnlineResultPageContainer,
 }
