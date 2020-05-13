@@ -91,6 +91,13 @@ export const deleteParamType = async (id, dispatch) => {
     }
 }
 
+export const uploadTestScriptTemplate = async (dispatch, formData) => {
+    let result = await callApi(Constants.END_POINT_UPLOAD_TESTSCRIPT, Constants.PREFIX_POST, formData,null);
+    if (result !== null) {
+        handleResponse(result, Constants.UPLOAD_TESTSCRIPT_TEMPLATE, dispatch);
+    }
+}
+
 const handleResponse = async (response, action, dispatch) => {
     let status = response.status;
     switch (status) {

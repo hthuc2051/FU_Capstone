@@ -315,6 +315,33 @@ const adminPage = (state = initStage, action) => {
                 error: action.error,
             });
 
+               // Upload test script template
+        case Actions.UPLOAD_TESTSCRIPT_TEMPLATE:
+            return Object.assign({}, state, {
+                isLoading: true,
+            });
+        case Actions.UPLOAD_TESTSCRIPT_TEMPLATE_OK:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: 200,
+                uploadMessage: action.data,
+            });
+        case Actions.UPLOAD_TESTSCRIPT_TEMPLATE_FAILED:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                uploadMessage: Messages.MSG_FAILED,
+            });
+        case Actions.UPLOAD_TESTSCRIPT_TEMPLATE_TIME_OUT:
+            return Object.assign({}, state, {
+                isLoading: false,
+                statusCode: action.statusCode,
+                error: action.error,
+                message: Messages.MSG_TIMEOUT,
+            });
+
+
         // Answer ACTIONS
         default:
             return state;

@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { onFinishing } from './actions';
-import swal from 'sweetalert';
-import * as Constants from '../constants.js';
-import { withRouter } from 'react-router-dom';
-import { getGithubResult } from './axios';
+import './style.css';
 class GithubResultDetailContainer extends Component {
 
     constructor(props) {
@@ -54,7 +49,7 @@ class GithubResultDetailContainer extends Component {
            
                 result = listFile.map((item, index) => {
                     return (
-                        <tr key={index} onClick={(e) => {e.preventDefault(); this.goToGithub(item.html_url)}}>
+                        <tr className="table_row" key={index} onClick={(e) => {e.preventDefault(); this.goToGithub(item.html_url)}}>
                             <th scope="row">{index + 1}</th>
                             <td>{item.name}</td>
                             {/* <td><h5><span className={this.colorPercent(item.percent)}>{item.percent.toFixed(0)}%</span></h5></td> */}

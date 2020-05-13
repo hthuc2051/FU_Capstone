@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import CodePageContainer from './../CodePage/CodePageContainer';
 import ParamTypeService from './../AdminPage/services/ParamTypeService';
 import ParamService from './../AdminPage/services/ParamService';
+import UploadTestScript from './../AdminPage/services/TestScript';
 import UpdateActionContainer from '../CodePage/UpdateActionContainer';
 
 class AdminPageContainer extends Component {
@@ -288,6 +289,8 @@ class AdminPageContainer extends Component {
                     </div>
                 );
             }
+        }else if(AppConstants.TESTSCRIPT_NAV_TITLE === navType){
+            return (<UploadTestScript />); 
         }
     }
 }

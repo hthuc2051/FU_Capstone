@@ -176,6 +176,7 @@ export const END_POINT_SUBMISSION_FILE = "submission/file";
 export const END_POINT_ONLINE = "practical-exam/online-result/";
 export const END_POINT_PRACTICAL_EXAMS = "practical-exam";
 export const END_POINT_PARAM_TYPE  = "param-types";
+export const END_POINT_UPLOAD_TESTSCRIPT  = "upload_template";
 export const END_POINT_CLASSES_SCRIPTS = "classes-scripts";
 export const END_POINT_POST_TESTSCRIPT = "scripts";
 export const END_POINT_DOWNLOAD_TESTSCRIPT = "scripts/download";
@@ -193,6 +194,11 @@ export const END_POINT_DUPLICATEDCODE_STUDENT_LIST = "practical-exam/check-code/
 export const END_POINT_GITHUB_RESULT = "practical-exam/check-code/resultOnline";
 export const END_POINT_PARAM = "params";
 
+// upload test script template
+export const UPLOAD_TESTSCRIPT_TEMPLATE = 'UPLOAD_TESTSCRIPT_TEMPLATE';
+export const UPLOAD_TESTSCRIPT_TEMPLATE_OK = 'UPLOAD_TESTSCRIPT_TEMPLATE_OK';
+export const UPLOAD_TESTSCRIPT_TEMPLATE_FAILED = 'UPLOAD_TESTSCRIPT_TEMPLATE_FAILED';
+export const UPLOAD_TESTSCRIPT_TEMPLATE_TIME_OUT = 'UPLOAD_TESTSCRIPT_TEMPLATE_TIME_OUT';
 
 // API Method
 export const METHOD_GET = "GET";
