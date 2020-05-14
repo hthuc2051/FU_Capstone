@@ -109,7 +109,6 @@ class UploadTestScript extends Component {
                         {listSubjects ? this.renderSubjects(listSubjects) : ''}
                     </select>
                     <br/>
-
                     Test Script Template:
                     <input type="file" name="scriptTemplate" onChange={(e) => { e.preventDefault(); this.handelChangeFile(e) }} /><br/>
                     Server:
