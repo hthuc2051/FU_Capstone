@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import { getListActionsBySubject, deleteAction, getListSubjects } from './axios';
 import { connect } from 'react-redux';
 import { onFinishing } from './actions';
@@ -11,7 +11,7 @@ import CodePageContainer from './../CodePage/CodePageContainer';
 import ParamTypeService from './../AdminPage/services/ParamTypeService';
 import ParamService from './../AdminPage/services/ParamService';
 import UpdateActionContainer from '../CodePage/UpdateActionContainer';
-
+ 
 class AdminPageContainer extends Component {
 
     constructor(props) {
